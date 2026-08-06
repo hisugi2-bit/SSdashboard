@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStore All-in-One Power Seller Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="desktop-env">
+        <div class="app-window" id="main-app-window">
+            <div class="window-title-bar">
+                <div class="window-controls">
+                    <span class="control-dot close" title="닫기"></span>
+                    <span class="control-dot minimize" title="최소화"></span>
+                    <span class="control-dot maximize" title="최대화"></span>
+                </div>
+                <div class="window-title">SmartStore All-in-One Power Seller Dashboard</div>
+                <div class="window-info">v1.0.0 Pro</div>
+            </div>
+            <div class="app-container">
+        <!-- Header & Navigation -->
+        <header>
+            <div class="header-content">
+                <a href="#" class="brand">
+                    <div class="brand-logo">SS</div>
+                    <div>
+                        <span class="brand-name">SmartStore Power Seller</span>
+                        <span class="brand-badge">All-in-One Pro</span>
+                    </div>
+                </a>
+                
+                <nav class="nav-tabs">
+                    <button class="tab-btn active" data-tab="keyword">
+                        <i data-lucide="key-round"></i> 키워드 조합기 (SEO)
+                    </button>
+                    <button class="tab-btn" data-tab="thumbnail">
+                        <i data-lucide="sparkles"></i> AI 썸네일 스튜디오
+                    </button>
+                    <button class="tab-btn" data-tab="blog">
+                        <i data-lucide="edit-3"></i> 블로그 홍보글 제작
+                    </button>
+                    <button class="tab-btn" data-tab="analytics">
+                        <i data-lucide="bar-chart-3"></i> 판매 통계 분석
+                    </button>
+                </nav>
+
+                <div class="quick-meta">
+                    <div class="quick-meta-item">
+                        <i data-lucide="clock" style="color: var(--color-indigo); width: 14px; height: 14px;"></i>
+                        <span id="current-time">2026-08-06</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main>
+            <!-- [Tab 1] Keyword Generator SEO -->
+            <section id="tab-keyword" class="tab-content active">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <i data-lucide="key-round" style="color: var(--color-naver);"></i> 키워드 조합기 & 상품명 SEO 매니저
+                    </h1>
+                    <p class="section-desc">네이버 쇼핑 가이드라인에 맞춘 최적의 키워드 순서를 조합하고, 중복 단어와 특수문자를 걸러내 매출을 극대화하는 상품명을 설계합니다.</p>
+                </div>
+
+                <div class="grid-keyword">
+                    <!-- SEO 입력패널 -->
+                    <div class="glass-card">
+                        <div class="card-title">키워드 입력 구성 요소</div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="input-brand">
+                                <span>브랜드명 / 제조사</span>
+                                <span class="desc">선택사항</span>
+                            </label>
+                            <input type="text" id="input-brand" class="form-control naver-focus" placeholder="예: 에이치엔코, 나이키, 삼성">
+                            <div class="preset-tag-container">
+                                <span class="preset-tag" onclick="setKeywordPreset('brand', '에이치엔코')">#에이치엔코</span>
+                                <span class="preset-tag" onclick="setKeywordPreset('brand', '올가닉랩')">#올가닉랩</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="input-main">
+                                <span>메인 키워드 <span class="req">*</span></span>
+                                <span class="desc">가장 중요한 핵심 검색어</span>
+                            </label>
+                            <input type="text" id="input-main" class="form-control naver-focus" placeholder="예: 가죽 숄더백, 무선 청소기">
+                            <div class="preset-tag-container">
+                                <span class="preset-tag" onclick="setKeywordPreset('main', '가죽 숄더백')">#가죽 숄더백</span>
+                                <span class="preset-tag" onclick="setKeywordPreset('main', '맥주컵')">#맥주컵</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="input-sub">
+                                <span>서브 키워드 / 태그</span>
+                                <span class="desc">쉼표(,)로 구분</span>
+                            </label>
+                            <textarea id="input-sub" class="form-control naver-focus" placeholder="예: 여성가방, 데일리백, 20대여성, 가방추천"></textarea>
+                            <div class="preset-tag-container">
+                                <span class="preset-tag" onclick="setKeywordPreset('sub', '여성가방, 데일리백, 20대여성, 가방추천')">#가죽백서브</span>
+                                <span class="preset-tag" onclick="setKeywordPreset('sub', '유리컵, 카페컵, 인테리어소품, 홈카페')">#컵서브</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="input-props">
+                                <span>상품 속성 및 스펙</span>
+                                <span class="desc">색상, 소재, 용량 등 (쉼표 구분)</span>
+                            </label>
+                            <input type="text" id="input-props" class="form-control naver-focus" placeholder="예: 블랙, 소가죽, 라지사이즈">
+                            <div class="preset-tag-container">
+                                <span class="preset-tag" onclick="setKeywordPreset('props', '블랙, 소가죽, 라지사이즈')">#가방스펙</span>
+                                <span class="preset-tag" onclick="setKeywordPreset('props', '내열유리, 450ml, 투명')">#컵스펙</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>SEO 조합 조합 설정</span>
+                            </label>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                                    <input type="checkbox" id="check-dedup" checked style="accent-color: var(--color-naver);"> 중복 단어 자동 제거
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                                    <input type="checkbox" id="check-special" checked style="accent-color: var(--color-naver);"> 특수문자 및 기호 제거
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 1.5rem;">
+                            <label class="form-label"><span>조합 템플릿 선택</span></label>
+                            <select id="select-template" class="form-select">
+                                <option value="standard">기본형 (브랜드 + 메인 + 속성 + 서브)</option>
+                                <option value="brand-last">브랜드 후순위 (메인 + 속성 + 서브 + 브랜드)</option>
+                                <option value="keyword-only">실속 키워드형 (메인 + 서브 + 속성)</option>
+                            </select>
+                        </div>
+
+                        <button id="btn-generate-title" class="btn btn-naver" style="width: 100%; margin-top: 0.5rem;">
+                            <i data-lucide="shuffle"></i> 상품명 조합하기
+                        </button>
+                    </div>
+
+                    <!-- SEO 결과 대시보드 -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div class="card-title">SEO 검수 분석 및 결과</div>
+                            
+                            <!-- 네이버 SEO 룰 알림 -->
+                            <div class="rule-alert">
+                                <strong>네이버 쇼핑 상품명 권장 기준 가이드라인</strong>
+                                <ul>
+                                    <li>글자 수는 25자 이상 ~ 50자 이하를 강력 권장합니다.</li>
+                                    <li>동일한 단어의 반복 입력 및 중복 키워드는 노출 불이익이 있을 수 있습니다.</li>
+                                    <li>특수기호(!, @, ★, ♣ 등) 사용은 배제해야 합니다.</li>
+                                </ul>
+                            </div>
+
+                            <!-- 실시간 게이지 -->
+                            <div class="seo-gauge-wrapper">
+                                <div class="seo-gauge-meta">
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;">실시간 상품명 검사</span>
+                                    <span id="seo-gauge-status" style="font-weight: 700; color: var(--color-danger);">키워드를 입력해 주세요</span>
+                                </div>
+                                <div class="seo-gauge-bar">
+                                    <div id="seo-gauge-fill" class="seo-gauge-fill"></div>
+                                    <!-- 25자(50%) 및 50자(100%) 마커 표시용 -->
+                                    <div class="seo-gauge-marker min" title="최소 권장 (25자)"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                    <span>0자</span>
+                                    <span>25자 (최소 권장)</span>
+                                    <span>50자 (최대 권장)</span>
+                                </div>
+                            </div>
+
+                            <!-- 조합된 결과 카드 리스트 -->
+                            <div class="result-card-list">
+                                <div id="keyword-empty-state" class="empty-state">
+                                    <div class="empty-state-icon"><i data-lucide="key-round"></i></div>
+                                    <div class="empty-state-title">생성된 상품명이 없습니다</div>
+                                    <div class="empty-state-desc">좌측에서 정보를 입력하고 '상품명 조합하기' 버튼을 눌러보세요.</div>
+                                </div>
+                                
+                                <div id="result-container" style="display: none; flex-direction: column; gap: 1rem;">
+                                    <!-- Dynamic content generated by JS will go here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="result-actions" style="display: none; border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1.5rem;">
+                            <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                                <button id="btn-export-txt" class="btn btn-secondary">
+                                    <i data-lucide="download"></i> 텍스트 다운로드 (.txt)
+                                </button>
+                                <button id="btn-copy-all" class="btn btn-naver">
+                                    <i data-lucide="copy"></i> 최적 조합 상품명 복사
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- [Tab 2] AI Thumbnail Studio -->
+            <section id="tab-thumbnail" class="tab-content">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <i data-lucide="sparkles" style="color: var(--color-indigo);"></i> AI 상품 썸네일 메이커
+                    </h1>
+                    <p class="section-desc">상품 이미지를 업로드하고, 럭셔리 대리석부터 우드 테이블까지 감성적인 배경과 사실적인 그림자/조명 효과를 합성해 매력적인 썸네일을 제작합니다.</p>
+                </div>
+
+                <div class="grid-thumbnail">
+                    <!-- 썸네일 설정 패널 -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                        <div class="card-title">스튜디오 제어판</div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>상품 이미지 업로드</span>
+                                <span class="desc">배경이 투명한 PNG 권장</span>
+                            </label>
+                            <div class="file-uploader" id="thumbnail-drop-zone">
+                                <i data-lucide="upload-cloud" style="width: 28px; height: 28px;"></i>
+                                <div class="file-uploader-text">파일을 끌어다 놓거나 <span>클릭하여 업로드</span></div>
+                                <div class="file-uploader-hint">PNG, JPG, WEBP (최대 10MB)</div>
+                                <input type="file" id="thumbnail-file-input" accept="image/*" style="display: none;">
+                            </div>
+                            <div id="upload-success-badge" style="display: none; align-items: center; gap: 0.5rem; color: var(--color-naver); font-size: 0.8rem; margin-top: 0.5rem;">
+                                <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+                                <span id="uploaded-filename">product.png</span>
+                                <button id="btn-remove-thumb" class="btn-outline-danger btn-sm" style="border: none; background: transparent; padding: 2px 4px; cursor: pointer; display: inline-flex; align-items: center; border-radius: 4px; margin-left: auto;">제거</button>
+                            </div>
+                        </div>
+
+                        <!-- 배경 선택 -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>배경 프리셋 테마</span>
+                                <span class="desc">스튜디오 연출 배경</span>
+                            </label>
+                            <div class="preset-selector-grid">
+                                <div class="preset-option active" data-preset="wood">
+                                    <div class="preset-preview-mini bg-wood"></div>
+                                    <span>우드 테이블</span>
+                                </div>
+                                <div class="preset-option" data-preset="marble">
+                                    <div class="preset-preview-mini bg-marble"></div>
+                                    <span>명품 대리석</span>
+                                </div>
+                                <div class="preset-option" data-preset="sunlight">
+                                    <div class="preset-preview-mini bg-sunlight"></div>
+                                    <span>오후의 햇살</span>
+                                </div>
+                                <div class="preset-option" data-preset="minimal">
+                                    <div class="preset-preview-mini bg-minimal"></div>
+                                    <span>네온 그라데이션</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI 맞춤 배경 생성 -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>AI 맞춤 배경 이미지 생성 (무료)</span>
+                                <span class="desc">한글/영어 모두 지원</span>
+                            </label>
+                            <textarea id="input-ai-prompt" class="form-control" style="font-size: 0.8rem; min-height: 60px; line-height: 1.4;" placeholder="예: 럭셔리 대리석 화장대 위에 놓인 제품, 부드러운 자연광, 뒤쪽 나뭇잎 그림자, 감성적인 아웃포커싱"></textarea>
+                            <button id="btn-generate-ai-bg" class="btn btn-indigo btn-sm" style="width: 100%; margin-top: 0.5rem;">
+                                <i data-lucide="wand-2"></i> AI 맞춤 배경 생성
+                            </button>
+                        </div>
+
+                        <!-- 상품 사진 세부 보정 (밝기, 대비, 채도) -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>상품 사진 세부 보정 (로컬 편집)</span>
+                                <span class="desc">밝기, 대비, 채도를 자유롭게 미세 조절</span>
+                            </label>
+                            
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>밝기 (Brightness)</span>
+                                    <span id="val-product-brightness">100%</span>
+                                </div>
+                                <input type="range" id="range-product-brightness" min="50" max="150" value="100" class="slider-control">
+                            </div>
+
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>대비 (Contrast)</span>
+                                    <span id="val-product-contrast">100%</span>
+                                </div>
+                                <input type="range" id="range-product-contrast" min="50" max="150" value="100" class="slider-control">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>채도 (Saturation)</span>
+                                    <span id="val-product-saturation">100%</span>
+                                </div>
+                                <input type="range" id="range-product-saturation" min="0" max="200" value="100" class="slider-control">
+                            </div>
+                        </div>
+
+                        <!-- 조명 필터 선택 -->
+                        <div class="form-group">
+                            <label class="form-label"><span>실시간 조명 이펙트</span></label>
+                            <select id="select-lighting" class="form-select">
+                                <option value="none">기본 조명 (없음)</option>
+                                <option value="sunlight">따사로운 창가 햇살 필터</option>
+                                <option value="spotlight">중앙 집중 스포트라이트</option>
+                                <option value="sidelight">세련된 듀얼 사이드 조명</option>
+                                <option value="studio">소프트 스튜디오 조명</option>
+                            </select>
+                        </div>
+
+                        <!-- 그림자 상세 조절 -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>입체감 그림자(Drop Shadow) 설정</span>
+                            </label>
+                            
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>그림자 흐림 (Blur)</span>
+                                    <span id="val-shadow-blur">15px</span>
+                                </div>
+                                <input type="range" id="range-shadow-blur" min="0" max="50" value="15" class="slider-control">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>그림자 진하기 (Opacity)</span>
+                                    <span id="val-shadow-opacity">0.4</span>
+                                </div>
+                                <input type="range" id="range-shadow-opacity" min="0" max="100" value="40" class="slider-control">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>수평 이동 (X축)</span>
+                                    <span id="val-shadow-x">8px</span>
+                                </div>
+                                <input type="range" id="range-shadow-x" min="-40" max="40" value="8" class="slider-control">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>수직 이동 (Y축)</span>
+                                    <span id="val-shadow-y">12px</span>
+                                </div>
+                                <input type="range" id="range-shadow-y" min="-40" max="40" value="12" class="slider-control">
+                            </div>
+                        </div>
+
+                        <!-- 크기 및 회전 조절 -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>상품 위치/크기 조정</span>
+                            </label>
+                            
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>상품 크기 (Scale)</span>
+                                    <span id="val-product-scale">70%</span>
+                                </div>
+                                <input type="range" id="range-product-scale" min="10" max="150" value="70" class="slider-control">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>상품 회전 (Rotation)</span>
+                                    <span id="val-product-rotate">0°</span>
+                                </div>
+                                <input type="range" id="range-product-rotate" min="-180" max="180" value="0" class="slider-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 캔버스 라이브 프리뷰 패널 -->
+                    <div class="glass-card canvas-layout-wrapper">
+                        <div class="card-title" style="width: 100%;">
+                            <span>스튜디오 실시간 캔버스</span>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: normal; display: flex; align-items: center; gap: 0.5rem;">
+                                <i data-lucide="mouse-pointer" style="width: 12px; height: 12px; color: var(--color-indigo);"></i> 드래그하여 상품 위치 조절 가능
+                            </div>
+                        </div>
+
+                        <!-- 해상도 탭 -->
+                        <div class="canvas-size-tabs" style="width: 100%; max-width: 500px;">
+                            <button class="canvas-size-btn active" data-width="640" data-height="640">
+                                스마트스토어 기본형 (640x640)
+                            </button>
+                            <button class="canvas-size-btn" data-width="750" data-height="1000">
+                                모바일 카탈로그형 (750x1000)
+                            </button>
+                        </div>
+
+                        <!-- 프리뷰 박스 (CSS 실시간 효과 렌더링) -->
+                        <div class="preview-container" id="preview-box">
+                            <div class="preview-background bg-wood" id="preview-bg-element"></div>
+                            <div class="preview-lighting-overlay light-none" id="preview-light-element"></div>
+                            
+                            <!-- AI 생성 로딩 링 -->
+                            <div id="ai-loading-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4; align-items: center; justify-content: center; flex-direction: column; gap: 0.75rem;">
+                                <div class="spinner" style="width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.2); border-left-color: var(--color-indigo); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                                <span style="color: white; font-size: 0.85rem; font-weight: 500; letter-spacing: -0.01em;">AI 배경 이미지 생성 중...</span>
+                            </div>
+                            
+                            <!-- 상품 컴포넌트 (드래그 및 리사이즈 래퍼) -->
+                            <div id="product-wrapper" class="preview-product" style="display: none; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.7) rotate(0deg);">
+                                <img src="" id="product-preview-img" alt="" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; display: block; filter: none;">
+                                <!-- 리사이즈 핸들 -->
+                                <div id="product-resize-handle"></div>
+                            </div>
+                            
+                            <!-- 업로드 유도 텍스트 (상품이 없을 때만 노출) -->
+                            <div id="preview-placeholder-text" style="position: absolute; z-index: 5; text-align: center; color: var(--text-secondary); pointer-events: none; width: 80%; padding: 0 1rem;">
+                                <i data-lucide="image" style="width: 48px; height: 48px; opacity: 0.3; margin-bottom: 0.5rem; display: inline-block;"></i>
+                                <div style="font-weight: 600; font-size: 0.95rem; color: white;">상품 이미지를 올려주세요</div>
+                                <div style="font-size: 0.75rem; margin-top: 0.25rem;">여기에 실시간 썸네일 합성 화면이 표시됩니다.</div>
+                            </div>
+                        </div>
+
+                        <!-- 하단 작업 버튼 -->
+                        <div class="canvas-actions">
+                            <button id="btn-reset-thumbnail" class="btn btn-secondary">
+                                <i data-lucide="rotate-ccw"></i> 설정 초기화
+                            </button>
+                            <button id="btn-download-thumbnail" class="btn btn-indigo" disabled>
+                                <i data-lucide="download"></i> 고화질 썸네일 다운로드 (.PNG)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- [Tab 4] Blog Copywriting Creator -->
+            <section id="tab-blog" class="tab-content">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <i data-lucide="edit-3" style="color: var(--color-indigo);"></i>
+                        블로그 홍보글 제작기 (Blog Copywriting Studio)
+                    </h1>
+                    <p class="section-desc">상품의 핵심 강점(USP)을 결합하여 네이버 블로그 최적화 노출 규칙에 맞는 자연스러운 홍보 포스팅 본문을 제작합니다.</p>
+                </div>
+
+                <div class="grid-keyword">
+                    <!-- 입력 컨트롤 패널 (좌측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem; height: fit-content;">
+                        <div class="card-title">블로그 포스팅 설정</div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>상품명 및 타겟 키워드</span>
+                                <span class="desc">홍보할 상품 이름</span>
+                            </label>
+                            <input type="text" id="input-blog-prodname" class="form-control" placeholder="예: 에이치엔코 천연 가죽 숄더백">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>상품 핵심 특징 (USP)</span>
+                                <span class="desc">한 줄에 하나씩, 최대 4개</span>
+                            </label>
+                            <textarea id="input-blog-usp" class="form-control" style="min-height: 90px; line-height: 1.4;" placeholder="예:&#10;- 이탈리아 최고급 천연 소가죽 사용&#10;- 420g의 깃털 같은 무게감&#10;- 태블릿도 쏙 들어가는 대용량 수납공간&#10;- 20~30대 오피스룩에 찰떡인 디자인"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span>글톤 및 작성 스타일</span></label>
+                            <select id="select-blog-tone" class="form-select">
+                                <option value="review">친근하고 생생한 일상 후기체 (체험단 스타일)</option>
+                                <option value="brand">신뢰감 있고 정중한 공식 홍보체 (브랜드 블로그)</option>
+                                <option value="sales">파격적인 혜택 강조 세일즈체 (이벤트/핫딜)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span>추천 해시태그 개수</span></label>
+                            <select id="select-blog-tags" class="form-select">
+                                <option value="5">5개 추천</option>
+                                <option value="10" selected>10개 추천</option>
+                                <option value="15">15개 추천</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span>블로그 본문 레이아웃 구조</span></label>
+                            <select id="select-blog-layout" class="form-select">
+                                <option value="standard">표준 3단 구성 (서론 - 본론 - 결론)</option>
+                                <option value="experience">체험단 필수 흐름 (배송/언박싱 - 실사용 - 총평)</option>
+                                <option value="qa">질문/답변 정보 제공형 (이런 분께 추천 - 장단점 비교)</option>
+                            </select>
+                        </div>
+
+                        <button id="btn-generate-blog" class="btn btn-indigo" style="width: 100%; margin-top: 0.5rem;">
+                            <i data-lucide="edit-3"></i> 블로그 홍보글 초안 작성
+                        </button>
+                    </div>
+
+                    <!-- 생성 결과 패널 (우측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                        <div class="card-title">홍보 포스팅 결과물</div>
+
+                        <div id="blog-result-placeholder" class="empty-state" style="padding: 5rem 0;">
+                            <div class="empty-state-icon" style="background-color: rgba(99, 102, 241, 0.1); color: var(--color-indigo);">
+                                <i data-lucide="file-text" style="width: 28px; height: 28px;"></i>
+                            </div>
+                            <div class="empty-state-title">설정 입력 후 작성 버튼을 클릭하세요</div>
+                            <div class="empty-state-desc">좌측에서 정보를 입력하면 블로그 SEO 기준에 부합하는 홍보글 초안이 여기에 자동으로 생성됩니다.</div>
+                        </div>
+
+                        <div id="blog-result-content" style="display: none; flex-direction: column; gap: 1.25rem;">
+                            <!-- 블로그 제목 제안 -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>추천 블로그 제목 (SEO 최적화)</span>
+                                    <span class="desc">가장 마음에 드는 제목을 골라 복사하세요</span>
+                                </label>
+                                <div class="result-card-list" id="blog-titles-list">
+                                    <!-- Dynamic titles go here -->
+                                </div>
+                            </div>
+
+                            <!-- 블로그 본문 초안 -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>포스팅 본문 초안</span>
+                                    <span class="desc">[이미지] 지시에 맞춰 사진을 끼워 넣어 업로드하세요</span>
+                                </label>
+                                <div class="form-control" id="blog-body-text" style="background-color: var(--bg-secondary); min-height: 250px; font-family: var(--font-sans); white-space: pre-wrap; font-size: 0.88rem; line-height: 1.6; border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); overflow-y: auto; max-height: 500px; user-select: text;">
+                                    <!-- Dynamic post body goes here -->
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <button id="btn-copy-blog-body" class="btn btn-secondary btn-sm" style="flex: 1;">
+                                        <i data-lucide="copy"></i> 본문 복사하기
+                                    </button>
+                                    <button id="btn-download-blog-txt" class="btn btn-outline-danger btn-sm" style="flex: 1;">
+                                        <i data-lucide="download"></i> TXT 파일로 다운로드
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 추천 태그 -->
+                            <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+                                <label class="form-label">
+                                    <span>추천 태그 (해시태그)</span>
+                                    <span class="desc">해시태그 영역에 통째로 복사해서 넣으세요</span>
+                                </label>
+                                <div id="blog-tags-container" style="display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.8rem; font-family: monospace;">
+                                    <!-- Dynamic tags go here -->
+                                </div>
+                                <button id="btn-copy-blog-tags" class="btn btn-secondary btn-sm" style="width: 100%; margin-top: 0.5rem;">
+                                    <i data-lucide="copy"></i> 태그 복사하기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- [Tab 3] Sales & Revenue Analytics -->
+            <section id="tab-analytics" class="tab-content">
+                <div class="section-header font-sans">
+                    <h1 class="section-title">
+                        <i data-lucide="bar-chart-3" style="color: var(--color-info);"></i> 판매 실적 & 통계 데이터 분석
+                    </h1>
+                    <p class="section-desc">스마트스토어 정산 Excel 또는 CSV 거래 데이터를 업로드하여 매출 추이, 카테고리 기여도, 상품 점유율을 시각화하고 AI 자동 인사이트 리포트를 받아봅니다.</p>
+                </div>
+
+                <!-- 업로더 및 데모 데이터 불러오기 -->
+                <div class="glass-card analytics-upload-wrapper">
+                    <div class="file-uploader" id="analytics-drop-zone">
+                        <i data-lucide="file-spreadsheet" style="width: 24px; height: 24px; color: var(--color-info);"></i>
+                        <div class="file-uploader-text">스마트스토어 판매 정산 엑셀(.xlsx) 또는 CSV 파일을 <span>여기에 드래그</span></div>
+                        <input type="file" id="analytics-file-input" accept=".xlsx, .xls, .csv" style="display: none;">
+                    </div>
+                    
+                    <div class="analytics-demo-box">
+                        <button id="btn-load-demo-data" class="btn btn-secondary" style="height: 100%; border: 1px dashed var(--color-info);">
+                            <i data-lucide="play-circle" style="color: var(--color-info);"></i> 데모 데이터 즉시 불러오기
+                        </button>
+                    </div>
+                </div>
+
+                <div id="analytics-content" style="display: none;">
+                    <!-- 4 KPI Summary Cards -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card" data-kpi="revenue">
+                            <div class="kpi-icon-wrapper">
+                                <i data-lucide="won-sign"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-label">총 매출액 (정산 기준)</div>
+                                <div class="kpi-value" id="kpi-total-sales">₩0</div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" data-kpi="orders">
+                            <div class="kpi-icon-wrapper">
+                                <i data-lucide="shopping-bag"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-label">총 주문 건수</div>
+                                <div class="kpi-value" id="kpi-total-orders">0건</div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" data-kpi="aov">
+                            <div class="kpi-icon-wrapper">
+                                <i data-lucide="trending-up"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-label">평균 주문 객단가 (AOV)</div>
+                                <div class="kpi-value" id="kpi-aov">₩0</div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" data-kpi="returns">
+                            <div class="kpi-icon-wrapper">
+                                <i data-lucide="alert-triangle"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-label">반품 / 취소 비율</div>
+                                <div class="kpi-value" id="kpi-return-rate">0.0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="charts-grid">
+                        <!-- Line Chart: Sales Trend -->
+                        <div class="glass-card">
+                            <div class="card-title">
+                                <span>일별/월별 매출 트렌드 추이</span>
+                                <i data-lucide="trending-up" style="width: 16px; height: 16px; color: var(--text-muted);"></i>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="chart-sales-trend"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Pie/Doughnut Chart: Category Share -->
+                        <div class="glass-card">
+                            <div class="card-title">
+                                <span>카테고리별 매출 점유율</span>
+                                <i data-lucide="pie-chart" style="width: 16px; height: 16px; color: var(--text-muted);"></i>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="chart-category-share"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Searchable & Filterable Table -->
+                    <div class="glass-card">
+                        <div class="card-title">상세 거래 정보 이력</div>
+
+                        <!-- 필터 제어바 -->
+                        <div class="table-filter-bar">
+                            <div class="table-filter-left">
+                                <div class="search-input-wrapper">
+                                    <i data-lucide="search" class="search-icon" style="width: 16px; height: 16px;"></i>
+                                    <input type="text" id="table-search-input" class="form-control" placeholder="상품명 또는 주문번호 검색...">
+                                </div>
+                                <select id="table-filter-category" class="form-select" style="max-width: 160px;">
+                                    <option value="all">전체 카테고리</option>
+                                    <!-- Dynamic options -->
+                                </select>
+                                <select id="table-filter-status" class="form-select" style="max-width: 140px;">
+                                    <option value="all">전체 배송상태</option>
+                                    <option value="결제완료">결제완료</option>
+                                    <option value="배송중">배송중</option>
+                                    <option value="배송완료">배송완료</option>
+                                    <option value="취소/반품">취소/반품</option>
+                                </select>
+                            </div>
+
+                            <div class="table-filter-right">
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">보기 설정:</span>
+                                <select id="table-page-size" class="form-select" style="max-width: 90px; padding: 0.4rem 0.5rem; font-size: 0.8rem;">
+                                    <option value="10">10개씩</option>
+                                    <option value="25">25개씩</option>
+                                    <option value="50">50개씩</option>
+                                </select>
+                                <button id="btn-export-excel" class="btn btn-secondary btn-sm">
+                                    <i data-lucide="download-cloud"></i> 분석결과 다운로드 (CSV)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 데이터 테이블 -->
+                        <div class="table-wrapper">
+                            <table class="data-table" id="sales-data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-column="date">주문 일자 <span class="sort-icon" id="sort-date">▼</span></th>
+                                        <th data-column="orderId">주문 번호 <span class="sort-icon" id="sort-orderId"></span></th>
+                                        <th data-column="category">카테고리 <span class="sort-icon" id="sort-category"></span></th>
+                                        <th data-column="product">상품명 <span class="sort-icon" id="sort-product"></span></th>
+                                        <th data-column="quantity" style="text-align: right;">수량 <span class="sort-icon" id="sort-quantity"></span></th>
+                                        <th data-column="revenue" style="text-align: right;">주문금액(원) <span class="sort-icon" id="sort-revenue"></span></th>
+                                        <th data-column="status" style="text-align: center;">주문상태 <span class="sort-icon" id="sort-status"></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sales-table-body">
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 페이징 제어 -->
+                        <div class="table-pagination">
+                            <div id="table-info-text">검색 결과 총 0건 중 0 - 0 표시</div>
+                            <div class="pagination-controls">
+                                <button id="btn-prev-page" class="btn btn-secondary btn-sm" disabled><i data-lucide="chevron-left" style="width: 14px; height: 14px;"></i></button>
+                                <span class="page-indicator" id="page-number-text">페이지 1</span>
+                                <button id="btn-next-page" class="btn btn-secondary btn-sm" disabled><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Sales Insight Report Box -->
+                    <div class="insight-box">
+                        <div class="insight-header">
+                            <div class="insight-title-area">
+                                <i data-lucide="cpu" style="color: var(--color-naver); width: 22px; height: 22px;"></i>
+                                <span class="insight-title">SmartStore AI 판매 인사이트 종합 진단</span>
+                            </div>
+                            <span class="insight-badge">실시간 알고리즘 진단 완료</span>
+                        </div>
+
+                        <div class="insight-content-grid">
+                            <!-- 데이터 기반 주요 통계 요약 -->
+                            <div class="insight-summary-points" id="insight-summary-points">
+                                <!-- Dynamic insight summary points will be inserted here -->
+                            </div>
+
+                            <!-- 상세 성장 가이드 권장 사항 -->
+                            <div class="insight-recommendations">
+                                <div class="insight-rec-title">
+                                    <i data-lucide="lightbulb" style="color: var(--color-warning); width: 16px; height: 16px;"></i>
+                                    <span>매출 성장을 위한 AI 추천 액션 플랜</span>
+                                </div>
+                                <ul class="insight-rec-list" id="insight-recommendations-list">
+                                    <!-- Dynamic list items will be inserted here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State before upload -->
+                <div class="glass-card" id="analytics-empty-state" style="padding: 5rem 2rem;">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" style="background-color: rgba(14, 165, 233, 0.1); color: var(--color-info);">
+                            <i data-lucide="file-spreadsheet" style="width: 28px; height: 28px;"></i>
+                        </div>
+                        <div class="empty-state-title" style="font-size: 1.25rem;">거래 장부 데이터를 분석할 준비가 되었습니다</div>
+                        <div class="empty-state-desc" style="max-width: 420px; font-size: 0.9rem; margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                            스마트스토어 정산 파일(Excel 또는 CSV)을 업로드하거나 아래의 '데모 데이터 즉시 불러오기' 버튼을 클릭하여 시각화 차트와 실시간 AI 분석 결과를 확인해 보세요.
+                        </div>
+                        <button id="btn-empty-load-demo" class="btn btn-info">
+                            <i data-lucide="play-circle"></i> 데모 데이터로 즉시 시작하기
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>© 2026 SmartStore All-in-One Power Seller Dashboard. Designed for optimal SEO & Conversion Rates.</div>
+                <div>v1.0.0 Pro · System Engine Local Ready</div>
+            </div>
+        </footer>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container"></div>
+    </div> <!-- Close app-container -->
+    </div> <!-- Close app-window -->
+
+    <!-- Desktop Dock -->
+    <div class="desktop-dock">
+        <button class="dock-item active" id="dock-btn-app" title="대시보드 앱">
+            <i data-lucide="layout-dashboard"></i>
+            <span class="dock-dot"></span>
+        </button>
+        <button class="dock-item" id="dock-btn-mode-toggle" title="웹뷰 / 데스크톱 모드 전환">
+            <i data-lucide="monitor"></i>
+            <span class="dock-tooltip">웹뷰/데스크톱 전환</span>
+        </button>
+    </div>
+    </div> <!-- Close desktop-env -->
+
+    <!-- Libraries CDNs -->
+    <!-- SheetJS (Excel Parsing) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Chart.js (Data Visualizations) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+    
+    <!-- Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
