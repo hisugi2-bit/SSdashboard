@@ -723,61 +723,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 grad.addColorStop(0, '#ffffff');
                 grad.addColorStop(1, '#cbd5e1');
                 ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, W, H);
             } else if (bgType === 'wood') {
-                // Wood Table gradient (Rustic brown gradient)
-                const grad = ctx.createLinearGradient(0, 0, 0, H);
-                grad.addColorStop(0, '#7c2d12');
-                grad.addColorStop(1, '#451a03');
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, W, H);
-                
-                // Draw simulated wood plank lines
-                ctx.fillStyle = 'rgba(0,0,0,0.08)';
-                const step = H / 8;
-                for (let i = 0; i < H; i += step) {
-                    ctx.fillRect(0, i, W, 2);
-                }
+                // 2. 아늑한 감성 원목 톤
+                ctx.fillStyle = '#f5e6d3';
             } else if (bgType === 'pastel') {
-                // Pastel pink-blue linear gradient
+                // 3. 핑크-블루 파스텔 톤
                 let grad = ctx.createLinearGradient(0, 0, W, H);
                 grad.addColorStop(0, '#fce7f3');
                 grad.addColorStop(1, '#e0f2fe');
                 ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, W, H);
             } else if (bgType === 'dark') {
-                // Premium dark radial gradient
+                // 4. 프리미엄 다크 스튜디오
                 let grad = ctx.createRadialGradient(W / 2, H / 2, 50, W / 2, H / 2, W * 0.6);
                 grad.addColorStop(0, '#334155');
                 grad.addColorStop(1, '#0f172a');
                 ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, W, H);
             } else if (bgType === 'marble') {
-                // Luxury white-grey marble
-                const grad = ctx.createLinearGradient(0, 0, W, H);
-                grad.addColorStop(0, '#f8fafc');
-                grad.addColorStop(0.5, '#f1f5f9');
-                grad.addColorStop(1, '#cbd5e1');
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, W, H);
-
-                // Soft grey veins
-                ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(0, H * 0.2);
-                ctx.bezierCurveTo(W * 0.3, H * 0.1, W * 0.4, H * 0.6, W, H * 0.5);
-                ctx.stroke();
-
-                ctx.beginPath();
-                ctx.moveTo(W * 0.2, H);
-                ctx.bezierCurveTo(W * 0.5, H * 0.7, W * 0.6, H * 0.3, W * 0.8, 0);
-                ctx.stroke();
-            } else if (bgType === 'minimal') {
-                // Minimal modern grey
+                // 5. 고급 대리석 마블 톤
+                ctx.fillStyle = '#f8fafc';
+            } else {
+                // 6. 미니멀 모던 그레이
                 ctx.fillStyle = '#e2e8f0';
-                ctx.fillRect(0, 0, W, H);
             }
+            ctx.fillRect(0, 0, W, H);
         }
 
         // 2. Draw Product Image
@@ -886,21 +854,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.font = `bold ${sashH * 0.42}px sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            grad = ctx.createLinearGradient(w, 0, w * 0.6, 0);
-            grad.addColorStop(0, 'rgba(244, 63, 94, 0.2)');
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-            ctx.restore();
-        } else if (lighting === 'studio') {
-            // Soft studio light
-            ctx.save();
-            ctx.globalCompositeOperation = 'overlay';
-            const grad = ctx.createRadialGradient(w * 0.1, h * 0.1, 0, w * 0.1, h * 0.1, w * 0.6);
-            grad.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
+            ctx.fillText(customTextVal, W / 2, H - (sashH / 2));
             ctx.restore();
         }
     }
