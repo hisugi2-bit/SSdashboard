@@ -392,6 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const productPosY = document.getElementById('range-product-pos-y');
     const productRotate = document.getElementById('range-product-rotate');
 
+    const badgePosX = document.getElementById('range-badge-pos-x');
+    const badgePosY = document.getElementById('range-badge-pos-y');
+
     // Values labels
     const valShadowBlur = document.getElementById('val-shadow-blur');
     const valShadowOpacity = document.getElementById('val-shadow-opacity');
@@ -401,6 +404,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const valProductPosX = document.getElementById('val-product-pos-x');
     const valProductPosY = document.getElementById('val-product-pos-y');
     const valProductRotate = document.getElementById('val-product-rotate');
+
+    const valBadgePosX = document.getElementById('val-badge-pos-x');
+    const valBadgePosY = document.getElementById('val-badge-pos-y');
 
     let backgroundMode = 'preset'; // 'preset' or 'ai'
     let aiBgImage = null;
@@ -467,6 +473,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 shadowBlur.value = 20;
                 shadowOpacity.value = 0.3;
                 shadowY.value = 15;
+                
+                badgePosX.value = 115;
+                badgePosY.value = 115;
 
                 // Sync labels text
                 valProductScale.textContent = '1.0';
@@ -479,6 +488,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 valShadowBlur.textContent = '20px';
                 valShadowOpacity.textContent = '0.3';
                 valShadowY.textContent = '15px';
+                valBadgePosX.textContent = '115px';
+                valBadgePosY.textContent = '115px';
 
                 btnNooki.style.display = 'inline-flex';
                 uploadedFilename.textContent = file.name;
@@ -621,7 +632,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { control: productRotate, label: valProductRotate, suffix: '°' },
         { control: rangeProductBrightness, label: valProductBrightness, suffix: '%' },
         { control: rangeProductContrast, label: valProductContrast, suffix: '%' },
-        { control: rangeProductSaturation, label: valProductSaturation, suffix: '%' }
+        { control: rangeProductSaturation, label: valProductSaturation, suffix: '%' },
+        { control: badgePosX, label: valBadgePosX, suffix: 'px' },
+        { control: badgePosY, label: valBadgePosY, suffix: 'px' }
     ];
 
     slidersConfig.forEach(cfg => {
@@ -647,6 +660,9 @@ document.addEventListener('DOMContentLoaded', () => {
         rangeProductContrast.value = 100;
         rangeProductSaturation.value = 100;
         
+        badgePosX.value = 115;
+        badgePosY.value = 115;
+        
         // Sync labels text
         valShadowBlur.textContent = '20px';
         valShadowOpacity.textContent = '0.3';
@@ -658,6 +674,8 @@ document.addEventListener('DOMContentLoaded', () => {
         valProductBrightness.textContent = '100%';
         valProductContrast.textContent = '100%';
         valProductSaturation.textContent = '100%';
+        valBadgePosX.textContent = '115px';
+        valBadgePosY.textContent = '115px';
 
         inputAiPrompt.value = '';
         backgroundMode = 'preset';
@@ -815,8 +833,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentBadgeText) {
             ctx.save();
             const badgeRadius = W * 0.075; // Increased to 7.5% of canvas width (75px) for higher visibility
-            const centerX = badgeRadius + (W * 0.04);
-            const centerY = badgeRadius + (H * 0.04);
+            const centerX = parseFloat(badgePosX.value);
+            const centerY = parseFloat(badgePosY.value);
             
             // Draw red circle
             ctx.fillStyle = '#ef4444';

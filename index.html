@@ -387,6 +387,25 @@
                                     <button type="button" class="btn btn-secondary btn-sm badge-select-btn active" data-badge="" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">없음</button>
                                 </div>
                             </div>
+                            
+                            <!-- 배지 세부 위치 미세 조절 -->
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <div class="slider-group" style="flex: 1; margin-bottom: 0;">
+                                    <div class="slider-label">
+                                        <span>배지 가로 위치 (X)</span>
+                                        <span id="val-badge-pos-x">115px</span>
+                                    </div>
+                                    <input type="range" id="range-badge-pos-x" min="50" max="950" value="115" class="slider-control">
+                                </div>
+                                <div class="slider-group" style="flex: 1; margin-bottom: 0;">
+                                    <div class="slider-label">
+                                        <span>배지 세로 위치 (Y)</span>
+                                        <span id="val-badge-pos-y">115px</span>
+                                    </div>
+                                    <input type="range" id="range-badge-pos-y" min="50" max="950" value="115" class="slider-control">
+                                </div>
+                            </div>
+
                             <div class="slider-group">
                                 <div class="slider-label" style="margin-bottom: 0.35rem;">
                                     <span>하단 띠지 홍보 문구</span>
