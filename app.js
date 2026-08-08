@@ -413,6 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const inputAiPrompt = document.getElementById('input-ai-prompt');
     const btnGenerateAiBg = document.getElementById('btn-generate-ai-bg');
+    const btnClearAiBg = document.getElementById('btn-clear-ai-bg');
     // Local adjustment controls
     const rangeProductBrightness = document.getElementById('range-product-brightness');
     const valProductBrightness = document.getElementById('val-product-brightness');
@@ -621,6 +622,18 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast('AI 배경 이미지 생성 중 오류가 발생했습니다. 다시 시도해 주세요.', 'danger');
         };
         tempBg.src = aiUrl;
+    });
+
+    // AI 생성 배경 지우기 처리
+    btnClearAiBg.addEventListener('click', () => {
+        if (backgroundMode !== 'ai' && !aiBgImage) {
+            showToast('제거할 AI 배경 이미지가 없습니다.', 'warning');
+            return;
+        }
+        aiBgImage = null;
+        backgroundMode = 'preset';
+        updateStudioCanvas();
+        showToast('AI 생성 배경이 제거되고 기본 테마 배경으로 원복되었습니다.', 'info');
     });
 
     // Slider configurations for batch value synchronization and canvas redrawing

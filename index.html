@@ -266,9 +266,14 @@
                                 <span class="desc">원하는 연출 묘사를 입력하세요</span>
                             </label>
                             <textarea id="input-ai-prompt" class="form-control" style="font-size: 0.8rem; min-height: 60px; line-height: 1.4;" placeholder="예: 럭셔리 대리석 화장대 위에 놓인 제품, 부드러운 자연광, 뒤쪽 나뭇잎 그림자, 감성적인 아웃포커싱"></textarea>
-                            <button id="btn-generate-ai-bg" class="btn btn-indigo btn-sm" style="width: 100%; margin-top: 0.5rem;">
-                                <i data-lucide="wand-2"></i> AI 맞춤 배경 생성
-                            </button>
+                            <div style="display: flex; gap: 0.35rem; margin-top: 0.5rem;">
+                                <button id="btn-generate-ai-bg" class="btn btn-indigo btn-sm" style="flex: 3; justify-content: center; display: flex; align-items: center; gap: 0.25rem;">
+                                    <i data-lucide="wand-2"></i> AI 맞춤 배경 생성
+                                </button>
+                                <button id="btn-clear-ai-bg" class="btn btn-secondary btn-sm" style="flex: 1.2; justify-content: center; display: flex; align-items: center; gap: 0.25rem;" title="생성된 AI 배경 삭제">
+                                    <i data-lucide="trash-2"></i> 지우기
+                                </button>
+                            </div>
                         </div>
 
                         <!-- 3. 상품 배치 및 변형 -->
