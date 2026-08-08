@@ -1769,25 +1769,26 @@ footer {
             <section id="tab-thumbnail" class="tab-content">
                 <div class="section-header">
                     <h1 class="section-title">
-                        <i data-lucide="sparkles" style="color: var(--color-indigo);"></i> AI 상품 썸네일 메이커
+                        <i data-lucide="sparkles" style="color: var(--color-indigo);"></i> 썸네일 에디터 스튜디오
                     </h1>
-                    <p class="section-desc">상품 이미지를 업로드하고, 럭셔리 대리석부터 우드 테이블까지 감성적인 배경과 사실적인 그림자/조명 효과를 합성해 매력적인 썸네일을 제작합니다.</p>
+                    <p class="section-desc">상품 이미지를 업로드하고 배경 누끼, 스튜디오 테마 합성, 상세 색상 보정, 그림자 및 강조 배지/띠지 결합까지 100% 실시간 캔버스로 편집하여 고해상도로 다운로드합니다.</p>
                 </div>
 
                 <div class="grid-thumbnail">
-                    <!-- 썸네일 설정 패널 -->
-                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
-                        <div class="card-title">스튜디오 제어판</div>
+                    <!-- 썸네일 설정 패널 (좌측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem; height: fit-content; max-height: 750px; overflow-y: auto;">
+                        <div class="card-title">스튜디오 에디터 설정</div>
 
+                        <!-- 1. 이미지 업로드 & 누끼 -->
                         <div class="form-group">
                             <label class="form-label">
-                                <span>상품 이미지 업로드</span>
-                                <span class="desc">배경이 투명한 PNG 권장</span>
+                                <span>1. 이미지 업로드 & 배경 누끼</span>
+                                <span class="desc">흰색 배경 이미지를 업로드해도 무방합니다</span>
                             </label>
                             <div class="file-uploader" id="thumbnail-drop-zone">
                                 <i data-lucide="upload-cloud" style="width: 28px; height: 28px;"></i>
                                 <div class="file-uploader-text">파일을 끌어다 놓거나 <span>클릭하여 업로드</span></div>
-                                <div class="file-uploader-hint">PNG, JPG, WEBP (최대 10MB)</div>
+                                <div class="file-uploader-hint">PNG, JPG, WEBP 지원</div>
                                 <input type="file" id="thumbnail-file-input" accept="image/*" style="display: none;">
                             </div>
                             <div id="upload-success-badge" style="display: none; align-items: center; gap: 0.5rem; color: var(--color-naver); font-size: 0.8rem; margin-top: 0.5rem;">
@@ -1800,37 +1801,27 @@ footer {
                             </button>
                         </div>
 
-                        <!-- 배경 선택 -->
+                        <!-- 2. 스튜디오 배경 선택 -->
                         <div class="form-group">
                             <label class="form-label">
-                                <span>배경 프리셋 테마</span>
-                                <span class="desc">스튜디오 연출 배경</span>
+                                <span>2. 스튜디오 배경 선택</span>
+                                <span class="desc">6가지 감성 배경 프리셋</span>
                             </label>
-                            <div class="preset-selector-grid">
-                                <div class="preset-option active" data-preset="wood">
-                                    <div class="preset-preview-mini bg-wood"></div>
-                                    <span>우드 테이블</span>
-                                </div>
-                                <div class="preset-option" data-preset="marble">
-                                    <div class="preset-preview-mini bg-marble"></div>
-                                    <span>명품 대리석</span>
-                                </div>
-                                <div class="preset-option" data-preset="sunlight">
-                                    <div class="preset-preview-mini bg-sunlight"></div>
-                                    <span>오후의 햇살</span>
-                                </div>
-                                <div class="preset-option" data-preset="minimal">
-                                    <div class="preset-preview-mini bg-minimal"></div>
-                                    <span>네온 그라데이션</span>
-                                </div>
-                            </div>
+                            <select id="studio-bg-select" class="form-select">
+                                <option value="studio">1. 스튜디오 3D 그라데이션</option>
+                                <option value="wood">2. 아늑한 감성 원목 테이블</option>
+                                <option value="pastel">3. 파스텔 핑크-블루 그라데이션</option>
+                                <option value="dark">4. 프리미엄 다크 스튜디오</option>
+                                <option value="marble" selected>5. 고급 대리석 마블</option>
+                                <option value="minimal">6. 미니멀 모던 그레이</option>
+                            </select>
                         </div>
 
                         <!-- AI 맞춤 배경 생성 -->
                         <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
                             <label class="form-label">
                                 <span>AI 맞춤 배경 이미지 생성 (무료)</span>
-                                <span class="desc">한글/영어 모두 지원</span>
+                                <span class="desc">원하는 연출 묘사를 입력하세요</span>
                             </label>
                             <textarea id="input-ai-prompt" class="form-control" style="font-size: 0.8rem; min-height: 60px; line-height: 1.4;" placeholder="예: 럭셔리 대리석 화장대 위에 놓인 제품, 부드러운 자연광, 뒤쪽 나뭇잎 그림자, 감성적인 아웃포커싱"></textarea>
                             <button id="btn-generate-ai-bg" class="btn btn-indigo btn-sm" style="width: 100%; margin-top: 0.5rem;">
@@ -1838,13 +1829,51 @@ footer {
                             </button>
                         </div>
 
-                        <!-- 상품 사진 세부 보정 (밝기, 대비, 채도) -->
+                        <!-- 3. 상품 배치 및 변형 -->
                         <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
                             <label class="form-label">
-                                <span>상품 사진 세부 보정 (로컬 편집)</span>
-                                <span class="desc">밝기, 대비, 채도를 자유롭게 미세 조절</span>
+                                <span>3. 상품 배치 및 크기 조정</span>
+                                <span class="desc">위치 및 좌우 회전</span>
                             </label>
-                            
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>상품 크기 (Scale)</span>
+                                    <span id="val-product-scale">1.0</span>
+                                </div>
+                                <input type="range" id="range-product-scale" min="0.3" max="2.0" step="0.05" value="1.0" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>위치 X (좌우)</span>
+                                    <span id="val-product-pos-x">0</span>
+                                </div>
+                                <input type="range" id="range-product-pos-x" min="-500" max="500" value="0" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>위치 Y (상하)</span>
+                                    <span id="val-product-pos-y">0</span>
+                                </div>
+                                <input type="range" id="range-product-pos-y" min="-500" max="500" value="0" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>회전 각도 (Rotate)</span>
+                                    <span id="val-product-rotate">0°</span>
+                                </div>
+                                <input type="range" id="range-product-rotate" min="-180" max="180" value="0" class="slider-control">
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button type="button" id="btn-flip-h" class="btn btn-secondary btn-sm" style="flex: 1; font-size: 0.75rem;">↔️ 좌우 반전</button>
+                            </div>
+                        </div>
+
+                        <!-- 4. 이미지 색상 세부 보정 -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>4. 이미지 색상 세부 보정</span>
+                                <span class="desc">밝기, 대비, 채도</span>
+                            </label>
                             <div class="slider-group" style="margin-bottom: 0.75rem;">
                                 <div class="slider-label">
                                     <span>밝기 (Brightness)</span>
@@ -1852,7 +1881,6 @@ footer {
                                 </div>
                                 <input type="range" id="range-product-brightness" min="50" max="150" value="100" class="slider-control">
                             </div>
-
                             <div class="slider-group" style="margin-bottom: 0.75rem;">
                                 <div class="slider-label">
                                     <span>대비 (Contrast)</span>
@@ -1860,7 +1888,6 @@ footer {
                                 </div>
                                 <input type="range" id="range-product-contrast" min="50" max="150" value="100" class="slider-control">
                             </div>
-
                             <div class="slider-group">
                                 <div class="slider-label">
                                     <span>채도 (Saturation)</span>
@@ -1870,102 +1897,54 @@ footer {
                             </div>
                         </div>
 
-                        <!-- 조명 필터 선택 -->
-                        <div class="form-group">
-                            <label class="form-label"><span>실시간 조명 이펙트</span></label>
-                            <select id="select-lighting" class="form-select">
-                                <option value="none">기본 조명 (없음)</option>
-                                <option value="sunlight">따사로운 창가 햇살 필터</option>
-                                <option value="spotlight">중앙 집중 스포트라이트</option>
-                                <option value="sidelight">세련된 듀얼 사이드 조명</option>
-                                <option value="studio">소프트 스튜디오 조명</option>
-                            </select>
-                        </div>
-
-                        <!-- 그림자 상세 조절 -->
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span>입체감 그림자(Drop Shadow) 설정</span>
-                            </label>
-                            
-                            <div class="slider-group">
-                                <div class="slider-label">
-                                    <span>그림자 흐림 (Blur)</span>
-                                    <span id="val-shadow-blur">15px</span>
-                                </div>
-                                <input type="range" id="range-shadow-blur" min="0" max="50" value="15" class="slider-control">
-                            </div>
-
-                            <div class="slider-group">
-                                <div class="slider-label">
-                                    <span>그림자 진하기 (Opacity)</span>
-                                    <span id="val-shadow-opacity">0.4</span>
-                                </div>
-                                <input type="range" id="range-shadow-opacity" min="0" max="100" value="40" class="slider-control">
-                            </div>
-
-                            <div class="slider-group">
-                                <div class="slider-label">
-                                    <span>수평 이동 (X축)</span>
-                                    <span id="val-shadow-x">8px</span>
-                                </div>
-                                <input type="range" id="range-shadow-x" min="-40" max="40" value="8" class="slider-control">
-                            </div>
-
-                            <div class="slider-group">
-                                <div class="slider-label">
-                                    <span>수직 이동 (Y축)</span>
-                                    <span id="val-shadow-y">12px</span>
-                                </div>
-                                <input type="range" id="range-shadow-y" min="-40" max="40" value="12" class="slider-control">
-                            </div>
-                        </div>
-
-                        <!-- 크기 및 회전 조절 -->
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span>상품 위치/크기 조정</span>
-                            </label>
-                            
-                            <div class="slider-group">
-                                <div class="slider-label">
-                                    <span>상품 크기 (Scale)</span>
-                                    <span id="val-product-scale">70%</span>
-                                </div>
-                                <input type="range" id="range-product-scale" min="10" max="150" value="70" class="slider-control">
-                            </div>
-
-                            <div class="slider-group">
-                                <div class="slider-label">
-                                    <span>상품 회전 (Rotation)</span>
-                                    <span id="val-product-rotate">0°</span>
-                                </div>
-                                <input type="range" id="range-product-rotate" min="-180" max="180" value="0" class="slider-control">
-                            </div>
-                        </div>
-
-                        <!-- 배지 및 띠지 문구 설정 -->
+                        <!-- 5. 그림자 세부 제어 -->
                         <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
                             <label class="form-label">
-                                <span>배지 & 커스텀 문구</span>
-                                <span class="desc">썸네일 강조 효과 추가</span>
+                                <span>5. 그림자 세부 제어</span>
+                                <span class="desc">그림자의 깊이와 흐림도</span>
                             </label>
-                            
-                            <!-- 배지 프리셋 선택 -->
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>그림자 진하기 (Opacity)</span>
+                                    <span id="val-shadow-opacity">0.3</span>
+                                </div>
+                                <input type="range" id="range-shadow-opacity" min="0" max="1" step="0.05" value="0.3" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>그림자 흐림 (Blur)</span>
+                                    <span id="val-shadow-blur">20px</span>
+                                </div>
+                                <input type="range" id="range-shadow-blur" min="0" max="100" value="20" class="slider-control">
+                            </div>
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>Y축 오프셋 (Offset Y)</span>
+                                    <span id="val-shadow-y">15px</span>
+                                </div>
+                                <input type="range" id="range-shadow-y" min="-100" max="100" value="15" class="slider-control">
+                            </div>
+                        </div>
+
+                        <!-- 6. 배지 & 커스텀 문구 -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>6. 배지 & 커스텀 문구</span>
+                                <span class="desc">1+1, 1+1+1 및 배너 문구 추가</span>
+                            </label>
                             <div class="slider-group" style="margin-bottom: 0.75rem;">
                                 <div class="slider-label" style="margin-bottom: 0.35rem;">
                                     <span>강조 배지 선택</span>
                                 </div>
                                 <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;" id="badge-buttons-group">
                                     <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="1+1" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">1+1</button>
+                                    <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="1+1+1" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">1+1+1</button>
                                     <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="BEST" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">BEST</button>
                                     <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="무료배송" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">무료배송</button>
                                     <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="신상품" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">신상품</button>
                                     <button type="button" class="btn btn-secondary btn-sm badge-select-btn active" data-badge="" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">없음</button>
                                 </div>
                             </div>
-                            
-                            <!-- 하단 띠지 문구 -->
                             <div class="slider-group">
                                 <div class="slider-label" style="margin-bottom: 0.35rem;">
                                     <span>하단 띠지 홍보 문구</span>
@@ -1973,67 +1952,30 @@ footer {
                                 <input type="text" id="input-sash-text" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;" placeholder="예: 오늘 출발 / 한정 수량">
                             </div>
                         </div>
+
+                        <!-- 초기화 및 다운로드 -->
+                        <div style="display: flex; gap: 0.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <button id="btn-reset-thumbnail" class="btn btn-secondary" style="flex: 1;">
+                                <i data-lucide="rotate-ccw"></i> 초기화
+                            </button>
+                            <button id="btn-download-thumbnail" class="btn btn-indigo" style="flex: 2;">
+                                <i data-lucide="download"></i> 고화질 다운로드 (.PNG)
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- 캔버스 라이브 프리뷰 패널 -->
-                    <div class="glass-card canvas-layout-wrapper">
+                    <!-- 캔버스 라이브 프리뷰 패널 (우측) -->
+                    <div class="glass-card canvas-layout-wrapper" style="align-items: center; justify-content: center;">
                         <div class="card-title" style="width: 100%;">
                             <span>스튜디오 실시간 캔버스</span>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: normal; display: flex; align-items: center; gap: 0.5rem;">
-                                <i data-lucide="mouse-pointer" style="width: 12px; height: 12px; color: var(--color-indigo);"></i> 드래그하여 상품 위치 조절 가능
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: normal;">
+                                📷 규격: 1000 × 1000 px 정방형 고화질
                             </div>
                         </div>
 
-                        <!-- 해상도 탭 -->
-                        <div class="canvas-size-tabs" style="width: 100%; max-width: 500px;">
-                            <button class="canvas-size-btn active" data-width="640" data-height="640">
-                                스마트스토어 기본형 (640x640)
-                            </button>
-                            <button class="canvas-size-btn" data-width="750" data-height="1000">
-                                모바일 카탈로그형 (750x1000)
-                            </button>
-                        </div>
-
-                        <!-- 프리뷰 박스 (CSS 실시간 효과 렌더링) -->
-                        <div class="preview-container" id="preview-box">
-                            <div class="preview-background bg-wood" id="preview-bg-element"></div>
-                            <div class="preview-lighting-overlay light-none" id="preview-light-element"></div>
-                            
-                            <!-- AI 생성 로딩 링 -->
-                            <div id="ai-loading-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4; align-items: center; justify-content: center; flex-direction: column; gap: 0.75rem;">
-                                <div class="spinner" style="width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.2); border-left-color: var(--color-indigo); border-radius: 50%; animation: spin 1s linear infinite;"></div>
-                                <span style="color: white; font-size: 0.85rem; font-weight: 500; letter-spacing: -0.01em;">AI 배경 이미지 생성 중...</span>
-                            </div>
-                            
-                            <!-- 상품 컴포넌트 (드래그 및 리사이즈 래퍼) -->
-                            <div id="product-wrapper" class="preview-product" style="display: none; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.7) rotate(0deg);">
-                                <img src="" id="product-preview-img" alt="" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; display: block; filter: none;">
-                                <!-- 리사이즈 핸들 -->
-                                <div id="product-resize-handle"></div>
-                            </div>
-                            
-                            <!-- 업로드 유도 텍스트 (상품이 없을 때만 노출) -->
-                            <div id="preview-placeholder-text" style="position: absolute; z-index: 5; text-align: center; color: var(--text-secondary); pointer-events: none; width: 80%; padding: 0 1rem;">
-                                <i data-lucide="image" style="width: 48px; height: 48px; opacity: 0.3; margin-bottom: 0.5rem; display: inline-block;"></i>
-                                <div style="font-weight: 600; font-size: 0.95rem; color: white;">상품 이미지를 올려주세요</div>
-                                <div style="font-size: 0.75rem; margin-top: 0.25rem;">여기에 실시간 썸네일 합성 화면이 표시됩니다.</div>
-                            </div>
-
-                            <!-- 실시간 강조 배지 프리뷰 (z-index 6) -->
-                            <div id="preview-badge" style="display: none; position: absolute; top: 15px; left: 15px; width: 58px; height: 58px; border-radius: 50%; background-color: #ef4444; color: white; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 2px solid white; z-index: 6; pointer-events: none;">BEST</div>
-
-                            <!-- 실시간 하단 띠지 홍보문구 프리뷰 (z-index 6) -->
-                            <div id="preview-sash" style="display: none; position: absolute; bottom: 0; left: 0; width: 100%; height: 44px; background-color: rgba(15, 23, 42, 0.85); color: #facc15; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; letter-spacing: -0.01em; z-index: 6; pointer-events: none;">오늘 출발</div>
-                        </div>
-
-                        <!-- 하단 작업 버튼 -->
-                        <div class="canvas-actions">
-                            <button id="btn-reset-thumbnail" class="btn btn-secondary">
-                                <i data-lucide="rotate-ccw"></i> 설정 초기화
-                            </button>
-                            <button id="btn-download-thumbnail" class="btn btn-indigo" disabled>
-                                <i data-lucide="download"></i> 고화질 썸네일 다운로드 (.PNG)
-                            </button>
+                        <!-- 1000x1000 고정형 실제 Canvas 엘리먼트 -->
+                        <div style="border: 4px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; background-color: #111111; max-width: 100%; display: flex; align-items: center; justify-content: center; padding: 4px; box-shadow: var(--shadow-lg);">
+                            <canvas id="studioCanvas" width="1000" height="1000" style="max-width: 100%; height: auto; width: 450px; object-fit: contain; display: block;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -2473,6 +2415,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target === 'analytics') {
                 setTimeout(updateCharts, 50);
             }
+
+            // Trigger canvas redraw when thumbnail tab is clicked
+            if (target === 'thumbnail') {
+                setTimeout(updateStudioCanvas, 50);
+            }
         });
     });
 
@@ -2772,40 +2719,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadedFilename = document.getElementById('uploaded-filename');
     const btnRemoveThumb = document.getElementById('btn-remove-thumb');
 
-    const previewBox = document.getElementById('preview-box');
-    const previewBgElement = document.getElementById('preview-bg-element');
-    const previewLightElement = document.getElementById('preview-light-element');
-    const productPreviewImg = document.getElementById('product-preview-img');
-    const productWrapper = document.getElementById('product-wrapper');
-    const productResizeHandle = document.getElementById('product-resize-handle');
-    const previewPlaceholderText = document.getElementById('preview-placeholder-text');
+    const studioCanvas = document.getElementById('studioCanvas');
     const btnNooki = document.getElementById('btn-nooki');
-    const previewBadge = document.getElementById('preview-badge');
-    const previewSash = document.getElementById('preview-sash');
     const inputSashText = document.getElementById('input-sash-text');
     const badgeSelectBtns = document.querySelectorAll('.badge-select-btn');
+    const btnFlipH = document.getElementById('btn-flip-h');
+    const studioBgSelect = document.getElementById('studio-bg-select');
 
     let originalImgDataUrl = '';
     let currentBadgeText = '';
+    let isFlippedH = false;
+    let studioImg = new Image(); // Drawing source
 
-    const selectLighting = document.getElementById('select-lighting');
     const btnResetThumbnail = document.getElementById('btn-reset-thumbnail');
     const btnDownloadThumbnail = document.getElementById('btn-download-thumbnail');
 
     // Slider Controls
     const shadowBlur = document.getElementById('range-shadow-blur');
     const shadowOpacity = document.getElementById('range-shadow-opacity');
-    const shadowX = document.getElementById('range-shadow-x');
     const shadowY = document.getElementById('range-shadow-y');
+    
     const productScale = document.getElementById('range-product-scale');
+    const productPosX = document.getElementById('range-product-pos-x');
+    const productPosY = document.getElementById('range-product-pos-y');
     const productRotate = document.getElementById('range-product-rotate');
 
     // Values labels
     const valShadowBlur = document.getElementById('val-shadow-blur');
     const valShadowOpacity = document.getElementById('val-shadow-opacity');
-    const valShadowX = document.getElementById('val-shadow-x');
     const valShadowY = document.getElementById('val-shadow-y');
+    
     const valProductScale = document.getElementById('val-product-scale');
+    const valProductPosX = document.getElementById('val-product-pos-x');
+    const valProductPosY = document.getElementById('val-product-pos-y');
     const valProductRotate = document.getElementById('val-product-rotate');
 
     let backgroundMode = 'preset'; // 'preset' or 'ai'
@@ -2813,8 +2759,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const inputAiPrompt = document.getElementById('input-ai-prompt');
     const btnGenerateAiBg = document.getElementById('btn-generate-ai-bg');
-    const aiLoadingOverlay = document.getElementById('ai-loading-overlay');
-
     // Local adjustment controls
     const rangeProductBrightness = document.getElementById('range-product-brightness');
     const valProductBrightness = document.getElementById('val-product-brightness');
@@ -2823,13 +2767,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const rangeProductSaturation = document.getElementById('range-product-saturation');
     const valProductSaturation = document.getElementById('val-product-saturation');
 
-    let isDragging = false;
-    let dragStartX = 0;
-    let dragStartY = 0;
-    let productPosX = 50; // percentage
-    let productPosY = 50; // percentage
-
-    // Dropzone logic
     thumbDropZone.addEventListener('click', () => thumbFileInput.click());
     
     thumbDropZone.addEventListener('dragover', (e) => {
@@ -2863,53 +2800,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            productPreviewImg.src = e.target.result;
             originalImgDataUrl = e.target.result;
             
-            // Wait for image dimensions to set wrapper size proportionally
-            const imgObj = new Image();
-            imgObj.onload = () => {
-                const baseWidth = 500;
-                productWrapper.style.width = `${baseWidth}px`;
-                productWrapper.style.height = `${(baseWidth * imgObj.naturalHeight) / imgObj.naturalWidth}px`;
+            studioImg = new Image();
+            studioImg.onload = () => {
+                // Reset placement to defaults
+                productScale.value = 1.0;
+                productPosX.value = 0;
+                productPosY.value = 0;
+                productRotate.value = 0;
+                isFlippedH = false;
                 
-                productWrapper.style.display = 'block';
-                previewPlaceholderText.style.display = 'none';
-                btnDownloadThumbnail.disabled = false;
+                // Reset adjustments to defaults
+                rangeProductBrightness.value = 100;
+                rangeProductContrast.value = 100;
+                rangeProductSaturation.value = 100;
+                
+                shadowBlur.value = 20;
+                shadowOpacity.value = 0.3;
+                shadowY.value = 15;
+
+                // Sync labels text
+                valProductScale.textContent = '1.0';
+                valProductPosX.textContent = '0';
+                valProductPosY.textContent = '0';
+                valProductRotate.textContent = '0°';
+                valProductBrightness.textContent = '100%';
+                valProductContrast.textContent = '100%';
+                valProductSaturation.textContent = '100%';
+                valShadowBlur.textContent = '20px';
+                valShadowOpacity.textContent = '0.3';
+                valShadowY.textContent = '15px';
+
                 btnNooki.style.display = 'inline-flex';
-                
-                // Show badge
                 uploadedFilename.textContent = file.name;
                 uploadSuccessBadge.style.display = 'inline-flex';
+                btnDownloadThumbnail.disabled = false;
                 
-                // Set defaults
-                productPosX = 50;
-                productPosY = 50;
-                updateProductTransform();
-                
-                showToast('이미지가 스튜디오에 업로드되었습니다.', 'success');
+                updateStudioCanvas();
+                showToast('상품 이미지가 에디터에 업로드되었습니다.', 'success');
             };
-            imgObj.src = e.target.result;
+            studioImg.src = e.target.result;
         };
         reader.readAsDataURL(file);
     }
 
     btnRemoveThumb.addEventListener('click', (e) => {
         e.stopPropagation();
-        productPreviewImg.src = '';
         originalImgDataUrl = '';
-        productWrapper.style.display = 'none';
+        studioImg = new Image();
         btnNooki.style.display = 'none';
-        previewPlaceholderText.style.display = 'block';
-        btnDownloadThumbnail.disabled = true;
         uploadSuccessBadge.style.display = 'none';
         thumbFileInput.value = '';
+        btnDownloadThumbnail.disabled = true;
+        updateStudioCanvas();
         showToast('업로드된 이미지가 제거되었습니다.', 'info');
     });
 
     // 🪄 흰색 배경 누끼 투명화 (자동)
     btnNooki.addEventListener('click', () => {
-        if (!productPreviewImg.src || originalImgDataUrl === '') {
+        if (!studioImg.src || originalImgDataUrl === '') {
             showToast('누끼를 딸 상품 이미지를 먼저 업로드해 주세요.', 'danger');
             return;
         }
@@ -2937,8 +2887,12 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.putImageData(imgData, 0, 0);
             
             // Replace preview source
-            productPreviewImg.src = canvas.toDataURL('image/png');
-            showToast('흰색 배경 자동 누끼 처리가 완료되었습니다.', 'success');
+            studioImg = new Image();
+            studioImg.onload = () => {
+                updateStudioCanvas();
+                showToast('흰색 배경 자동 누끼 처리가 완료되었습니다.', 'success');
+            };
+            studioImg.src = canvas.toDataURL('image/png');
         };
         tempImg.src = originalImgDataUrl;
     });
@@ -2950,340 +2904,121 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
             
             currentBadgeText = btn.getAttribute('data-badge');
+            updateStudioCanvas();
             
             if (currentBadgeText) {
-                previewBadge.textContent = currentBadgeText;
-                previewBadge.style.display = 'flex';
-                showToast(`배지가 '${currentBadgeText}'(으)로 적용되었습니다.`, 'info');
+                showToast(`배지 '${currentBadgeText}'(으)로 적용되었습니다.`, 'info');
             } else {
-                previewBadge.style.display = 'none';
                 showToast('배지가 해제되었습니다.', 'info');
             }
         });
     });
 
-    // 하단 띠지 홍보 문구 실시간 반영
-    inputSashText.addEventListener('input', () => {
-        const textVal = inputSashText.value.trim();
-        if (textVal) {
-            previewSash.textContent = textVal;
-            previewSash.style.display = 'flex';
-        } else {
-            previewSash.style.display = 'none';
-        }
+    // 좌우 반전 처리
+    btnFlipH.addEventListener('click', () => {
+        isFlippedH = !isFlippedH;
+        updateStudioCanvas();
+        showToast('좌우 반전 상태가 변경되었습니다.', 'info');
     });
 
-    // Preset background changes
-    const presetOptions = document.querySelectorAll('.preset-option');
-    presetOptions.forEach(opt => {
-        opt.addEventListener('click', () => {
-            presetOptions.forEach(o => o.classList.remove('active'));
-            opt.classList.add('active');
-            
-            const presetType = opt.getAttribute('data-preset');
-            
-            // Reset styles then apply
-            backgroundMode = 'preset';
-            previewBgElement.style.backgroundImage = '';
-            previewBgElement.className = 'preview-background';
-            previewBgElement.classList.add(`bg-${presetType}`);
+    // 하단 띠지 홍보 문구 실시간 반영
+    inputSashText.addEventListener('input', () => {
+        updateStudioCanvas();
+    });
 
-            showToast(`배경이 '${opt.querySelector('span').textContent}'(으)로 변경되었습니다.`, 'info');
-        });
+    // 스튜디오 배경 셀렉트 박스 처리
+    studioBgSelect.addEventListener('change', () => {
+        backgroundMode = 'preset';
+        updateStudioCanvas();
+        const selectedOpt = studioBgSelect.options[studioBgSelect.selectedIndex].text;
+        showToast(`배경 테마가 '${selectedOpt}'(으)로 변경되었습니다.`, 'info');
     });
 
     // AI Custom Background Generation
     btnGenerateAiBg.addEventListener('click', () => {
-        const prompt = inputAiPrompt.value.trim();
-        if (!prompt) {
-            showToast('AI 배경을 생성할 프롬프트를 입력해 주세요.', 'danger');
-            inputAiPrompt.focus();
+        const promptVal = inputAiPrompt.value.trim();
+        if (!promptVal) {
+            showToast('AI 배경을 생성할 프롬프트 키워드를 입력해 주세요.', 'warning');
             return;
         }
 
-        // Show loading spinner
-        aiLoadingOverlay.style.display = 'flex';
-        btnGenerateAiBg.disabled = true;
-
-        // Enhance prompt for beautiful product backdrop
-        const enhancedPrompt = `${prompt}, photorealistic, studio product photography background, realistic studio lighting, soft depth of field, highly detailed, 8k resolution`;
-        const randomSeed = Math.floor(Math.random() * 1000000);
-        const aiUrl = `https://image.pollinations.ai/p/${encodeURIComponent(enhancedPrompt)}?width=1024&height=1024&nologo=true&seed=${randomSeed}`;
-
-        // Preload image in JavaScript
-        const img = new Image();
-        img.crossOrigin = 'anonymous'; // critical for canvas exporting!
-        img.onload = () => {
-            aiBgImage = img;
+        showToast('AI 배경 이미지를 생성 중입니다. 약 5~8초 소요됩니다...', 'info');
+        
+        const encodedPrompt = encodeURIComponent(promptVal);
+        const seed = Math.floor(Math.random() * 100000);
+        const aiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1000&height=1000&seed=${seed}&nologo=true`;
+        
+        const tempBg = new Image();
+        tempBg.crossOrigin = 'anonymous'; // critical to prevent canvas cross-origin security errors on export
+        tempBg.onload = () => {
+            aiBgImage = tempBg;
             backgroundMode = 'ai';
-
-            // Remove active classes from preset selectors
-            presetOptions.forEach(o => o.classList.remove('active'));
-
-            // Apply to preview bg
-            previewBgElement.className = 'preview-background';
-            previewBgElement.style.backgroundImage = `url('${aiUrl}')`;
-            previewBgElement.style.backgroundSize = 'cover';
-            previewBgElement.style.backgroundPosition = 'center';
-
-            // Hide loading, enable button
-            aiLoadingOverlay.style.display = 'none';
-            btnGenerateAiBg.disabled = false;
-
-            showToast('AI 맞춤형 배경이 성공적으로 합성되었습니다!', 'success');
+            updateStudioCanvas();
+            showToast('AI 맞춤형 스튜디오 배경 생성이 완료되었습니다.', 'success');
         };
-
-        img.onerror = () => {
-            aiLoadingOverlay.style.display = 'none';
-            btnGenerateAiBg.disabled = false;
-            showToast('AI 이미지 생성 중 오류가 발생했습니다. 다시 시도해 주세요.', 'danger');
+        tempBg.onerror = () => {
+            showToast('AI 배경 이미지 생성 중 오류가 발생했습니다. 다시 시도해 주세요.', 'danger');
         };
-
-        // Trigger loading
-        img.src = aiUrl;
+        tempBg.src = aiUrl;
     });
 
-    // Lighting effect changes
-    selectLighting.addEventListener('change', () => {
-        const val = selectLighting.value;
-        previewLightElement.className = 'preview-lighting-overlay';
-        previewLightElement.classList.add(`light-${val}`);
-    });
+    // Slider configurations for batch value synchronization and canvas redrawing
+    const slidersConfig = [
+        { control: shadowBlur, label: valShadowBlur, suffix: 'px' },
+        { control: shadowOpacity, label: valShadowOpacity, suffix: '' },
+        { control: shadowY, label: valShadowY, suffix: 'px' },
+        { control: productScale, label: valProductScale, suffix: '' },
+        { control: productPosX, label: valProductPosX, suffix: '' },
+        { control: productPosY, label: valProductPosY, suffix: '' },
+        { control: productRotate, label: valProductRotate, suffix: '°' },
+        { control: rangeProductBrightness, label: valProductBrightness, suffix: '%' },
+        { control: rangeProductContrast, label: valProductContrast, suffix: '%' },
+        { control: rangeProductSaturation, label: valProductSaturation, suffix: '%' }
+    ];
 
-    // Sliders input listeners
-    function updateProductTransform() {
-        const scaleVal = productScale.value / 100;
-        const rotateVal = productRotate.value;
-        
-        // Shadow style calculation
-        const sX = shadowX.value;
-        const sY = shadowY.value;
-        const sBlur = shadowBlur.value;
-        const sOp = shadowOpacity.value / 100;
-
-        // Color adjustments
-        const brightnessVal = rangeProductBrightness.value;
-        const contrastVal = rangeProductContrast.value;
-        const saturationVal = rangeProductSaturation.value;
-        
-        // Update product positioning, scale, rotation of the WRAPPER container
-        productWrapper.style.left = `${productPosX}%`;
-        productWrapper.style.top = `${productPosY}%`;
-        productWrapper.style.transform = `translate(-50%, -50%) scale(${scaleVal}) rotate(${rotateVal}deg)`;
-        
-        // CSS drop-shadow and color adjustment filters combined on the IMAGE itself
-        productPreviewImg.style.filter = `drop-shadow(${sX}px ${sY}px ${sBlur}px rgba(0,0,0,${sOp})) brightness(${brightnessVal}%) contrast(${contrastVal}%) saturate(${saturationVal}%)`;
-        
-        // Labels
-        valShadowBlur.textContent = `${sBlur}px`;
-        valShadowOpacity.textContent = `${sOp}`;
-        valShadowX.textContent = `${sX}px`;
-        valShadowY.textContent = `${sY}px`;
-        valProductScale.textContent = `${productScale.value}%`;
-        valProductRotate.textContent = `${rotateVal}°`;
-
-        valProductBrightness.textContent = `${brightnessVal}%`;
-        valProductContrast.textContent = `${contrastVal}%`;
-        valProductSaturation.textContent = `${saturationVal}%`;
-    }
-
-    [
-        shadowBlur, shadowOpacity, shadowX, shadowY, productScale, productRotate,
-        rangeProductBrightness, rangeProductContrast, rangeProductSaturation
-    ].forEach(slider => {
-        slider.addEventListener('input', updateProductTransform);
-    });
-
-    // Position dragging & Resizing logic
-    let isResizing = false;
-    let startDist = 0;
-    let startScale = 70;
-
-    // Handle mouse resize click
-    productResizeHandle.addEventListener('mousedown', (e) => {
-        e.stopPropagation(); // prevent drag trigger on container
-        if (productPreviewImg.src === '') return;
-        isResizing = true;
-        
-        const rect = productWrapper.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        startDist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
-        startScale = parseInt(productScale.value);
-    });
-
-    // Handle mouse drag start
-    productWrapper.addEventListener('mousedown', (e) => {
-        if (productPreviewImg.src === '') return;
-        e.preventDefault();
-        isDragging = true;
-        
-        dragStartX = e.clientX;
-        dragStartY = e.clientY;
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            const containerRect = previewBox.getBoundingClientRect();
-            
-            // Calculate delta drag
-            const deltaX = e.clientX - dragStartX;
-            const deltaY = e.clientY - dragStartY;
-            
-            // Convert to percentage of container
-            const percentX = (deltaX / containerRect.width) * 100;
-            const percentY = (deltaY / containerRect.height) * 100;
-            
-            productPosX = Math.max(0, Math.min(100, productPosX + percentX));
-            productPosY = Math.max(0, Math.min(100, productPosY + percentY));
-            
-            dragStartX = e.clientX;
-            dragStartY = e.clientY;
-            
-            updateProductTransform();
-        } else if (isResizing) {
-            const rect = productWrapper.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            const currentDist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
-            
-            const ratio = currentDist / startDist;
-            const newScale = Math.round(startScale * ratio);
-            
-            productScale.value = Math.max(10, Math.min(150, newScale));
-            updateProductTransform();
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-        isResizing = false;
-    });
-
-    // Mobile touch events support
-    productResizeHandle.addEventListener('touchstart', (e) => {
-        e.stopPropagation(); // prevent drag trigger on container
-        if (productPreviewImg.src === '') return;
-        isResizing = true;
-        
-        const rect = productWrapper.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        const touch = e.touches[0];
-        startDist = Math.hypot(touch.clientX - centerX, touch.clientY - centerY);
-        startScale = parseInt(productScale.value);
-    });
-
-    productWrapper.addEventListener('touchstart', (e) => {
-        if (productPreviewImg.src === '') return;
-        isDragging = true;
-        const touch = e.touches[0];
-        dragStartX = touch.clientX;
-        dragStartY = touch.clientY;
-    });
-
-    document.addEventListener('touchmove', (e) => {
-        if (isDragging) {
-            const touch = e.touches[0];
-            const containerRect = previewBox.getBoundingClientRect();
-            
-            const deltaX = touch.clientX - dragStartX;
-            const deltaY = touch.clientY - dragStartY;
-            
-            const percentX = (deltaX / containerRect.width) * 100;
-            const percentY = (deltaY / containerRect.height) * 100;
-            
-            productPosX = Math.max(0, Math.min(100, productPosX + percentX));
-            productPosY = Math.max(0, Math.min(100, productPosY + percentY));
-            
-            dragStartX = touch.clientX;
-            dragStartY = touch.clientY;
-            
-            updateProductTransform();
-        } else if (isResizing) {
-            const touch = e.touches[0];
-            const rect = productWrapper.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            const currentDist = Math.hypot(touch.clientX - centerX, touch.clientY - centerY);
-            
-            const ratio = currentDist / startDist;
-            const newScale = Math.round(startScale * ratio);
-            
-            productScale.value = Math.max(10, Math.min(150, newScale));
-            updateProductTransform();
-        }
-    });
-
-    document.addEventListener('touchend', () => {
-        isDragging = false;
-        isResizing = false;
-    });
-
-    // Mouse wheel zoom support on product wrapper
-    productWrapper.addEventListener('wheel', (e) => {
-        if (productPreviewImg.src === '') return;
-        e.preventDefault(); // prevent page scroll
-        const currentScale = parseInt(productScale.value);
-        const delta = e.deltaY < 0 ? 5 : -5;
-        productScale.value = Math.max(10, Math.min(150, currentScale + delta));
-        updateProductTransform();
-    }, { passive: false });
-
-    // Resolution Size tab change
-    const sizeBtns = document.querySelectorAll('.canvas-size-btn');
-    sizeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            sizeBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const w = btn.getAttribute('data-width');
-            const h = btn.getAttribute('data-height');
-            
-            // Adjust aspect ratio of preview element
-            previewBox.style.aspectRatio = `${w} / ${h}`;
-            showToast(`스튜디오 캔버스 비율이 ${w}x${h}으로 조정되었습니다.`, 'info');
+    slidersConfig.forEach(cfg => {
+        cfg.control.addEventListener('input', () => {
+            cfg.label.textContent = cfg.control.value + cfg.suffix;
+            updateStudioCanvas();
         });
     });
 
     // Reset studio parameters
     btnResetThumbnail.addEventListener('click', () => {
-        shadowBlur.value = 15;
-        shadowOpacity.value = 40;
-        shadowX.value = 8;
-        shadowY.value = 12;
-        productScale.value = 70;
+        shadowBlur.value = 20;
+        shadowOpacity.value = 0.3;
+        shadowY.value = 15;
+        productScale.value = 1.0;
+        productPosX.value = 0;
+        productPosY.value = 0;
         productRotate.value = 0;
-        
-        productPosX = 50;
-        productPosY = 50;
+        isFlippedH = false;
         
         // Reset image adjustments
         rangeProductBrightness.value = 100;
         rangeProductContrast.value = 100;
         rangeProductSaturation.value = 100;
         
+        // Sync labels text
+        valShadowBlur.textContent = '20px';
+        valShadowOpacity.textContent = '0.3';
+        valShadowY.textContent = '15px';
+        valProductScale.textContent = '1.0';
+        valProductPosX.textContent = '0';
+        valProductPosY.textContent = '0';
+        valProductRotate.textContent = '0°';
+        valProductBrightness.textContent = '100%';
+        valProductContrast.textContent = '100%';
+        valProductSaturation.textContent = '100%';
+
         inputAiPrompt.value = '';
         backgroundMode = 'preset';
         aiBgImage = null;
-        previewBgElement.style.backgroundImage = '';
-        
-        presetOptions[0].click(); // Reset to wood
-        selectLighting.value = 'none';
-        selectLighting.dispatchEvent(new Event('change'));
+        studioBgSelect.value = 'marble';
 
         // Reset badge & sash text
         inputSashText.value = '';
-        previewSash.style.display = 'none';
-        previewSash.textContent = '';
-
         currentBadgeText = '';
-        previewBadge.style.display = 'none';
-        previewBadge.textContent = '';
         badgeSelectBtns.forEach(b => {
             b.classList.remove('active');
             if (b.getAttribute('data-badge') === '') b.classList.add('active');
@@ -3291,94 +3026,181 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Restore original image if nooki was applied
         if (originalImgDataUrl !== '') {
-            productPreviewImg.src = originalImgDataUrl;
+            studioImg = new Image();
+            studioImg.onload = () => {
+                updateStudioCanvas();
+            };
+            studioImg.src = originalImgDataUrl;
+        } else {
+            updateStudioCanvas();
         }
         
-        updateProductTransform();
         showToast('스튜디오 설정이 초기화되었습니다.', 'info');
     });
 
     // Canvas exporter
     btnDownloadThumbnail.addEventListener('click', () => {
-        if (!productPreviewImg.src) {
+        if (!studioImg.src) {
             showToast('업로드된 상품 사진이 없습니다.', 'danger');
             return;
         }
 
-        const activeSizeBtn = document.querySelector('.canvas-size-btn.active');
-        const targetW = parseInt(activeSizeBtn.getAttribute('data-width'));
-        const targetH = parseInt(activeSizeBtn.getAttribute('data-height'));
+        // Just download the current studioCanvas data directly since it is 100% accurate at 1000x1000px
+        const link = document.createElement('a');
+        link.download = `smartstore-thumbnail-1000x1000-${Date.now()}.png`;
+        link.href = studioCanvas.toDataURL('image/png');
+        link.click();
+        
+        showToast('고화질 썸네일 이미지가 성공적으로 다운로드되었습니다.', 'success');
+    });
 
-        // Create high-res canvas
-        const exportCanvas = document.createElement('canvas');
-        exportCanvas.width = targetW;
-        exportCanvas.height = targetH;
-        const ctx = exportCanvas.getContext('2d');
+    // Real-time Canvas Rendering core engine
+    function updateStudioCanvas() {
+        const canvas = studioCanvas;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width;
+        const H = canvas.height;
 
-        // Draw Background (AI or Preset)
+        ctx.clearRect(0, 0, W, H);
+
+        // 1. Draw Background (AI or Preset)
         if (backgroundMode === 'ai' && aiBgImage) {
-            ctx.drawImage(aiBgImage, 0, 0, targetW, targetH);
+            ctx.drawImage(aiBgImage, 0, 0, W, H);
         } else {
-            const activePresetEl = document.querySelector('.preset-option.active');
-            const activePreset = activePresetEl ? activePresetEl.getAttribute('data-preset') : 'wood';
-            drawCanvasBackground(ctx, activePreset, targetW, targetH);
+            const bgType = studioBgSelect.value;
+            if (bgType === 'studio') {
+                // Soft 3D studio radial gradient
+                let grad = ctx.createRadialGradient(W / 2, H * 0.4, W * 0.1, W / 2, H / 2, W * 0.7);
+                grad.addColorStop(0, '#ffffff');
+                grad.addColorStop(1, '#cbd5e1');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+            } else if (bgType === 'wood') {
+                // Wood Table gradient (Rustic brown gradient)
+                const grad = ctx.createLinearGradient(0, 0, 0, H);
+                grad.addColorStop(0, '#7c2d12');
+                grad.addColorStop(1, '#451a03');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+                
+                // Draw simulated wood plank lines
+                ctx.fillStyle = 'rgba(0,0,0,0.08)';
+                const step = H / 8;
+                for (let i = 0; i < H; i += step) {
+                    ctx.fillRect(0, i, W, 2);
+                }
+            } else if (bgType === 'pastel') {
+                // Pastel pink-blue linear gradient
+                let grad = ctx.createLinearGradient(0, 0, W, H);
+                grad.addColorStop(0, '#fce7f3');
+                grad.addColorStop(1, '#e0f2fe');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+            } else if (bgType === 'dark') {
+                // Premium dark radial gradient
+                let grad = ctx.createRadialGradient(W / 2, H / 2, 50, W / 2, H / 2, W * 0.6);
+                grad.addColorStop(0, '#334155');
+                grad.addColorStop(1, '#0f172a');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+            } else if (bgType === 'marble') {
+                // Luxury white-grey marble
+                const grad = ctx.createLinearGradient(0, 0, W, H);
+                grad.addColorStop(0, '#f8fafc');
+                grad.addColorStop(0.5, '#f1f5f9');
+                grad.addColorStop(1, '#cbd5e1');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+
+                // Soft grey veins
+                ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(0, H * 0.2);
+                ctx.bezierCurveTo(W * 0.3, H * 0.1, W * 0.4, H * 0.6, W, H * 0.5);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(W * 0.2, H);
+                ctx.bezierCurveTo(W * 0.5, H * 0.7, W * 0.6, H * 0.3, W * 0.8, 0);
+                ctx.stroke();
+            } else if (bgType === 'minimal') {
+                // Minimal modern grey
+                ctx.fillStyle = '#e2e8f0';
+                ctx.fillRect(0, 0, W, H);
+            }
         }
 
-        // Calculate product placement coordinates
-        const drawW = productPreviewImg.naturalWidth;
-        const drawH = productPreviewImg.naturalHeight;
-        
-        const scaleVal = productScale.value / 100;
-        // Fit dimensions into canvas size proportionally
-        const ratio = Math.min((targetW / drawW), (targetH / drawH)) * scaleVal;
-        const productDrawW = drawW * ratio;
-        const productDrawH = drawH * ratio;
+        // 2. Draw Product Image
+        if (studioImg.src) {
+            ctx.save();
 
-        // Position coordinates based on percentage
-        const drawX = (productPosX / 100) * targetW;
-        const drawY = (productPosY / 100) * targetH;
+            const scale = parseFloat(productScale.value);
+            const posX = parseFloat(productPosX.value);
+            const posY = parseFloat(productPosY.value);
 
-        // Render Drop Shadow on canvas by drawing a blurred offset version of image or native canvas shadow
-        ctx.save();
-        
-        const sX = (parseInt(shadowX.value) / 500) * targetW; // scaled relative to resolution
-        const sY = (parseInt(shadowY.value) / 500) * targetH;
-        const sBlur = (parseInt(shadowBlur.value) / 500) * Math.max(targetW, targetH);
-        const sOp = parseFloat(shadowOpacity.value) / 100;
+            // Filter (brightness, contrast, saturation)
+            const bright = rangeProductBrightness.value;
+            const contrast = rangeProductContrast.value;
+            const saturate = rangeProductSaturation.value;
+            ctx.filter = `brightness(${bright}%) contrast(${contrast}%) saturate(${saturate}%)`;
 
-        if (sOp > 0) {
-            ctx.shadowColor = `rgba(0, 0, 0, ${sOp})`;
-            ctx.shadowBlur = sBlur;
-            ctx.shadowOffsetX = sX;
-            ctx.shadowOffsetY = sY;
+            // Drop Shadow on canvas
+            const shdAlpha = parseFloat(shadowOpacity.value);
+            const shdBlur = parseFloat(shadowBlur.value);
+            const shdOffY = parseFloat(shadowY.value);
+
+            if (shdAlpha > 0) {
+                ctx.shadowColor = `rgba(0, 0, 0, ${shdAlpha})`;
+                ctx.shadowBlur = shdBlur;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = shdOffY;
+            }
+
+            // Draw product centered + offsets
+            const baseScale = Math.min((W * 0.65) / studioImg.width, (H * 0.65) / studioImg.height) * scale;
+            const finalW = studioImg.width * baseScale;
+            const finalH = studioImg.height * baseScale;
+
+            const centerX = (W / 2) + posX;
+            const centerY = (H / 2) + posY;
+
+            ctx.translate(centerX, centerY);
+            if (isFlippedH) ctx.scale(-1, 1);
+            ctx.rotate((parseInt(productRotate.value) * Math.PI) / 180);
+
+            ctx.drawImage(studioImg, -finalW / 2, -finalH / 2, finalW, finalH);
+            ctx.restore();
+        } else {
+            // Draw placeholder text directly on canvas
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+            ctx.fillRect(0, 0, W, H);
+            
+            ctx.fillStyle = '#64748b';
+            ctx.font = 'bold 32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('상품 이미지를 업로드하세요', W / 2, H / 2 - 20);
+            
+            ctx.font = '16px sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('(드래그 앤 드롭 또는 클릭하여 업로드)', W / 2, H / 2 + 30);
         }
 
-        // Apply product color adjustments to canvas context
-        const brightnessVal = rangeProductBrightness.value;
-        const contrastVal = rangeProductContrast.value;
-        const saturationVal = rangeProductSaturation.value;
-        ctx.filter = `brightness(${brightnessVal}%) contrast(${contrastVal}%) saturate(${saturationVal}%)`;
-
-        // Draw product with rotation
-        ctx.translate(drawX, drawY);
-        ctx.rotate((parseInt(productRotate.value) * Math.PI) / 180);
-        ctx.drawImage(productPreviewImg, -productDrawW / 2, -productDrawH / 2, productDrawW, productDrawH);
-        
-        ctx.restore();
-
-        // Reset filter for subsequent drawings (like lighting overlay)
+        // Reset filter context
         ctx.filter = 'none';
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
 
-        // Draw Lighting Overlay
-        const activeLight = selectLighting.value;
-        drawCanvasLighting(ctx, activeLight, targetW, targetH);
-
-        // Draw Badge on high-res canvas
+        // 3. Draw Badge
         if (currentBadgeText) {
             ctx.save();
-            const badgeRadius = targetW * 0.055; // 5.5% of canvas width
-            const centerX = badgeRadius + (targetW * 0.035);
-            const centerY = badgeRadius + (targetH * 0.035);
+            const badgeRadius = W * 0.055; // 5.5% of canvas width
+            const centerX = badgeRadius + (W * 0.035);
+            const centerY = badgeRadius + (H * 0.035);
             
             // Draw red circle
             ctx.fillStyle = '#ef4444';
@@ -3393,7 +3215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Draw text
             ctx.fillStyle = '#ffffff';
-            const fontScale = currentBadgeText.length > 3 ? 0.45 : 0.55;
+            const fontScale = currentBadgeText.length > 3 ? 0.42 : 0.55;
             ctx.font = `bold ${badgeRadius * fontScale}px sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -3401,123 +3223,21 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.restore();
         }
 
-        // Draw Sash text on high-res canvas
+        // 4. Draw Sash text on bottom
         const customTextVal = inputSashText.value.trim();
         if (customTextVal) {
             ctx.save();
-            const sashH = targetH * 0.088; // 8.8% of canvas height
+            const sashH = H * 0.088; // 8.8% of canvas height
             
             // Dark gray banner with 85% opacity
             ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-            ctx.fillRect(0, targetH - sashH, targetW, sashH);
+            ctx.fillRect(0, H - sashH, W, sashH);
 
             // Yellow bold text
             ctx.fillStyle = '#facc15';
             ctx.font = `bold ${sashH * 0.42}px sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(customTextVal, targetW / 2, targetH - (sashH / 2));
-            ctx.restore();
-        }
-
-        // Download trigger
-        const link = document.createElement('a');
-        link.download = `smartstore-thumbnail-${targetW}x${targetH}-${Date.now()}.png`;
-        link.href = exportCanvas.toDataURL('image/png');
-        link.click();
-        
-        showToast('고화질 썸네일 이미지가 성공적으로 다운로드되었습니다.', 'success');
-    });
-
-    function drawCanvasBackground(ctx, preset, w, h) {
-        if (preset === 'wood') {
-            // Wood Table gradient (Rustic brown gradient)
-            const grad = ctx.createLinearGradient(0, 0, 0, h);
-            grad.addColorStop(0, '#7c2d12');
-            grad.addColorStop(1, '#451a03');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-            
-            // Draw simulated wood plank lines
-            ctx.fillStyle = 'rgba(0,0,0,0.08)';
-            const step = h / 8;
-            for (let i = 0; i < h; i += step) {
-                ctx.fillRect(0, i, w, 2);
-            }
-        } else if (preset === 'marble') {
-            // Luxury white-grey marble
-            const grad = ctx.createLinearGradient(0, 0, w, h);
-            grad.addColorStop(0, '#f8fafc');
-            grad.addColorStop(0.5, '#f1f5f9');
-            grad.addColorStop(1, '#cbd5e1');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-
-            // Draw some soft grey veins
-            ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(0, h * 0.2);
-            ctx.bezierCurveTo(w * 0.3, h * 0.1, w * 0.4, h * 0.6, w, h * 0.5);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(w * 0.2, h);
-            ctx.bezierCurveTo(w * 0.5, h * 0.7, w * 0.6, h * 0.3, w * 0.8, 0);
-            ctx.stroke();
-        } else if (preset === 'sunlight') {
-            // Warm sunlight gradient
-            const grad = ctx.createRadialGradient(w * 0.8, h * 0.2, 0, w * 0.5, h * 0.5, Math.max(w, h));
-            grad.addColorStop(0, '#fef08a');
-            grad.addColorStop(0.3, '#f59e0b');
-            grad.addColorStop(0.8, '#1e293b');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-        } else if (preset === 'minimal') {
-            // SmartStore Green + Indigo gradient
-            const grad = ctx.createLinearGradient(0, 0, w, h);
-            grad.addColorStop(0, '#0b0f19');
-            grad.addColorStop(0.5, '#131b2e');
-            grad.addColorStop(1, '#064e3b');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-        }
-    }
-
-    function drawCanvasLighting(ctx, lighting, w, h) {
-        if (lighting === 'sunlight') {
-            // Yellow sunbeam overlay
-            ctx.save();
-            ctx.globalCompositeOperation = 'screen';
-            const grad = ctx.createLinearGradient(0, 0, w * 0.6, h * 0.6);
-            grad.addColorStop(0, 'rgba(254, 240, 138, 0.45)');
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-            ctx.restore();
-        } else if (lighting === 'spotlight') {
-            // Center circular glow overlay
-            ctx.save();
-            ctx.globalCompositeOperation = 'overlay';
-            const grad = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w * 0.5);
-            grad.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-            ctx.restore();
-        } else if (lighting === 'sidelight') {
-            // Neon side lighting colors
-            ctx.save();
-            ctx.globalCompositeOperation = 'color-dodge';
-            
-            // Left blue light
-            let grad = ctx.createLinearGradient(0, 0, w * 0.4, 0);
-            grad.addColorStop(0, 'rgba(99, 102, 241, 0.25)');
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-            
-            // Right pink/rose light
             grad = ctx.createLinearGradient(w, 0, w * 0.6, 0);
             grad.addColorStop(0, 'rgba(244, 63, 94, 0.2)');
             grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
@@ -4619,6 +4339,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Initial canvas setup on app load
+    updateStudioCanvas();
 });
 
 </script>
