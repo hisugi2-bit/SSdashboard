@@ -369,6 +369,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const productWrapper = document.getElementById('product-wrapper');
     const productResizeHandle = document.getElementById('product-resize-handle');
     const previewPlaceholderText = document.getElementById('preview-placeholder-text');
+    const btnNooki = document.getElementById('btn-nooki');
+    const previewBadge = document.getElementById('preview-badge');
+    const previewSash = document.getElementById('preview-sash');
+    const inputSashText = document.getElementById('input-sash-text');
+    const badgeSelectBtns = document.querySelectorAll('.badge-select-btn');
+
+    let originalImgDataUrl = '';
+    let currentBadgeText = '';
 
     const selectLighting = document.getElementById('select-lighting');
     const btnResetThumbnail = document.getElementById('btn-reset-thumbnail');
@@ -446,6 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             productPreviewImg.src = e.target.result;
+            originalImgDataUrl = e.target.result;
             
             // Wait for image dimensions to set wrapper size proportionally
             const imgObj = new Image();
@@ -457,6 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 productWrapper.style.display = 'block';
                 previewPlaceholderText.style.display = 'none';
                 btnDownloadThumbnail.disabled = false;
+                btnNooki.style.display = 'inline-flex';
                 
                 // Show badge
                 uploadedFilename.textContent = file.name;
@@ -477,12 +487,80 @@ document.addEventListener('DOMContentLoaded', () => {
     btnRemoveThumb.addEventListener('click', (e) => {
         e.stopPropagation();
         productPreviewImg.src = '';
+        originalImgDataUrl = '';
         productWrapper.style.display = 'none';
+        btnNooki.style.display = 'none';
         previewPlaceholderText.style.display = 'block';
         btnDownloadThumbnail.disabled = true;
         uploadSuccessBadge.style.display = 'none';
         thumbFileInput.value = '';
         showToast('업로드된 이미지가 제거되었습니다.', 'info');
+    });
+
+    // 🪄 흰색 배경 누끼 투명화 (자동)
+    btnNooki.addEventListener('click', () => {
+        if (!productPreviewImg.src || originalImgDataUrl === '') {
+            showToast('누끼를 딸 상품 이미지를 먼저 업로드해 주세요.', 'danger');
+            return;
+        }
+
+        const tempImg = new Image();
+        tempImg.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = tempImg.naturalWidth;
+            canvas.height = tempImg.naturalHeight;
+            ctx.drawImage(tempImg, 0, 0);
+
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+
+            // Simple white threshold nooki keying (R > 215 & G > 215 & B > 215 => alpha = 0)
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i+1];
+                const b = data[i+2];
+                if (r > 215 && g > 215 && b > 215) {
+                    data[i+3] = 0; // set transparent
+                }
+            }
+            ctx.putImageData(imgData, 0, 0);
+            
+            // Replace preview source
+            productPreviewImg.src = canvas.toDataURL('image/png');
+            showToast('흰색 배경 자동 누끼 처리가 완료되었습니다.', 'success');
+        };
+        tempImg.src = originalImgDataUrl;
+    });
+
+    // 배지(Badge) 선택 처리
+    badgeSelectBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            badgeSelectBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            currentBadgeText = btn.getAttribute('data-badge');
+            
+            if (currentBadgeText) {
+                previewBadge.textContent = currentBadgeText;
+                previewBadge.style.display = 'flex';
+                showToast(`배지가 '${currentBadgeText}'(으)로 적용되었습니다.`, 'info');
+            } else {
+                previewBadge.style.display = 'none';
+                showToast('배지가 해제되었습니다.', 'info');
+            }
+        });
+    });
+
+    // 하단 띠지 홍보 문구 실시간 반영
+    inputSashText.addEventListener('input', () => {
+        const textVal = inputSashText.value.trim();
+        if (textVal) {
+            previewSash.textContent = textVal;
+            previewSash.style.display = 'flex';
+        } else {
+            previewSash.style.display = 'none';
+        }
     });
 
     // Preset background changes
@@ -787,6 +865,24 @@ document.addEventListener('DOMContentLoaded', () => {
         presetOptions[0].click(); // Reset to wood
         selectLighting.value = 'none';
         selectLighting.dispatchEvent(new Event('change'));
+
+        // Reset badge & sash text
+        inputSashText.value = '';
+        previewSash.style.display = 'none';
+        previewSash.textContent = '';
+
+        currentBadgeText = '';
+        previewBadge.style.display = 'none';
+        previewBadge.textContent = '';
+        badgeSelectBtns.forEach(b => {
+            b.classList.remove('active');
+            if (b.getAttribute('data-badge') === '') b.classList.add('active');
+        });
+
+        // Restore original image if nooki was applied
+        if (originalImgDataUrl !== '') {
+            productPreviewImg.src = originalImgDataUrl;
+        }
         
         updateProductTransform();
         showToast('스튜디오 설정이 초기화되었습니다.', 'info');
@@ -866,6 +962,53 @@ document.addEventListener('DOMContentLoaded', () => {
         // Draw Lighting Overlay
         const activeLight = selectLighting.value;
         drawCanvasLighting(ctx, activeLight, targetW, targetH);
+
+        // Draw Badge on high-res canvas
+        if (currentBadgeText) {
+            ctx.save();
+            const badgeRadius = targetW * 0.055; // 5.5% of canvas width
+            const centerX = badgeRadius + (targetW * 0.035);
+            const centerY = badgeRadius + (targetH * 0.035);
+            
+            // Draw red circle
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, badgeRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Draw white border
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = badgeRadius * 0.06;
+            ctx.stroke();
+
+            // Draw text
+            ctx.fillStyle = '#ffffff';
+            const fontScale = currentBadgeText.length > 3 ? 0.45 : 0.55;
+            ctx.font = `bold ${badgeRadius * fontScale}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(currentBadgeText, centerX, centerY);
+            ctx.restore();
+        }
+
+        // Draw Sash text on high-res canvas
+        const customTextVal = inputSashText.value.trim();
+        if (customTextVal) {
+            ctx.save();
+            const sashH = targetH * 0.088; // 8.8% of canvas height
+            
+            // Dark gray banner with 85% opacity
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+            ctx.fillRect(0, targetH - sashH, targetW, sashH);
+
+            // Yellow bold text
+            ctx.fillStyle = '#facc15';
+            ctx.font = `bold ${sashH * 0.42}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(customTextVal, targetW / 2, targetH - (sashH / 2));
+            ctx.restore();
+        }
 
         // Download trigger
         const link = document.createElement('a');
