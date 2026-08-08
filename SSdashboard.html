@@ -3166,9 +3166,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3. Draw Badge
         if (currentBadgeText) {
             ctx.save();
-            const badgeRadius = W * 0.055; // 5.5% of canvas width
-            const centerX = badgeRadius + (W * 0.035);
-            const centerY = badgeRadius + (H * 0.035);
+            const badgeRadius = W * 0.075; // Increased to 7.5% of canvas width (75px) for higher visibility
+            const centerX = badgeRadius + (W * 0.04);
+            const centerY = badgeRadius + (H * 0.04);
             
             // Draw red circle
             ctx.fillStyle = '#ef4444';
@@ -3183,7 +3183,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Draw text
             ctx.fillStyle = '#ffffff';
-            const fontScale = currentBadgeText.length > 3 ? 0.42 : 0.55;
+            const fontScale = currentBadgeText.length > 3 ? 0.44 : 0.58;
             ctx.font = `bold ${badgeRadius * fontScale}px sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -3195,7 +3195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const customTextVal = inputSashText.value.trim();
         if (customTextVal) {
             ctx.save();
-            const sashH = H * 0.088; // 8.8% of canvas height
+            const sashH = H * 0.12; // Increased to 12% of canvas height (120px) for much larger presence
             
             // Dark gray banner with 85% opacity
             ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
@@ -3203,7 +3203,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Yellow bold text
             ctx.fillStyle = '#facc15';
-            ctx.font = `bold ${sashH * 0.42}px sans-serif`;
+            ctx.font = `bold ${sashH * 0.45}px sans-serif`; // Increased font size relative to larger sash
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(customTextVal, W / 2, H - (sashH / 2));
