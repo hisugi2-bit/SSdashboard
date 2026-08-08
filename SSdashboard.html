@@ -1,0 +1,4349 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStore All-in-One Power Seller Dashboard</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+:root {
+    --bg-primary: #f1f5f9;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f8fafc;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-hover: rgba(0, 0, 0, 0.15);
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --color-naver: #03c75a;
+    --color-naver-hover: #02b34f;
+    --color-naver-glow: rgba(3, 199, 90, 0.15);
+    
+    --color-indigo: #6366f1;
+    --color-indigo-hover: #4f46e5;
+    --color-indigo-glow: rgba(99, 102, 241, 0.15);
+    
+    --color-danger: #ef4444;
+    --color-warning: #f59e0b;
+    --color-info: #0ea5e9;
+    --color-success: #10b981;
+    
+    --font-sans: 'Inter', 'Noto Sans KR', sans-serif;
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    --shadow-glow: 0 4px 20px 0 rgba(99, 102, 241, 0.08);
+    
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Scrollbar Style */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: var(--radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Layout */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header & Top Nav */
+header {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: linear-gradient(135deg, var(--color-indigo), var(--color-naver));
+    border-radius: var(--radius-md);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+}
+
+.brand-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    background: linear-gradient(to right, #0f172a, #334155);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-badge {
+    font-size: 0.7rem;
+    background: rgba(3, 199, 90, 0.15);
+    color: var(--color-naver);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    border: 1px solid rgba(3, 199, 90, 0.3);
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 0.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition-fast);
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.tab-btn.active {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.tab-btn.active[data-tab="keyword"] {
+    border-left: 3px solid var(--color-naver);
+}
+
+.tab-btn.active[data-tab="thumbnail"] {
+    border-left: 3px solid var(--color-indigo);
+}
+
+.tab-btn.active[data-tab="analytics"] {
+    border-left: 3px solid var(--color-info);
+}
+
+.quick-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.quick-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+/* Main Area */
+main {
+    flex: 1;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn var(--transition-normal);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Section Title & Description */
+.section-header {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Dashboard Cards (Glassmorphism) */
+.glass-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.glass-card:hover {
+    border-color: var(--border-hover);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+/* Forms & Inputs */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.form-label span.req {
+    color: var(--color-danger);
+}
+
+.form-label span.desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.form-control, .form-select {
+    width: 100%;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-indigo);
+    box-shadow: 0 0 0 3px var(--color-indigo-glow);
+}
+
+.form-control.naver-focus:focus {
+    border-color: var(--color-naver);
+    box-shadow: 0 0 0 3px var(--color-naver-glow);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: var(--transition-fast);
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+}
+
+.btn-naver {
+    background-color: var(--color-naver);
+    color: white;
+}
+
+.btn-naver:hover {
+    background-color: var(--color-naver-hover);
+    box-shadow: 0 0 15px var(--color-naver-glow);
+}
+
+.btn-indigo {
+    background-color: var(--color-indigo);
+    color: white;
+}
+
+.btn-indigo:hover {
+    background-color: var(--color-indigo-hover);
+    box-shadow: 0 0 15px var(--color-indigo-glow);
+}
+
+.btn-secondary {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border-hover);
+}
+
+.btn-outline-danger {
+    background-color: transparent;
+    border-color: rgba(244, 63, 94, 0.3);
+    color: var(--color-danger);
+}
+
+.btn-outline-danger:hover {
+    background-color: rgba(244, 63, 94, 0.1);
+    border-color: var(--color-danger);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Grid Layouts */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.grid-keyword {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 1.5rem;
+}
+
+.grid-thumbnail {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+    .grid-2, .grid-3, .grid-keyword, .grid-thumbnail {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* [Tab 1] SEO Title Creator Specific */
+.preset-tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.preset-tag {
+    font-size: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.02);
+    border: 1px solid var(--border-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+}
+
+.preset-tag:hover {
+    color: var(--text-primary);
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: var(--border-hover);
+}
+
+.rule-alert {
+    background-color: rgba(3, 199, 90, 0.04);
+    border: 1px dashed rgba(3, 199, 90, 0.3);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+}
+
+.rule-alert ul {
+    list-style: none;
+    margin-top: 0.5rem;
+}
+
+.rule-alert li {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-secondary);
+}
+
+.rule-alert li::before {
+    content: "✓";
+    color: var(--color-naver);
+    font-weight: bold;
+}
+
+.seo-gauge-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.seo-gauge-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.seo-gauge-bar {
+    height: 8px;
+    background-color: var(--bg-tertiary);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.seo-gauge-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--color-danger), var(--color-naver), var(--color-danger));
+    transition: width var(--transition-normal);
+}
+
+.seo-gauge-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.seo-gauge-marker.min { left: 50%; } /* Assuming max length representation is 50 chars as 100% of display */
+.seo-gauge-marker.max { left: 100%; }
+
+.result-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.result-card {
+    background-color: rgba(0, 0, 0, 0.01);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    position: relative;
+    transition: var(--transition-fast);
+}
+
+.result-card:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    background-color: rgba(99, 102, 241, 0.02);
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.result-badge {
+    background-color: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.result-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    word-break: break-all;
+}
+
+.result-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.result-stats {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.stat-badge {
+    background-color: var(--bg-tertiary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-badge.success-text {
+    color: var(--color-naver);
+    background-color: rgba(3, 199, 90, 0.05);
+    border-color: rgba(3, 199, 90, 0.15);
+}
+
+.stat-badge.danger-text {
+    color: var(--color-danger);
+    background-color: rgba(244, 63, 94, 0.05);
+    border-color: rgba(244, 63, 94, 0.15);
+}
+
+/* [Tab 2] Thumbnail Studio Specific */
+.file-uploader {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.01);
+    transition: var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.file-uploader:hover {
+    border-color: var(--color-indigo);
+    background-color: rgba(99, 102, 241, 0.02);
+}
+
+.file-uploader.dragover {
+    border-color: var(--color-naver);
+    background-color: rgba(3, 199, 90, 0.05);
+    transform: scale(0.98);
+}
+
+.file-uploader svg {
+    color: var(--text-secondary);
+}
+
+.file-uploader-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.file-uploader-text span {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.file-uploader-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.canvas-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    position: sticky;
+    top: 90px;
+    align-self: start;
+    height: fit-content;
+}
+
+.preview-container {
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background-color: #111;
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.preview-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: background var(--transition-normal);
+}
+
+/* Background Presets style triggers */
+.bg-wood {
+    background: linear-gradient(to bottom, #7c2d12, #451a03),
+                repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 10px);
+}
+.bg-marble {
+    background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+}
+.bg-sunlight {
+    background: radial-gradient(circle at 80% 20%, #fef08a 0%, #1e293b 70%);
+}
+.bg-minimal {
+    background: linear-gradient(135deg, #0f172a 0%, #131b2e 50%, #064e3b 100%);
+}
+
+.preview-lighting-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    transition: background var(--transition-normal), opacity var(--transition-normal);
+}
+
+/* Lighting Styles */
+.light-none {
+    background: transparent;
+    opacity: 0;
+}
+.light-sunlight {
+    background: linear-gradient(135deg, rgba(254, 240, 138, 0.4) 0%, transparent 50%);
+    mix-blend-mode: screen;
+    opacity: 0.85;
+}
+.light-spotlight {
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
+    mix-blend-mode: overlay;
+    opacity: 1;
+}
+.light-sidelight {
+    background: linear-gradient(90deg, rgba(99, 102, 241, 0.2) 0%, transparent 40%, rgba(244, 63, 94, 0.15) 100%);
+    mix-blend-mode: color-dodge;
+    opacity: 0.9;
+}
+.light-studio {
+    background: radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+    mix-blend-mode: overlay;
+    opacity: 1;
+}
+
+.preview-product {
+    position: absolute;
+    z-index: 5;
+    cursor: move;
+    user-select: none;
+    transform-origin: center center;
+    border: 1px dashed transparent;
+    transition: border-color var(--transition-fast);
+    will-change: transform;
+}
+
+.preview-product:hover {
+    border-color: rgba(99, 102, 241, 0.6);
+}
+
+#product-resize-handle {
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-indigo);
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: se-resize;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform var(--transition-fast);
+}
+
+#product-resize-handle:hover {
+    transform: scale(1.25);
+    background-color: var(--color-indigo-hover);
+}
+
+.preset-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.preset-option {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.preset-option:hover {
+    border-color: var(--color-indigo);
+}
+
+.preset-option.active {
+    border-color: var(--color-indigo);
+    box-shadow: 0 0 10px var(--color-indigo-glow);
+}
+
+.preset-preview-mini {
+    height: 36px;
+    border-radius: 4px;
+    margin-bottom: 0.35rem;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.preset-option span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: block;
+}
+
+.preset-option.active span {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.slider-group {
+    margin-bottom: 0.75rem;
+}
+
+.slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.slider-control {
+    width: 100%;
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 99px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.slider-control::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-indigo);
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+}
+
+.slider-control::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.canvas-actions {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+.canvas-actions .btn {
+    flex: 1;
+}
+
+.canvas-size-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.canvas-size-btn {
+    flex: 1;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition-fast);
+}
+
+.canvas-size-btn:hover {
+    color: var(--text-primary);
+}
+
+.canvas-size-btn.active {
+    background-color: var(--color-indigo);
+    border-color: var(--color-indigo);
+    color: white;
+}
+
+/* [Tab 3] Sales Analytics Specific */
+.analytics-upload-wrapper {
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.analytics-upload-wrapper .file-uploader {
+    flex: 1;
+    padding: 1.5rem;
+    flex-direction: row;
+    height: 80px;
+    border-radius: var(--radius-md);
+}
+
+.analytics-demo-box {
+    display: flex;
+    align-items: center;
+}
+
+/* KPI Grid */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .kpi-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 480px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.kpi-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.kpi-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.kpi-card[data-kpi="revenue"] .kpi-icon-wrapper {
+    background-color: rgba(3, 199, 90, 0.1);
+    color: var(--color-naver);
+}
+.kpi-card[data-kpi="orders"] .kpi-icon-wrapper {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--color-indigo);
+}
+.kpi-card[data-kpi="aov"] .kpi-icon-wrapper {
+    background-color: rgba(14, 165, 233, 0.1);
+    color: var(--color-info);
+}
+.kpi-card[data-kpi="returns"] .kpi-icon-wrapper {
+    background-color: rgba(244, 63, 94, 0.1);
+    color: var(--color-danger);
+}
+
+.kpi-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.kpi-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.kpi-value {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Charts Grid */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 320px;
+    width: 100%;
+}
+
+/* Data Table Styling */
+.table-filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.table-filter-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-input-wrapper input {
+    padding-left: 2.25rem;
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.table-filter-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    background-color: rgba(255, 255, 255, 0.01);
+}
+
+table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+table.data-table th, table.data-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+table.data-table th {
+    background-color: var(--bg-tertiary);
+    font-weight: 600;
+    color: var(--text-secondary);
+    user-select: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+table.data-table th:hover {
+    color: var(--text-primary);
+}
+
+table.data-table th .sort-icon {
+    display: inline-block;
+    margin-left: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+table.data-table tr:hover td {
+    background-color: rgba(0, 0, 0, 0.015);
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.status-completed {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: var(--color-success);
+}
+
+.status-pending {
+    background-color: rgba(245, 158, 11, 0.12);
+    color: var(--color-warning);
+}
+
+.status-cancelled {
+    background-color: rgba(244, 63, 94, 0.12);
+    color: var(--color-danger);
+}
+
+.table-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.page-indicator {
+    padding: 0.4rem 0.75rem;
+}
+
+/* AI Sales Insight Report Box */
+.insight-box {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(3, 199, 90, 0.05) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.05);
+}
+
+.insight-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 0.75rem;
+}
+
+.insight-title-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.insight-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #a5b4fc, #3dd282);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.insight-badge {
+    background-color: rgba(3, 199, 90, 0.15);
+    color: var(--color-naver);
+    border: 1px solid rgba(3, 199, 90, 0.25);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.insight-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 2rem;
+}
+
+@media (max-width: 800px) {
+    .insight-content-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+}
+
+.insight-summary-points {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.insight-point-item {
+    background-color: rgba(0, 0, 0, 0.015);
+    border-left: 3px solid var(--color-indigo);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.85rem;
+}
+
+.insight-point-item strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.15rem;
+}
+
+.insight-point-item span {
+    color: var(--text-secondary);
+}
+
+.insight-point-item.point-positive {
+    border-left-color: var(--color-naver);
+}
+
+.insight-point-item.point-negative {
+    border-left-color: var(--color-danger);
+}
+
+.insight-recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.insight-rec-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.insight-rec-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.insight-rec-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.insight-rec-list li::before {
+    content: "💡";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-size: 0.85rem;
+}
+
+/* Footer style */
+footer {
+    background-color: #ffffff;
+    border-top: 1px solid var(--border-color);
+    padding: 1.5rem 2rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: auto;
+}
+
+/* Toast Notification */
+.toast-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toast-msg {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--color-indigo);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1.25rem;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transform: translateX(120%);
+    animation: slideIn 0.3s forwards, fadeOut 0.3s 2.7s forwards;
+    pointer-events: none;
+    min-width: 250px;
+}
+
+.toast-msg.toast-success {
+    border-left-color: var(--color-naver);
+}
+
+.toast-msg.toast-danger {
+    border-left-color: var(--color-danger);
+}
+
+@keyframes slideIn {
+    to { transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Empty State Styling */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.empty-state-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    background-color: var(--bg-tertiary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+
+.empty-state-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.empty-state-desc {
+    font-size: 0.85rem;
+    max-width: 300px;
+    margin-bottom: 1.25rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   Virtual Desktop Environment & Windowing
+   ========================================================================== */
+.desktop-env {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2.5rem 1.5rem 6.5rem 1.5rem;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    background: radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(3, 199, 90, 0.15) 0%, transparent 45%),
+                #0f172a; /* Sophisticated premium space-like desktop background */
+    transition: background 0.4s ease, padding 0.4s ease;
+}
+
+.desktop-env.web-mode {
+    background: #f8fafc;
+    padding: 0 0 6rem 0;
+}
+
+.app-window {
+    width: 100%;
+    max-width: 1280px;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.5), 
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--border-color);
+}
+
+.desktop-env.web-mode .app-window {
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.window-title-bar {
+    height: 42px;
+    background-color: #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    user-select: none;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.desktop-env.web-mode .window-title-bar {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    border-bottom: none;
+    padding: 0;
+}
+
+.window-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.control-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    border: 0.5px solid rgba(0, 0, 0, 0.05);
+}
+
+.control-dot.close { background-color: #ef4444; }
+.control-dot.minimize { background-color: #f59e0b; }
+.control-dot.maximize { background-color: #10b981; }
+
+.window-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: -0.01em;
+}
+
+.window-info {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.desktop-dock {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 24px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.desktop-dock:hover {
+    transform: translateX(-50%) scale(1.04);
+}
+
+.dock-item {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: background var(--transition-fast), 
+                color var(--transition-fast), 
+                transform var(--transition-fast);
+}
+
+.dock-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+    transform: translateY(-4px);
+}
+
+.dock-item.active {
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-indigo);
+}
+
+.dock-dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--color-indigo);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 4px;
+}
+
+.dock-item svg {
+    width: 22px;
+    height: 22px;
+}
+
+.dock-tooltip {
+    position: absolute;
+    bottom: 60px;
+    background: rgba(15, 23, 42, 0.9);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateY(5px);
+}
+
+.dock-item:hover .dock-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.badge-select-btn.active {
+    background-color: var(--color-indigo) !important;
+    border-color: var(--color-indigo) !important;
+    color: #ffffff !important;
+}
+
+</style>
+</head>
+<body>
+    <div class="desktop-env">
+        <div class="app-window" id="main-app-window">
+            <div class="window-title-bar">
+                <div class="window-controls">
+                    <span class="control-dot close" title="닫기"></span>
+                    <span class="control-dot minimize" title="최소화"></span>
+                    <span class="control-dot maximize" title="최대화"></span>
+                </div>
+                <div class="window-title">SmartStore All-in-One Power Seller Dashboard</div>
+                <div class="window-info">v1.0.0 Pro</div>
+            </div>
+            <div class="app-container">
+        <!-- Header & Navigation -->
+        <header>
+            <div class="header-content">
+                <a href="#" class="brand">
+                    <div class="brand-logo">SS</div>
+                    <div>
+                        <span class="brand-name">SmartStore Power Seller</span>
+                        <span class="brand-badge">All-in-One Pro</span>
+                    </div>
+                </a>
+                
+                <nav class="nav-tabs">
+                    <button class="tab-btn active" data-tab="keyword">
+                        <i data-lucide="key-round"></i> 키워드 조합기 (SEO)
+                    </button>
+                    <button class="tab-btn" data-tab="thumbnail">
+                        <i data-lucide="sparkles"></i> AI 썸네일 스튜디오
+                    </button>
+                    <button class="tab-btn" data-tab="blog">
+                        <i data-lucide="edit-3"></i> 블로그 홍보글 제작
+                    </button>
+                    <button class="tab-btn" data-tab="analytics">
+                        <i data-lucide="bar-chart-3"></i> 판매 통계 분석
+                    </button>
+                </nav>
+
+                <div class="quick-meta">
+                    <div class="quick-meta-item">
+                        <i data-lucide="clock" style="color: var(--color-indigo); width: 14px; height: 14px;"></i>
+                        <span id="current-time">2026-08-06</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main>
+            <!-- [Tab 1] Keyword Generator SEO -->
+            <section id="tab-keyword" class="tab-content active">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <i data-lucide="key-round" style="color: var(--color-naver);"></i> 키워드 조합기 & 상품명 SEO 매니저
+                    </h1>
+                    <p class="section-desc">네이버 쇼핑 가이드라인에 맞춘 최적의 키워드 순서를 조합하고, 중복 단어와 특수문자를 걸러내 매출을 극대화하는 상품명을 설계합니다.</p>
+                </div>
+
+                <div class="grid-keyword">
+                    <!-- SEO 입력패널 -->
+                    <div class="glass-card">
+                        <div class="card-title">키워드 입력 구성 요소</div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="input-brand">
+                                <span>브랜드명 / 제조사</span>
+                                <span class="desc">선택사항</span>
+                            </label>
+                            <input type="text" id="input-brand" class="form-control naver-focus" placeholder="예: 에이치엔코, 나이키, 삼성">
+                            <div class="preset-tag-container">
+                                <span class="preset-tag" onclick="setKeywordPreset('brand', '에이치엔코')">#에이치엔코</span>
+                                <span class="preset-tag" onclick="setKeywordPreset('brand', '올가닉랩')">#올가닉랩</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="input-main">
+                                <span>메인 키워드 <span class="req">*</span></span>
+                                <span class="desc">가장 중요한 핵심 검색어</span>
+                            </label>
+                            <input type="text" id="input-main" class="form-control naver-focus" placeholder="예: 가죽 숄더백, 무선 청소기">
+                            <div class="preset-tag-container">
+                                <span class="preset-tag" onclick="setKeywordPreset('main', '가죽 숄더백')">#가죽 숄더백</span>
+                                <span class="preset-tag" onclick="setKeywordPreset('main', '맥주컵')">#맥주컵</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="input-sub">
+                                <span>서브 키워드 / 태그</span>
+                                <span class="desc">쉼표(,)로 구분</span>
+                            </label>
+                            <textarea id="input-sub" class="form-control naver-focus" placeholder="예: 여성가방, 데일리백, 20대여성, 가방추천"></textarea>
+                            <div class="preset-tag-container">
+                                <span class="preset-tag" onclick="setKeywordPreset('sub', '여성가방, 데일리백, 20대여성, 가방추천')">#가죽백서브</span>
+                                <span class="preset-tag" onclick="setKeywordPreset('sub', '유리컵, 카페컵, 인테리어소품, 홈카페')">#컵서브</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="input-props">
+                                <span>상품 속성 및 스펙</span>
+                                <span class="desc">색상, 소재, 용량 등 (쉼표 구분)</span>
+                            </label>
+                            <input type="text" id="input-props" class="form-control naver-focus" placeholder="예: 블랙, 소가죽, 라지사이즈">
+                            <div class="preset-tag-container">
+                                <span class="preset-tag" onclick="setKeywordPreset('props', '블랙, 소가죽, 라지사이즈')">#가방스펙</span>
+                                <span class="preset-tag" onclick="setKeywordPreset('props', '내열유리, 450ml, 투명')">#컵스펙</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>SEO 조합 조합 설정</span>
+                            </label>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                                    <input type="checkbox" id="check-dedup" checked style="accent-color: var(--color-naver);"> 중복 단어 자동 제거
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                                    <input type="checkbox" id="check-special" checked style="accent-color: var(--color-naver);"> 특수문자 및 기호 제거
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 1.5rem;">
+                            <label class="form-label"><span>조합 템플릿 선택</span></label>
+                            <select id="select-template" class="form-select">
+                                <option value="standard">기본형 (브랜드 + 메인 + 속성 + 서브)</option>
+                                <option value="brand-last">브랜드 후순위 (메인 + 속성 + 서브 + 브랜드)</option>
+                                <option value="keyword-only">실속 키워드형 (메인 + 서브 + 속성)</option>
+                            </select>
+                        </div>
+
+                        <button id="btn-generate-title" class="btn btn-naver" style="width: 100%; margin-top: 0.5rem;">
+                            <i data-lucide="shuffle"></i> 상품명 조합하기
+                        </button>
+                    </div>
+
+                    <!-- SEO 결과 대시보드 -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div class="card-title">SEO 검수 분석 및 결과</div>
+                            
+                            <!-- 네이버 SEO 룰 알림 -->
+                            <div class="rule-alert">
+                                <strong>네이버 쇼핑 상품명 권장 기준 가이드라인</strong>
+                                <ul>
+                                    <li>글자 수는 25자 이상 ~ 50자 이하를 강력 권장합니다.</li>
+                                    <li>동일한 단어의 반복 입력 및 중복 키워드는 노출 불이익이 있을 수 있습니다.</li>
+                                    <li>특수기호(!, @, ★, ♣ 등) 사용은 배제해야 합니다.</li>
+                                </ul>
+                            </div>
+
+                            <!-- 실시간 게이지 -->
+                            <div class="seo-gauge-wrapper">
+                                <div class="seo-gauge-meta">
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;">실시간 상품명 검사</span>
+                                    <span id="seo-gauge-status" style="font-weight: 700; color: var(--color-danger);">키워드를 입력해 주세요</span>
+                                </div>
+                                <div class="seo-gauge-bar">
+                                    <div id="seo-gauge-fill" class="seo-gauge-fill"></div>
+                                    <!-- 25자(50%) 및 50자(100%) 마커 표시용 -->
+                                    <div class="seo-gauge-marker min" title="최소 권장 (25자)"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                    <span>0자</span>
+                                    <span>25자 (최소 권장)</span>
+                                    <span>50자 (최대 권장)</span>
+                                </div>
+                            </div>
+
+                            <!-- 조합된 결과 카드 리스트 -->
+                            <div class="result-card-list">
+                                <div id="keyword-empty-state" class="empty-state">
+                                    <div class="empty-state-icon"><i data-lucide="key-round"></i></div>
+                                    <div class="empty-state-title">생성된 상품명이 없습니다</div>
+                                    <div class="empty-state-desc">좌측에서 정보를 입력하고 '상품명 조합하기' 버튼을 눌러보세요.</div>
+                                </div>
+                                
+                                <div id="result-container" style="display: none; flex-direction: column; gap: 1rem;">
+                                    <!-- Dynamic content generated by JS will go here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="result-actions" style="display: none; border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1.5rem;">
+                            <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                                <button id="btn-export-txt" class="btn btn-secondary">
+                                    <i data-lucide="download"></i> 텍스트 다운로드 (.txt)
+                                </button>
+                                <button id="btn-copy-all" class="btn btn-naver">
+                                    <i data-lucide="copy"></i> 최적 조합 상품명 복사
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- [Tab 2] AI Thumbnail Studio -->
+            <section id="tab-thumbnail" class="tab-content">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <i data-lucide="sparkles" style="color: var(--color-indigo);"></i> 썸네일 에디터 스튜디오
+                    </h1>
+                    <p class="section-desc">상품 이미지를 업로드하고 배경 누끼, 스튜디오 테마 합성, 상세 색상 보정, 그림자 및 강조 배지/띠지 결합까지 100% 실시간 캔버스로 편집하여 고해상도로 다운로드합니다.</p>
+                </div>
+
+                <div class="grid-thumbnail">
+                    <!-- 썸네일 설정 패널 (좌측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem; height: fit-content; max-height: 750px; overflow-y: auto;">
+                        <div class="card-title">스튜디오 에디터 설정</div>
+
+                        <!-- 1. 이미지 업로드 & 누끼 -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>1. 이미지 업로드 & 배경 누끼</span>
+                                <span class="desc">흰색 배경 이미지를 업로드해도 무방합니다</span>
+                            </label>
+                            <div class="file-uploader" id="thumbnail-drop-zone">
+                                <i data-lucide="upload-cloud" style="width: 28px; height: 28px;"></i>
+                                <div class="file-uploader-text">파일을 끌어다 놓거나 <span>클릭하여 업로드</span></div>
+                                <div class="file-uploader-hint">PNG, JPG, WEBP 지원</div>
+                                <input type="file" id="thumbnail-file-input" accept="image/*" style="display: none;">
+                            </div>
+                            <div id="upload-success-badge" style="display: none; align-items: center; gap: 0.5rem; color: var(--color-naver); font-size: 0.8rem; margin-top: 0.5rem;">
+                                <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+                                <span id="uploaded-filename">product.png</span>
+                                <button id="btn-remove-thumb" class="btn-outline-danger btn-sm" style="border: none; background: transparent; padding: 2px 4px; cursor: pointer; display: inline-flex; align-items: center; border-radius: 4px; margin-left: auto;">제거</button>
+                            </div>
+                            <button id="btn-nooki" class="btn btn-secondary btn-sm" style="width: 100%; margin-top: 0.5rem; display: none; align-items: center; justify-content: center; gap: 0.35rem;">
+                                <i data-lucide="wand-2" style="width: 14px; height: 14px;"></i> 🪄 흰색 배경 누끼 투명화 (자동)
+                            </button>
+                        </div>
+
+                        <!-- 2. 스튜디오 배경 선택 -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>2. 스튜디오 배경 선택</span>
+                                <span class="desc">6가지 감성 배경 프리셋</span>
+                            </label>
+                            <select id="studio-bg-select" class="form-select">
+                                <option value="studio">1. 스튜디오 3D 그라데이션</option>
+                                <option value="wood">2. 아늑한 감성 원목 테이블</option>
+                                <option value="pastel">3. 파스텔 핑크-블루 그라데이션</option>
+                                <option value="dark">4. 프리미엄 다크 스튜디오</option>
+                                <option value="marble" selected>5. 고급 대리석 마블</option>
+                                <option value="minimal">6. 미니멀 모던 그레이</option>
+                            </select>
+                        </div>
+
+                        <!-- AI 맞춤 배경 생성 -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>AI 맞춤 배경 이미지 생성 (무료)</span>
+                                <span class="desc">원하는 연출 묘사를 입력하세요</span>
+                            </label>
+                            <textarea id="input-ai-prompt" class="form-control" style="font-size: 0.8rem; min-height: 60px; line-height: 1.4;" placeholder="예: 럭셔리 대리석 화장대 위에 놓인 제품, 부드러운 자연광, 뒤쪽 나뭇잎 그림자, 감성적인 아웃포커싱"></textarea>
+                            <button id="btn-generate-ai-bg" class="btn btn-indigo btn-sm" style="width: 100%; margin-top: 0.5rem;">
+                                <i data-lucide="wand-2"></i> AI 맞춤 배경 생성
+                            </button>
+                        </div>
+
+                        <!-- 3. 상품 배치 및 변형 -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>3. 상품 배치 및 크기 조정</span>
+                                <span class="desc">위치 및 좌우 회전</span>
+                            </label>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>상품 크기 (Scale)</span>
+                                    <span id="val-product-scale">1.0</span>
+                                </div>
+                                <input type="range" id="range-product-scale" min="0.3" max="2.0" step="0.05" value="1.0" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>위치 X (좌우)</span>
+                                    <span id="val-product-pos-x">0</span>
+                                </div>
+                                <input type="range" id="range-product-pos-x" min="-500" max="500" value="0" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>위치 Y (상하)</span>
+                                    <span id="val-product-pos-y">0</span>
+                                </div>
+                                <input type="range" id="range-product-pos-y" min="-500" max="500" value="0" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>회전 각도 (Rotate)</span>
+                                    <span id="val-product-rotate">0°</span>
+                                </div>
+                                <input type="range" id="range-product-rotate" min="-180" max="180" value="0" class="slider-control">
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button type="button" id="btn-flip-h" class="btn btn-secondary btn-sm" style="flex: 1; font-size: 0.75rem;">↔️ 좌우 반전</button>
+                            </div>
+                        </div>
+
+                        <!-- 4. 이미지 색상 세부 보정 -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>4. 이미지 색상 세부 보정</span>
+                                <span class="desc">밝기, 대비, 채도</span>
+                            </label>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>밝기 (Brightness)</span>
+                                    <span id="val-product-brightness">100%</span>
+                                </div>
+                                <input type="range" id="range-product-brightness" min="50" max="150" value="100" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>대비 (Contrast)</span>
+                                    <span id="val-product-contrast">100%</span>
+                                </div>
+                                <input type="range" id="range-product-contrast" min="50" max="150" value="100" class="slider-control">
+                            </div>
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>채도 (Saturation)</span>
+                                    <span id="val-product-saturation">100%</span>
+                                </div>
+                                <input type="range" id="range-product-saturation" min="0" max="200" value="100" class="slider-control">
+                            </div>
+                        </div>
+
+                        <!-- 5. 그림자 세부 제어 -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>5. 그림자 세부 제어</span>
+                                <span class="desc">그림자의 깊이와 흐림도</span>
+                            </label>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>그림자 진하기 (Opacity)</span>
+                                    <span id="val-shadow-opacity">0.3</span>
+                                </div>
+                                <input type="range" id="range-shadow-opacity" min="0" max="1" step="0.05" value="0.3" class="slider-control">
+                            </div>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label">
+                                    <span>그림자 흐림 (Blur)</span>
+                                    <span id="val-shadow-blur">20px</span>
+                                </div>
+                                <input type="range" id="range-shadow-blur" min="0" max="100" value="20" class="slider-control">
+                            </div>
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>Y축 오프셋 (Offset Y)</span>
+                                    <span id="val-shadow-y">15px</span>
+                                </div>
+                                <input type="range" id="range-shadow-y" min="-100" max="100" value="15" class="slider-control">
+                            </div>
+                        </div>
+
+                        <!-- 6. 배지 & 커스텀 문구 -->
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label class="form-label">
+                                <span>6. 배지 & 커스텀 문구</span>
+                                <span class="desc">1+1, 1+1+1 및 배너 문구 추가</span>
+                            </label>
+                            <div class="slider-group" style="margin-bottom: 0.75rem;">
+                                <div class="slider-label" style="margin-bottom: 0.35rem;">
+                                    <span>강조 배지 선택</span>
+                                </div>
+                                <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;" id="badge-buttons-group">
+                                    <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="1+1" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">1+1</button>
+                                    <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="1+1+1" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">1+1+1</button>
+                                    <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="BEST" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">BEST</button>
+                                    <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="무료배송" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">무료배송</button>
+                                    <button type="button" class="btn btn-secondary btn-sm badge-select-btn" data-badge="신상품" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">신상품</button>
+                                    <button type="button" class="btn btn-secondary btn-sm badge-select-btn active" data-badge="" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">없음</button>
+                                </div>
+                            </div>
+                            <div class="slider-group">
+                                <div class="slider-label" style="margin-bottom: 0.35rem;">
+                                    <span>하단 띠지 홍보 문구</span>
+                                </div>
+                                <input type="text" id="input-sash-text" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;" placeholder="예: 오늘 출발 / 한정 수량">
+                            </div>
+                        </div>
+
+                        <!-- 초기화 및 다운로드 -->
+                        <div style="display: flex; gap: 0.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                            <button id="btn-reset-thumbnail" class="btn btn-secondary" style="flex: 1;">
+                                <i data-lucide="rotate-ccw"></i> 초기화
+                            </button>
+                            <button id="btn-download-thumbnail" class="btn btn-indigo" style="flex: 2;">
+                                <i data-lucide="download"></i> 고화질 다운로드 (.PNG)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 캔버스 라이브 프리뷰 패널 (우측) -->
+                    <div class="glass-card canvas-layout-wrapper" style="align-items: center; justify-content: center;">
+                        <div class="card-title" style="width: 100%;">
+                            <span>스튜디오 실시간 캔버스</span>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: normal;">
+                                📷 규격: 1000 × 1000 px 정방형 고화질
+                            </div>
+                        </div>
+
+                        <!-- 1000x1000 고정형 실제 Canvas 엘리먼트 -->
+                        <div style="border: 4px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; background-color: #111111; max-width: 100%; display: flex; align-items: center; justify-content: center; padding: 4px; box-shadow: var(--shadow-lg);">
+                            <canvas id="studioCanvas" width="1000" height="1000" style="max-width: 100%; height: auto; width: 450px; object-fit: contain; display: block;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- [Tab 4] Blog Copywriting Creator -->
+            <section id="tab-blog" class="tab-content">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <i data-lucide="edit-3" style="color: var(--color-indigo);"></i>
+                        블로그 홍보글 제작기 (Blog Copywriting Studio)
+                    </h1>
+                    <p class="section-desc">상품의 핵심 강점(USP)을 결합하여 네이버 블로그 최적화 노출 규칙에 맞는 자연스러운 홍보 포스팅 본문을 제작합니다.</p>
+                </div>
+
+                <div class="grid-keyword">
+                    <!-- 입력 컨트롤 패널 (좌측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem; height: fit-content;">
+                        <div class="card-title">블로그 포스팅 설정</div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>상품명 및 타겟 키워드</span>
+                                <span class="desc">홍보할 상품 이름</span>
+                            </label>
+                            <input type="text" id="input-blog-prodname" class="form-control" placeholder="예: 에이치엔코 천연 가죽 숄더백">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>상품 핵심 특징 (USP)</span>
+                                <span class="desc">한 줄에 하나씩, 최대 4개</span>
+                            </label>
+                            <textarea id="input-blog-usp" class="form-control" style="min-height: 90px; line-height: 1.4;" placeholder="예:&#10;- 이탈리아 최고급 천연 소가죽 사용&#10;- 420g의 깃털 같은 무게감&#10;- 태블릿도 쏙 들어가는 대용량 수납공간&#10;- 20~30대 오피스룩에 찰떡인 디자인"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span>글톤 및 작성 스타일</span></label>
+                            <select id="select-blog-tone" class="form-select">
+                                <option value="review">친근하고 생생한 일상 후기체 (체험단 스타일)</option>
+                                <option value="brand">신뢰감 있고 정중한 공식 홍보체 (브랜드 블로그)</option>
+                                <option value="sales">파격적인 혜택 강조 세일즈체 (이벤트/핫딜)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span>추천 해시태그 개수</span></label>
+                            <select id="select-blog-tags" class="form-select">
+                                <option value="5">5개 추천</option>
+                                <option value="10" selected>10개 추천</option>
+                                <option value="15">15개 추천</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span>블로그 본문 레이아웃 구조</span></label>
+                            <select id="select-blog-layout" class="form-select">
+                                <option value="standard">표준 3단 구성 (서론 - 본론 - 결론)</option>
+                                <option value="experience">체험단 필수 흐름 (배송/언박싱 - 실사용 - 총평)</option>
+                                <option value="qa">질문/답변 정보 제공형 (이런 분께 추천 - 장단점 비교)</option>
+                            </select>
+                        </div>
+
+                        <button id="btn-generate-blog" class="btn btn-indigo" style="width: 100%; margin-top: 0.5rem;">
+                            <i data-lucide="edit-3"></i> 블로그 홍보글 초안 작성
+                        </button>
+                    </div>
+
+                    <!-- 생성 결과 패널 (우측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                        <div class="card-title">홍보 포스팅 결과물</div>
+
+                        <div id="blog-result-placeholder" class="empty-state" style="padding: 5rem 0;">
+                            <div class="empty-state-icon" style="background-color: rgba(99, 102, 241, 0.1); color: var(--color-indigo);">
+                                <i data-lucide="file-text" style="width: 28px; height: 28px;"></i>
+                            </div>
+                            <div class="empty-state-title">설정 입력 후 작성 버튼을 클릭하세요</div>
+                            <div class="empty-state-desc">좌측에서 정보를 입력하면 블로그 SEO 기준에 부합하는 홍보글 초안이 여기에 자동으로 생성됩니다.</div>
+                        </div>
+
+                        <div id="blog-result-content" style="display: none; flex-direction: column; gap: 1.25rem;">
+                            <!-- 블로그 제목 제안 -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>추천 블로그 제목 (SEO 최적화)</span>
+                                    <span class="desc">가장 마음에 드는 제목을 골라 복사하세요</span>
+                                </label>
+                                <div class="result-card-list" id="blog-titles-list">
+                                    <!-- Dynamic titles go here -->
+                                </div>
+                            </div>
+
+                            <!-- 블로그 본문 초안 -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>포스팅 본문 초안</span>
+                                    <span class="desc">[이미지] 지시에 맞춰 사진을 끼워 넣어 업로드하세요</span>
+                                </label>
+                                <div class="form-control" id="blog-body-text" style="background-color: var(--bg-secondary); min-height: 250px; font-family: var(--font-sans); white-space: pre-wrap; font-size: 0.88rem; line-height: 1.6; border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); overflow-y: auto; max-height: 500px; user-select: text;">
+                                    <!-- Dynamic post body goes here -->
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <button id="btn-copy-blog-body" class="btn btn-secondary btn-sm" style="flex: 1;">
+                                        <i data-lucide="copy"></i> 본문 복사하기
+                                    </button>
+                                    <button id="btn-download-blog-txt" class="btn btn-outline-danger btn-sm" style="flex: 1;">
+                                        <i data-lucide="download"></i> TXT 파일로 다운로드
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 추천 태그 -->
+                            <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+                                <label class="form-label">
+                                    <span>추천 태그 (해시태그)</span>
+                                    <span class="desc">해시태그 영역에 통째로 복사해서 넣으세요</span>
+                                </label>
+                                <div id="blog-tags-container" style="display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.8rem; font-family: monospace;">
+                                    <!-- Dynamic tags go here -->
+                                </div>
+                                <button id="btn-copy-blog-tags" class="btn btn-secondary btn-sm" style="width: 100%; margin-top: 0.5rem;">
+                                    <i data-lucide="copy"></i> 태그 복사하기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- [Tab 3] Sales & Revenue Analytics -->
+            <section id="tab-analytics" class="tab-content">
+                <div class="section-header font-sans">
+                    <h1 class="section-title">
+                        <i data-lucide="bar-chart-3" style="color: var(--color-info);"></i> 판매 실적 & 통계 데이터 분석
+                    </h1>
+                    <p class="section-desc">스마트스토어 정산 Excel 또는 CSV 거래 데이터를 업로드하여 매출 추이, 카테고리 기여도, 상품 점유율을 시각화하고 AI 자동 인사이트 리포트를 받아봅니다.</p>
+                </div>
+
+                <!-- 업로더 및 데모 데이터 불러오기 -->
+                <div class="glass-card analytics-upload-wrapper">
+                    <div class="file-uploader" id="analytics-drop-zone">
+                        <i data-lucide="file-spreadsheet" style="width: 24px; height: 24px; color: var(--color-info);"></i>
+                        <div class="file-uploader-text">스마트스토어 판매 정산 엑셀(.xlsx) 또는 CSV 파일을 <span>여기에 드래그</span></div>
+                        <input type="file" id="analytics-file-input" accept=".xlsx, .xls, .csv" style="display: none;">
+                    </div>
+                    
+                    <div class="analytics-demo-box">
+                        <button id="btn-load-demo-data" class="btn btn-secondary" style="height: 100%; border: 1px dashed var(--color-info);">
+                            <i data-lucide="play-circle" style="color: var(--color-info);"></i> 데모 데이터 즉시 불러오기
+                        </button>
+                    </div>
+                </div>
+
+                <div id="analytics-content" style="display: none;">
+                    <!-- 4 KPI Summary Cards -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card" data-kpi="revenue">
+                            <div class="kpi-icon-wrapper">
+                                <i data-lucide="won-sign"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-label">총 매출액 (정산 기준)</div>
+                                <div class="kpi-value" id="kpi-total-sales">₩0</div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" data-kpi="orders">
+                            <div class="kpi-icon-wrapper">
+                                <i data-lucide="shopping-bag"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-label">총 주문 건수</div>
+                                <div class="kpi-value" id="kpi-total-orders">0건</div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" data-kpi="aov">
+                            <div class="kpi-icon-wrapper">
+                                <i data-lucide="trending-up"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-label">평균 주문 객단가 (AOV)</div>
+                                <div class="kpi-value" id="kpi-aov">₩0</div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" data-kpi="returns">
+                            <div class="kpi-icon-wrapper">
+                                <i data-lucide="alert-triangle"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-label">반품 / 취소 비율</div>
+                                <div class="kpi-value" id="kpi-return-rate">0.0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="charts-grid">
+                        <!-- Line Chart: Sales Trend -->
+                        <div class="glass-card">
+                            <div class="card-title">
+                                <span>일별/월별 매출 트렌드 추이</span>
+                                <i data-lucide="trending-up" style="width: 16px; height: 16px; color: var(--text-muted);"></i>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="chart-sales-trend"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Pie/Doughnut Chart: Category Share -->
+                        <div class="glass-card">
+                            <div class="card-title">
+                                <span>카테고리별 매출 점유율</span>
+                                <i data-lucide="pie-chart" style="width: 16px; height: 16px; color: var(--text-muted);"></i>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="chart-category-share"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Searchable & Filterable Table -->
+                    <div class="glass-card">
+                        <div class="card-title">상세 거래 정보 이력</div>
+
+                        <!-- 필터 제어바 -->
+                        <div class="table-filter-bar">
+                            <div class="table-filter-left">
+                                <div class="search-input-wrapper">
+                                    <i data-lucide="search" class="search-icon" style="width: 16px; height: 16px;"></i>
+                                    <input type="text" id="table-search-input" class="form-control" placeholder="상품명 또는 주문번호 검색...">
+                                </div>
+                                <select id="table-filter-category" class="form-select" style="max-width: 160px;">
+                                    <option value="all">전체 카테고리</option>
+                                    <!-- Dynamic options -->
+                                </select>
+                                <select id="table-filter-status" class="form-select" style="max-width: 140px;">
+                                    <option value="all">전체 배송상태</option>
+                                    <option value="결제완료">결제완료</option>
+                                    <option value="배송중">배송중</option>
+                                    <option value="배송완료">배송완료</option>
+                                    <option value="취소/반품">취소/반품</option>
+                                </select>
+                            </div>
+
+                            <div class="table-filter-right">
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">보기 설정:</span>
+                                <select id="table-page-size" class="form-select" style="max-width: 90px; padding: 0.4rem 0.5rem; font-size: 0.8rem;">
+                                    <option value="10">10개씩</option>
+                                    <option value="25">25개씩</option>
+                                    <option value="50">50개씩</option>
+                                </select>
+                                <button id="btn-export-excel" class="btn btn-secondary btn-sm">
+                                    <i data-lucide="download-cloud"></i> 분석결과 다운로드 (CSV)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 데이터 테이블 -->
+                        <div class="table-wrapper">
+                            <table class="data-table" id="sales-data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-column="date">주문 일자 <span class="sort-icon" id="sort-date">▼</span></th>
+                                        <th data-column="orderId">주문 번호 <span class="sort-icon" id="sort-orderId"></span></th>
+                                        <th data-column="category">카테고리 <span class="sort-icon" id="sort-category"></span></th>
+                                        <th data-column="product">상품명 <span class="sort-icon" id="sort-product"></span></th>
+                                        <th data-column="quantity" style="text-align: right;">수량 <span class="sort-icon" id="sort-quantity"></span></th>
+                                        <th data-column="revenue" style="text-align: right;">주문금액(원) <span class="sort-icon" id="sort-revenue"></span></th>
+                                        <th data-column="status" style="text-align: center;">주문상태 <span class="sort-icon" id="sort-status"></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sales-table-body">
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 페이징 제어 -->
+                        <div class="table-pagination">
+                            <div id="table-info-text">검색 결과 총 0건 중 0 - 0 표시</div>
+                            <div class="pagination-controls">
+                                <button id="btn-prev-page" class="btn btn-secondary btn-sm" disabled><i data-lucide="chevron-left" style="width: 14px; height: 14px;"></i></button>
+                                <span class="page-indicator" id="page-number-text">페이지 1</span>
+                                <button id="btn-next-page" class="btn btn-secondary btn-sm" disabled><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Sales Insight Report Box -->
+                    <div class="insight-box">
+                        <div class="insight-header">
+                            <div class="insight-title-area">
+                                <i data-lucide="cpu" style="color: var(--color-naver); width: 22px; height: 22px;"></i>
+                                <span class="insight-title">SmartStore AI 판매 인사이트 종합 진단</span>
+                            </div>
+                            <span class="insight-badge">실시간 알고리즘 진단 완료</span>
+                        </div>
+
+                        <div class="insight-content-grid">
+                            <!-- 데이터 기반 주요 통계 요약 -->
+                            <div class="insight-summary-points" id="insight-summary-points">
+                                <!-- Dynamic insight summary points will be inserted here -->
+                            </div>
+
+                            <!-- 상세 성장 가이드 권장 사항 -->
+                            <div class="insight-recommendations">
+                                <div class="insight-rec-title">
+                                    <i data-lucide="lightbulb" style="color: var(--color-warning); width: 16px; height: 16px;"></i>
+                                    <span>매출 성장을 위한 AI 추천 액션 플랜</span>
+                                </div>
+                                <ul class="insight-rec-list" id="insight-recommendations-list">
+                                    <!-- Dynamic list items will be inserted here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State before upload -->
+                <div class="glass-card" id="analytics-empty-state" style="padding: 5rem 2rem;">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" style="background-color: rgba(14, 165, 233, 0.1); color: var(--color-info);">
+                            <i data-lucide="file-spreadsheet" style="width: 28px; height: 28px;"></i>
+                        </div>
+                        <div class="empty-state-title" style="font-size: 1.25rem;">거래 장부 데이터를 분석할 준비가 되었습니다</div>
+                        <div class="empty-state-desc" style="max-width: 420px; font-size: 0.9rem; margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                            스마트스토어 정산 파일(Excel 또는 CSV)을 업로드하거나 아래의 '데모 데이터 즉시 불러오기' 버튼을 클릭하여 시각화 차트와 실시간 AI 분석 결과를 확인해 보세요.
+                        </div>
+                        <button id="btn-empty-load-demo" class="btn btn-info">
+                            <i data-lucide="play-circle"></i> 데모 데이터로 즉시 시작하기
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>© 2026 SmartStore All-in-One Power Seller Dashboard. Designed for optimal SEO & Conversion Rates.</div>
+                <div>v1.0.0 Pro · System Engine Local Ready</div>
+            </div>
+        </footer>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container"></div>
+    </div> <!-- Close app-container -->
+    </div> <!-- Close app-window -->
+
+    <!-- Desktop Dock -->
+    <div class="desktop-dock">
+        <button class="dock-item active" id="dock-btn-app" title="대시보드 앱">
+            <i data-lucide="layout-dashboard"></i>
+            <span class="dock-dot"></span>
+        </button>
+        <button class="dock-item" id="dock-btn-mode-toggle" title="웹뷰 / 데스크톱 모드 전환">
+            <i data-lucide="monitor"></i>
+            <span class="dock-tooltip">웹뷰/데스크톱 전환</span>
+        </button>
+    </div>
+    </div> <!-- Close desktop-env -->
+
+    <!-- Libraries CDNs -->
+    <!-- SheetJS (Excel Parsing) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Chart.js (Data Visualizations) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+    
+    <!-- Application Logic -->
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize Lucide Icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
+    // Set current date
+    const dateElement = document.getElementById('current-time');
+    if (dateElement) {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        dateElement.textContent = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Initialize Toast Notification
+    window.showToast = function(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = `toast-msg toast-${type}`;
+        
+        let iconName = 'info';
+        if (type === 'success') iconName = 'check-circle';
+        if (type === 'danger') iconName = 'alert-triangle';
+        
+        toast.innerHTML = `
+            <i data-lucide="${iconName}" style="width: 16px; height: 16px;"></i>
+            <span>${message}</span>
+        `;
+        
+        container.appendChild(toast);
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons({ attrs: { class: 'lucide-toast-icon' } });
+        }
+
+        // Auto remove
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    };
+
+    // 2. Tab Navigation
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.getAttribute('data-tab');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            tab.classList.add('active');
+            const targetContent = document.getElementById(`tab-${target}`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+
+            // Trigger chart update if resizing issues occur on hidden tabs
+            if (target === 'analytics') {
+                setTimeout(updateCharts, 50);
+            }
+
+            // Trigger canvas redraw when thumbnail tab is clicked
+            if (target === 'thumbnail') {
+                setTimeout(updateStudioCanvas, 50);
+            }
+        });
+    });
+
+
+    /* ==========================================================================
+       [Tab 1] SEO Keyword Title Combiner Logic
+       ========================================================================== */
+    const brandInput = document.getElementById('input-brand');
+    const mainInput = document.getElementById('input-main');
+    const subInput = document.getElementById('input-sub');
+    const propsInput = document.getElementById('input-props');
+    const btnGenerate = document.getElementById('btn-generate-title');
+    const dedupCheck = document.getElementById('check-dedup');
+    const specialCheck = document.getElementById('check-special');
+    const selectTemplate = document.getElementById('select-template');
+    
+    const resultContainer = document.getElementById('result-container');
+    const keywordEmptyState = document.getElementById('keyword-empty-state');
+    const resultActions = document.getElementById('result-actions');
+    const btnCopyAll = document.getElementById('btn-copy-all');
+    const btnExportTxt = document.getElementById('btn-export-txt');
+
+    const gaugeFill = document.getElementById('seo-gauge-fill');
+    const gaugeStatus = document.getElementById('seo-gauge-status');
+
+    // Preset tag injection
+    window.setKeywordPreset = function(field, value) {
+        if (field === 'brand') brandInput.value = value;
+        if (field === 'main') mainInput.value = value;
+        if (field === 'sub') subInput.value = value;
+        if (field === 'props') propsInput.value = value;
+        
+        showToast('프리셋 키워드가 삽입되었습니다.', 'success');
+        updateSeoGauge();
+    };
+
+    // Clean String Utility
+    function cleanKeywordString(str, removeSpecial) {
+        if (!str) return '';
+        let cleaned = str;
+        if (removeSpecial) {
+            // Remove typical special characters but keep spaces and commas
+            cleaned = cleaned.replace(/[^a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s,]/g, ' ');
+        }
+        return cleaned;
+    }
+
+    // Title combination algorithm
+    function generateTitles() {
+        const brand = brandInput.value.trim();
+        const main = mainInput.value.trim();
+        const subRaw = subInput.value.trim();
+        const propsRaw = propsInput.value.trim();
+
+        if (!main) {
+            showToast('메인 키워드는 필수 입력 사항입니다.', 'danger');
+            mainInput.focus();
+            return;
+        }
+
+        const isDedup = dedupCheck.checked;
+        const isCleanSpecial = specialCheck.checked;
+
+        // Clean inputs
+        const cleanBrand = cleanKeywordString(brand, isCleanSpecial);
+        const cleanMain = cleanKeywordString(main, isCleanSpecial);
+        
+        // Parse sub keywords and properties (split by comma or space)
+        let subList = subRaw.split(/[,\n]/).map(s => s.trim()).filter(s => s.length > 0);
+        let propsList = propsRaw.split(/[,\n]/).map(p => p.trim()).filter(p => p.length > 0);
+
+        if (isCleanSpecial) {
+            subList = subList.map(s => cleanKeywordString(s, true));
+            propsList = propsList.map(p => cleanKeywordString(p, true));
+        }
+
+        // Templates rendering
+        const template = selectTemplate.value;
+        let combinations = [];
+
+        if (template === 'standard') {
+            // Brand + Main + Properties + Sub Keywords
+            combinations.push(assembleTitle(cleanBrand, cleanMain, propsList, subList));
+            // Alternative: Main + Brand + Properties + Sub Keywords
+            combinations.push(assembleTitle(cleanMain, cleanBrand, propsList, subList));
+            // Alternative: Brand + Properties + Main + Sub Keywords
+            combinations.push(assembleTitle(cleanBrand, propsList, cleanMain, subList));
+        } else if (template === 'brand-last') {
+            // Main + Properties + Sub Keywords + Brand
+            combinations.push(assembleTitle(cleanMain, propsList, subList, cleanBrand));
+            // Alternative: Properties + Main + Sub Keywords + Brand
+            combinations.push(assembleTitle(propsList, cleanMain, subList, cleanBrand));
+            // Alternative: Main + Sub Keywords + Properties + Brand
+            combinations.push(assembleTitle(cleanMain, subList, propsList, cleanBrand));
+        } else if (template === 'keyword-only') {
+            // Main + Sub Keywords + Properties
+            combinations.push(assembleTitle(cleanMain, subList, propsList, ''));
+            // Alternative: Sub Keywords + Main + Properties
+            combinations.push(assembleTitle(subList, cleanMain, propsList, ''));
+            // Alternative: Main + Properties + Sub Keywords (without Brand)
+            combinations.push(assembleTitle(cleanMain, propsList, subList, ''));
+        }
+
+        // Render Results
+        renderResults(combinations);
+        updateSeoGauge(combinations[0]);
+    }
+
+    function assembleTitle(...parts) {
+        // Flatten arrays and join elements with spaces
+        let elements = [];
+        parts.forEach(part => {
+            if (Array.isArray(part)) {
+                elements.push(...part);
+            } else if (part) {
+                elements.push(part);
+            }
+        });
+
+        // Split into words, remove empty items
+        let words = elements.flatMap(el => el.split(/\s+/)).filter(w => w.length > 0);
+
+        // Remove duplicate words if enabled
+        if (dedupCheck.checked) {
+            words = [...new Set(words)];
+        }
+
+        return words.join(' ');
+    }
+
+    function renderResults(combinations) {
+        resultContainer.innerHTML = '';
+        keywordEmptyState.style.display = 'none';
+        resultContainer.style.display = 'flex';
+        resultActions.style.display = 'block';
+
+        combinations.forEach((title, index) => {
+            const charCount = title.length;
+            const byteCount = getByteLength(title);
+            const wordCount = title.split(/\s+/).filter(w => w.length > 0).length;
+
+            const isBest = index === 0;
+            const badgeText = isBest ? '추천 최적 조합' : `대안 조합 ${index}`;
+            
+            // SEO score evaluation
+            let seoStatus = '양호';
+            let seoClass = 'success-text';
+            if (charCount < 25) {
+                seoStatus = '길이 미달 (25자 이상 권장)';
+                seoClass = 'danger-text';
+            } else if (charCount > 50) {
+                seoStatus = '길이 초과 (50자 이하 권장)';
+                seoClass = 'danger-text';
+            }
+
+            const card = document.createElement('div');
+            card.className = 'result-card';
+            card.innerHTML = `
+                <div class="result-header">
+                    <span class="result-badge" style="${isBest ? '' : 'background-color: var(--bg-tertiary); color: var(--text-secondary);'}">${badgeText}</span>
+                    <span class="result-stats">
+                        <span class="stat-badge">단어수: ${wordCount}개</span>
+                        <span class="stat-badge">바이트: ${byteCount}B</span>
+                    </span>
+                </div>
+                <div class="result-title" id="title-text-${index}">${title}</div>
+                <div class="result-footer">
+                    <span class="stat-badge ${seoClass}">${charCount}자 · ${seoStatus}</span>
+                    <button class="btn btn-secondary btn-sm" onclick="copyTitleText(${index})">
+                        <i data-lucide="copy" style="width: 12px; height: 12px;"></i> 복사하기
+                    </button>
+                </div>
+            `;
+            resultContainer.appendChild(card);
+        });
+
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    // Get byte length of string (EUC-KR or typical Korean byte calc: Korean 2 bytes, English 1 byte)
+    function getByteLength(s) {
+        let b = 0;
+        for (let i = 0; i < s.length; i++) {
+            const c = s.charCodeAt(i);
+            b += (c >> 11) ? 3 : ((c >> 7) ? 2 : 1); // rough UTF-8 byte estimate, let's use standard EUC-KR style: Korean = 2, English = 1
+        }
+        
+        let eucKrByte = 0;
+        for (let i = 0; i < s.length; i++) {
+            const charCode = s.charCodeAt(i);
+            if (charCode > 127) {
+                eucKrByte += 2;
+            } else {
+                eucKrByte += 1;
+            }
+        }
+        return eucKrByte;
+    }
+
+    window.copyTitleText = function(index) {
+        const text = document.getElementById(`title-text-${index}`).textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('클립보드에 상품명이 복사되었습니다.', 'success');
+        }).catch(err => {
+            showToast('복사에 실패했습니다.', 'danger');
+        });
+    };
+
+    // Realtime Gauge Update on Type
+    function updateSeoGauge(specificTitle) {
+        let title = specificTitle;
+        if (!title) {
+            // Build temporary title based on standard template
+            const brand = brandInput.value.trim();
+            const main = mainInput.value.trim();
+            const subRaw = subInput.value.trim();
+            const propsRaw = propsInput.value.trim();
+            
+            let subList = subRaw.split(/[,\n]/).map(s => s.trim()).filter(s => s.length > 0);
+            let propsList = propsRaw.split(/[,\n]/).map(p => p.trim()).filter(p => p.length > 0);
+            
+            title = assembleTitle(brand, main, propsList, subList);
+        }
+
+        const len = title.length;
+        // Gauge scaling: 50 characters represents 100% of the gauge width, capped at 100% (or let it expand to 120%)
+        const maxDisplayLen = 60;
+        const percentage = Math.min((len / maxDisplayLen) * 100, 100);
+        
+        gaugeFill.style.width = `${percentage}%`;
+
+        // Update colors and warnings
+        if (len === 0) {
+            gaugeFill.style.background = 'var(--text-muted)';
+            gaugeStatus.textContent = '키워드를 입력해 주세요';
+            gaugeStatus.style.color = 'var(--text-muted)';
+        } else if (len < 25) {
+            gaugeFill.style.background = 'linear-gradient(to right, var(--color-danger), #f59e0b)';
+            gaugeStatus.textContent = `${len}자 - 길이 부족 (최소 25자 권장)`;
+            gaugeStatus.style.color = 'var(--color-danger)';
+        } else if (len <= 50) {
+            gaugeFill.style.background = 'var(--color-naver)';
+            gaugeStatus.textContent = `${len}자 - 최적의 검색 최적화 상태`;
+            gaugeStatus.style.color = 'var(--color-naver)';
+        } else {
+            gaugeFill.style.background = 'var(--color-danger)';
+            gaugeStatus.textContent = `${len}자 - 길이 초과 (최대 50자 권장)`;
+            gaugeStatus.style.color = 'var(--color-danger)';
+        }
+    }
+
+    // Wire listeners
+    [brandInput, mainInput, subInput, propsInput, dedupCheck, specialCheck, selectTemplate].forEach(el => {
+        el.addEventListener('input', () => updateSeoGauge());
+    });
+
+    btnGenerate.addEventListener('click', generateTitles);
+
+    btnCopyAll.addEventListener('click', () => {
+        const firstTitle = document.getElementById('title-text-0');
+        if (firstTitle) {
+            navigator.clipboard.writeText(firstTitle.textContent).then(() => {
+                showToast('최적 조합 상품명이 복사되었습니다.', 'success');
+            });
+        }
+    });
+
+    btnExportTxt.addEventListener('click', () => {
+        const cards = resultContainer.querySelectorAll('.result-title');
+        if (cards.length === 0) return;
+        
+        let textContent = "SmartStore All-in-One 키워드 조합기 내보내기 결과\r\n";
+        textContent += "생성일자: " + new Date().toLocaleString() + "\r\n";
+        textContent += "==================================================\r\n\r\n";
+        
+        cards.forEach((card, idx) => {
+            textContent += `[조합 ${idx === 0 ? '최적' : idx}] ${card.textContent}\r\n`;
+        });
+
+        const blob = new Blob([textContent], { type: "text/plain;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `smartstore-seo-titles-${Date.now()}.txt`;
+        link.click();
+        showToast('텍스트 파일이 생성되어 다운로드되었습니다.', 'success');
+    });
+
+
+    /* ==========================================================================
+       [Tab 2] AI Product Thumbnail Studio Logic
+       ========================================================================== */
+    const thumbDropZone = document.getElementById('thumbnail-drop-zone');
+    const thumbFileInput = document.getElementById('thumbnail-file-input');
+    const uploadSuccessBadge = document.getElementById('upload-success-badge');
+    const uploadedFilename = document.getElementById('uploaded-filename');
+    const btnRemoveThumb = document.getElementById('btn-remove-thumb');
+
+    const studioCanvas = document.getElementById('studioCanvas');
+    const btnNooki = document.getElementById('btn-nooki');
+    const inputSashText = document.getElementById('input-sash-text');
+    const badgeSelectBtns = document.querySelectorAll('.badge-select-btn');
+    const btnFlipH = document.getElementById('btn-flip-h');
+    const studioBgSelect = document.getElementById('studio-bg-select');
+
+    let originalImgDataUrl = '';
+    let currentBadgeText = '';
+    let isFlippedH = false;
+    let studioImg = new Image(); // Drawing source
+
+    const btnResetThumbnail = document.getElementById('btn-reset-thumbnail');
+    const btnDownloadThumbnail = document.getElementById('btn-download-thumbnail');
+
+    // Slider Controls
+    const shadowBlur = document.getElementById('range-shadow-blur');
+    const shadowOpacity = document.getElementById('range-shadow-opacity');
+    const shadowY = document.getElementById('range-shadow-y');
+    
+    const productScale = document.getElementById('range-product-scale');
+    const productPosX = document.getElementById('range-product-pos-x');
+    const productPosY = document.getElementById('range-product-pos-y');
+    const productRotate = document.getElementById('range-product-rotate');
+
+    // Values labels
+    const valShadowBlur = document.getElementById('val-shadow-blur');
+    const valShadowOpacity = document.getElementById('val-shadow-opacity');
+    const valShadowY = document.getElementById('val-shadow-y');
+    
+    const valProductScale = document.getElementById('val-product-scale');
+    const valProductPosX = document.getElementById('val-product-pos-x');
+    const valProductPosY = document.getElementById('val-product-pos-y');
+    const valProductRotate = document.getElementById('val-product-rotate');
+
+    let backgroundMode = 'preset'; // 'preset' or 'ai'
+    let aiBgImage = null;
+    
+    const inputAiPrompt = document.getElementById('input-ai-prompt');
+    const btnGenerateAiBg = document.getElementById('btn-generate-ai-bg');
+    // Local adjustment controls
+    const rangeProductBrightness = document.getElementById('range-product-brightness');
+    const valProductBrightness = document.getElementById('val-product-brightness');
+    const rangeProductContrast = document.getElementById('range-product-contrast');
+    const valProductContrast = document.getElementById('val-product-contrast');
+    const rangeProductSaturation = document.getElementById('range-product-saturation');
+    const valProductSaturation = document.getElementById('val-product-saturation');
+
+    thumbDropZone.addEventListener('click', () => thumbFileInput.click());
+    
+    thumbDropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        thumbDropZone.classList.add('dragover');
+    });
+
+    thumbDropZone.addEventListener('dragleave', () => {
+        thumbDropZone.classList.remove('dragover');
+    });
+
+    thumbDropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        thumbDropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+            handleUploadedImage(e.dataTransfer.files[0]);
+        }
+    });
+
+    thumbFileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleUploadedImage(e.target.files[0]);
+        }
+    });
+
+    function handleUploadedImage(file) {
+        if (!file.type.startsWith('image/')) {
+            showToast('이미지 파일만 업로드할 수 있습니다.', 'danger');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            originalImgDataUrl = e.target.result;
+            
+            studioImg = new Image();
+            studioImg.onload = () => {
+                // Reset placement to defaults
+                productScale.value = 1.0;
+                productPosX.value = 0;
+                productPosY.value = 0;
+                productRotate.value = 0;
+                isFlippedH = false;
+                
+                // Reset adjustments to defaults
+                rangeProductBrightness.value = 100;
+                rangeProductContrast.value = 100;
+                rangeProductSaturation.value = 100;
+                
+                shadowBlur.value = 20;
+                shadowOpacity.value = 0.3;
+                shadowY.value = 15;
+
+                // Sync labels text
+                valProductScale.textContent = '1.0';
+                valProductPosX.textContent = '0';
+                valProductPosY.textContent = '0';
+                valProductRotate.textContent = '0°';
+                valProductBrightness.textContent = '100%';
+                valProductContrast.textContent = '100%';
+                valProductSaturation.textContent = '100%';
+                valShadowBlur.textContent = '20px';
+                valShadowOpacity.textContent = '0.3';
+                valShadowY.textContent = '15px';
+
+                btnNooki.style.display = 'inline-flex';
+                uploadedFilename.textContent = file.name;
+                uploadSuccessBadge.style.display = 'inline-flex';
+                btnDownloadThumbnail.disabled = false;
+                
+                updateStudioCanvas();
+                showToast('상품 이미지가 에디터에 업로드되었습니다.', 'success');
+            };
+            studioImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    btnRemoveThumb.addEventListener('click', (e) => {
+        e.stopPropagation();
+        originalImgDataUrl = '';
+        studioImg = new Image();
+        btnNooki.style.display = 'none';
+        uploadSuccessBadge.style.display = 'none';
+        thumbFileInput.value = '';
+        btnDownloadThumbnail.disabled = true;
+        updateStudioCanvas();
+        showToast('업로드된 이미지가 제거되었습니다.', 'info');
+    });
+
+    // 🪄 흰색 배경 누끼 투명화 (자동)
+    btnNooki.addEventListener('click', () => {
+        if (!studioImg.src || originalImgDataUrl === '') {
+            showToast('누끼를 딸 상품 이미지를 먼저 업로드해 주세요.', 'danger');
+            return;
+        }
+
+        const tempImg = new Image();
+        tempImg.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = tempImg.naturalWidth;
+            canvas.height = tempImg.naturalHeight;
+            ctx.drawImage(tempImg, 0, 0);
+
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+
+            // Simple white threshold nooki keying (R > 215 & G > 215 & B > 215 => alpha = 0)
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i+1];
+                const b = data[i+2];
+                if (r > 215 && g > 215 && b > 215) {
+                    data[i+3] = 0; // set transparent
+                }
+            }
+            ctx.putImageData(imgData, 0, 0);
+            
+            // Replace preview source
+            studioImg = new Image();
+            studioImg.onload = () => {
+                updateStudioCanvas();
+                showToast('흰색 배경 자동 누끼 처리가 완료되었습니다.', 'success');
+            };
+            studioImg.src = canvas.toDataURL('image/png');
+        };
+        tempImg.src = originalImgDataUrl;
+    });
+
+    // 배지(Badge) 선택 처리
+    badgeSelectBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            badgeSelectBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            currentBadgeText = btn.getAttribute('data-badge');
+            updateStudioCanvas();
+            
+            if (currentBadgeText) {
+                showToast(`배지 '${currentBadgeText}'(으)로 적용되었습니다.`, 'info');
+            } else {
+                showToast('배지가 해제되었습니다.', 'info');
+            }
+        });
+    });
+
+    // 좌우 반전 처리
+    btnFlipH.addEventListener('click', () => {
+        isFlippedH = !isFlippedH;
+        updateStudioCanvas();
+        showToast('좌우 반전 상태가 변경되었습니다.', 'info');
+    });
+
+    // 하단 띠지 홍보 문구 실시간 반영
+    inputSashText.addEventListener('input', () => {
+        updateStudioCanvas();
+    });
+
+    // 스튜디오 배경 셀렉트 박스 처리
+    studioBgSelect.addEventListener('change', () => {
+        backgroundMode = 'preset';
+        updateStudioCanvas();
+        const selectedOpt = studioBgSelect.options[studioBgSelect.selectedIndex].text;
+        showToast(`배경 테마가 '${selectedOpt}'(으)로 변경되었습니다.`, 'info');
+    });
+
+    // AI Custom Background Generation
+    btnGenerateAiBg.addEventListener('click', () => {
+        const promptVal = inputAiPrompt.value.trim();
+        if (!promptVal) {
+            showToast('AI 배경을 생성할 프롬프트 키워드를 입력해 주세요.', 'warning');
+            return;
+        }
+
+        showToast('AI 배경 이미지를 생성 중입니다. 약 5~8초 소요됩니다...', 'info');
+        
+        const encodedPrompt = encodeURIComponent(promptVal);
+        const seed = Math.floor(Math.random() * 100000);
+        const aiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1000&height=1000&seed=${seed}&nologo=true`;
+        
+        const tempBg = new Image();
+        tempBg.crossOrigin = 'anonymous'; // critical to prevent canvas cross-origin security errors on export
+        tempBg.onload = () => {
+            aiBgImage = tempBg;
+            backgroundMode = 'ai';
+            updateStudioCanvas();
+            showToast('AI 맞춤형 스튜디오 배경 생성이 완료되었습니다.', 'success');
+        };
+        tempBg.onerror = () => {
+            showToast('AI 배경 이미지 생성 중 오류가 발생했습니다. 다시 시도해 주세요.', 'danger');
+        };
+        tempBg.src = aiUrl;
+    });
+
+    // Slider configurations for batch value synchronization and canvas redrawing
+    const slidersConfig = [
+        { control: shadowBlur, label: valShadowBlur, suffix: 'px' },
+        { control: shadowOpacity, label: valShadowOpacity, suffix: '' },
+        { control: shadowY, label: valShadowY, suffix: 'px' },
+        { control: productScale, label: valProductScale, suffix: '' },
+        { control: productPosX, label: valProductPosX, suffix: '' },
+        { control: productPosY, label: valProductPosY, suffix: '' },
+        { control: productRotate, label: valProductRotate, suffix: '°' },
+        { control: rangeProductBrightness, label: valProductBrightness, suffix: '%' },
+        { control: rangeProductContrast, label: valProductContrast, suffix: '%' },
+        { control: rangeProductSaturation, label: valProductSaturation, suffix: '%' }
+    ];
+
+    slidersConfig.forEach(cfg => {
+        cfg.control.addEventListener('input', () => {
+            cfg.label.textContent = cfg.control.value + cfg.suffix;
+            updateStudioCanvas();
+        });
+    });
+
+    // Reset studio parameters
+    btnResetThumbnail.addEventListener('click', () => {
+        shadowBlur.value = 20;
+        shadowOpacity.value = 0.3;
+        shadowY.value = 15;
+        productScale.value = 1.0;
+        productPosX.value = 0;
+        productPosY.value = 0;
+        productRotate.value = 0;
+        isFlippedH = false;
+        
+        // Reset image adjustments
+        rangeProductBrightness.value = 100;
+        rangeProductContrast.value = 100;
+        rangeProductSaturation.value = 100;
+        
+        // Sync labels text
+        valShadowBlur.textContent = '20px';
+        valShadowOpacity.textContent = '0.3';
+        valShadowY.textContent = '15px';
+        valProductScale.textContent = '1.0';
+        valProductPosX.textContent = '0';
+        valProductPosY.textContent = '0';
+        valProductRotate.textContent = '0°';
+        valProductBrightness.textContent = '100%';
+        valProductContrast.textContent = '100%';
+        valProductSaturation.textContent = '100%';
+
+        inputAiPrompt.value = '';
+        backgroundMode = 'preset';
+        aiBgImage = null;
+        studioBgSelect.value = 'marble';
+
+        // Reset badge & sash text
+        inputSashText.value = '';
+        currentBadgeText = '';
+        badgeSelectBtns.forEach(b => {
+            b.classList.remove('active');
+            if (b.getAttribute('data-badge') === '') b.classList.add('active');
+        });
+
+        // Restore original image if nooki was applied
+        if (originalImgDataUrl !== '') {
+            studioImg = new Image();
+            studioImg.onload = () => {
+                updateStudioCanvas();
+            };
+            studioImg.src = originalImgDataUrl;
+        } else {
+            updateStudioCanvas();
+        }
+        
+        showToast('스튜디오 설정이 초기화되었습니다.', 'info');
+    });
+
+    // Canvas exporter
+    btnDownloadThumbnail.addEventListener('click', () => {
+        if (!studioImg.src) {
+            showToast('업로드된 상품 사진이 없습니다.', 'danger');
+            return;
+        }
+
+        // Just download the current studioCanvas data directly since it is 100% accurate at 1000x1000px
+        const link = document.createElement('a');
+        link.download = `smartstore-thumbnail-1000x1000-${Date.now()}.png`;
+        link.href = studioCanvas.toDataURL('image/png');
+        link.click();
+        
+        showToast('고화질 썸네일 이미지가 성공적으로 다운로드되었습니다.', 'success');
+    });
+
+    // Real-time Canvas Rendering core engine
+    function updateStudioCanvas() {
+        const canvas = studioCanvas;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width;
+        const H = canvas.height;
+
+        ctx.clearRect(0, 0, W, H);
+
+        // 1. Draw Background (AI or Preset)
+        if (backgroundMode === 'ai' && aiBgImage) {
+            ctx.drawImage(aiBgImage, 0, 0, W, H);
+        } else {
+            const bgType = studioBgSelect.value;
+            if (bgType === 'studio') {
+                // Soft 3D studio radial gradient
+                let grad = ctx.createRadialGradient(W / 2, H * 0.4, W * 0.1, W / 2, H / 2, W * 0.7);
+                grad.addColorStop(0, '#ffffff');
+                grad.addColorStop(1, '#cbd5e1');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+            } else if (bgType === 'wood') {
+                // Wood Table gradient (Rustic brown gradient)
+                const grad = ctx.createLinearGradient(0, 0, 0, H);
+                grad.addColorStop(0, '#7c2d12');
+                grad.addColorStop(1, '#451a03');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+                
+                // Draw simulated wood plank lines
+                ctx.fillStyle = 'rgba(0,0,0,0.08)';
+                const step = H / 8;
+                for (let i = 0; i < H; i += step) {
+                    ctx.fillRect(0, i, W, 2);
+                }
+            } else if (bgType === 'pastel') {
+                // Pastel pink-blue linear gradient
+                let grad = ctx.createLinearGradient(0, 0, W, H);
+                grad.addColorStop(0, '#fce7f3');
+                grad.addColorStop(1, '#e0f2fe');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+            } else if (bgType === 'dark') {
+                // Premium dark radial gradient
+                let grad = ctx.createRadialGradient(W / 2, H / 2, 50, W / 2, H / 2, W * 0.6);
+                grad.addColorStop(0, '#334155');
+                grad.addColorStop(1, '#0f172a');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+            } else if (bgType === 'marble') {
+                // Luxury white-grey marble
+                const grad = ctx.createLinearGradient(0, 0, W, H);
+                grad.addColorStop(0, '#f8fafc');
+                grad.addColorStop(0.5, '#f1f5f9');
+                grad.addColorStop(1, '#cbd5e1');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+
+                // Soft grey veins
+                ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(0, H * 0.2);
+                ctx.bezierCurveTo(W * 0.3, H * 0.1, W * 0.4, H * 0.6, W, H * 0.5);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(W * 0.2, H);
+                ctx.bezierCurveTo(W * 0.5, H * 0.7, W * 0.6, H * 0.3, W * 0.8, 0);
+                ctx.stroke();
+            } else if (bgType === 'minimal') {
+                // Minimal modern grey
+                ctx.fillStyle = '#e2e8f0';
+                ctx.fillRect(0, 0, W, H);
+            }
+        }
+
+        // 2. Draw Product Image
+        if (studioImg.src) {
+            ctx.save();
+
+            const scale = parseFloat(productScale.value);
+            const posX = parseFloat(productPosX.value);
+            const posY = parseFloat(productPosY.value);
+
+            // Filter (brightness, contrast, saturation)
+            const bright = rangeProductBrightness.value;
+            const contrast = rangeProductContrast.value;
+            const saturate = rangeProductSaturation.value;
+            ctx.filter = `brightness(${bright}%) contrast(${contrast}%) saturate(${saturate}%)`;
+
+            // Drop Shadow on canvas
+            const shdAlpha = parseFloat(shadowOpacity.value);
+            const shdBlur = parseFloat(shadowBlur.value);
+            const shdOffY = parseFloat(shadowY.value);
+
+            if (shdAlpha > 0) {
+                ctx.shadowColor = `rgba(0, 0, 0, ${shdAlpha})`;
+                ctx.shadowBlur = shdBlur;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = shdOffY;
+            }
+
+            // Draw product centered + offsets
+            const baseScale = Math.min((W * 0.65) / studioImg.width, (H * 0.65) / studioImg.height) * scale;
+            const finalW = studioImg.width * baseScale;
+            const finalH = studioImg.height * baseScale;
+
+            const centerX = (W / 2) + posX;
+            const centerY = (H / 2) + posY;
+
+            ctx.translate(centerX, centerY);
+            if (isFlippedH) ctx.scale(-1, 1);
+            ctx.rotate((parseInt(productRotate.value) * Math.PI) / 180);
+
+            ctx.drawImage(studioImg, -finalW / 2, -finalH / 2, finalW, finalH);
+            ctx.restore();
+        } else {
+            // Draw placeholder text directly on canvas
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+            ctx.fillRect(0, 0, W, H);
+            
+            ctx.fillStyle = '#64748b';
+            ctx.font = 'bold 32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('상품 이미지를 업로드하세요', W / 2, H / 2 - 20);
+            
+            ctx.font = '16px sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('(드래그 앤 드롭 또는 클릭하여 업로드)', W / 2, H / 2 + 30);
+        }
+
+        // Reset filter context
+        ctx.filter = 'none';
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        // 3. Draw Badge
+        if (currentBadgeText) {
+            ctx.save();
+            const badgeRadius = W * 0.055; // 5.5% of canvas width
+            const centerX = badgeRadius + (W * 0.035);
+            const centerY = badgeRadius + (H * 0.035);
+            
+            // Draw red circle
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, badgeRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Draw white border
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = badgeRadius * 0.06;
+            ctx.stroke();
+
+            // Draw text
+            ctx.fillStyle = '#ffffff';
+            const fontScale = currentBadgeText.length > 3 ? 0.42 : 0.55;
+            ctx.font = `bold ${badgeRadius * fontScale}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(currentBadgeText, centerX, centerY);
+            ctx.restore();
+        }
+
+        // 4. Draw Sash text on bottom
+        const customTextVal = inputSashText.value.trim();
+        if (customTextVal) {
+            ctx.save();
+            const sashH = H * 0.088; // 8.8% of canvas height
+            
+            // Dark gray banner with 85% opacity
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+            ctx.fillRect(0, H - sashH, W, sashH);
+
+            // Yellow bold text
+            ctx.fillStyle = '#facc15';
+            ctx.font = `bold ${sashH * 0.42}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            grad = ctx.createLinearGradient(w, 0, w * 0.6, 0);
+            grad.addColorStop(0, 'rgba(244, 63, 94, 0.2)');
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+            ctx.restore();
+        } else if (lighting === 'studio') {
+            // Soft studio light
+            ctx.save();
+            ctx.globalCompositeOperation = 'overlay';
+            const grad = ctx.createRadialGradient(w * 0.1, h * 0.1, 0, w * 0.1, h * 0.1, w * 0.6);
+            grad.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+            ctx.restore();
+        }
+    }
+
+
+    /* ==========================================================================
+       [Tab 3] Sales Data Analytics & AI Report Logic
+       ========================================================================== */
+    const analyticsDropZone = document.getElementById('analytics-drop-zone');
+    const analyticsFileInput = document.getElementById('analytics-file-input');
+    const btnLoadDemoData = document.getElementById('btn-load-demo-data');
+    const btnEmptyLoadDemo = document.getElementById('btn-empty-load-demo');
+    
+    const analyticsContent = document.getElementById('analytics-content');
+    const analyticsEmptyState = document.getElementById('analytics-empty-state');
+
+    // Stats variables
+    let salesData = [];
+    let filteredSalesData = [];
+    let currentTablePage = 1;
+    let tablePageSize = 10;
+    let currentSortColumn = 'date';
+    let currentSortOrder = 'desc';
+
+    // Chart.js instances
+    let trendChartInstance = null;
+    let shareChartInstance = null;
+
+    // Trigger file uploads
+    analyticsDropZone.addEventListener('click', () => analyticsFileInput.click());
+    
+    analyticsDropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        analyticsDropZone.classList.add('dragover');
+    });
+
+    analyticsDropZone.addEventListener('dragleave', () => {
+        analyticsDropZone.classList.remove('dragover');
+    });
+
+    analyticsDropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        analyticsDropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+            parseSalesFile(e.dataTransfer.files[0]);
+        }
+    });
+
+    analyticsFileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            parseSalesFile(e.target.files[0]);
+        }
+    });
+
+    [btnLoadDemoData, btnEmptyLoadDemo].forEach(btn => {
+        btn.addEventListener('click', () => {
+            loadDemoData();
+        });
+    });
+
+    function parseSalesFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[firstSheetName];
+                const json = XLSX.utils.sheet_to_json(sheet);
+                
+                if (json.length === 0) {
+                    showToast('엑셀/CSV 파일에 유효한 데이터 행이 존재하지 않습니다.', 'danger');
+                    return;
+                }
+
+                processRawSalesData(json);
+                showToast(`총 ${json.length}건의 거래 명세 정보를 가져왔습니다.`, 'success');
+            } catch (err) {
+                console.error(err);
+                showToast('파일 분석 중 오류가 발생했습니다. 규격 엑셀 파일인지 확인 바랍니다.', 'danger');
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    // Support both Korean SmartStore export columns and English key variants
+    function processRawSalesData(rawData) {
+        salesData = rawData.map((row, idx) => {
+            // Find appropriate fields via header mappings
+            const date = row['주문일자'] || row['결제일'] || row['날짜'] || row['date'] || row['Date'] || new Date().toISOString().split('T')[0];
+            const orderId = row['주문번호'] || row['번호'] || row['orderId'] || row['Order ID'] || `SS-${Date.now()}-${idx}`;
+            const category = row['상품분류'] || row['카테고리'] || row['대분류'] || row['category'] || row['Category'] || '미분류';
+            const product = row['상품명'] || row['품목'] || row['product'] || row['Product Name'] || '이름 없음 상품';
+            const quantity = parseInt(row['수량'] || row['수'] || row['quantity'] || row['Qty'] || 1);
+            
+            // Clean currency string to integer
+            let revRaw = row['결제금액'] || row['금액'] || row['주문금액'] || row['매출'] || row['revenue'] || row['Amount'] || 0;
+            if (typeof revRaw === 'string') {
+                revRaw = parseInt(revRaw.replace(/[^0-9-]/g, '')) || 0;
+            } else {
+                revRaw = parseInt(revRaw) || 0;
+            }
+            
+            let status = row['주문상태'] || row['배송상태'] || row['상태'] || row['status'] || row['Status'] || '배송완료';
+            if (status.includes('취소') || status.includes('반품') || status.includes('환불')) {
+                status = '취소/반품';
+            } else if (status.includes('완료') || status.includes('배송완료') || status.includes('구매확정')) {
+                status = '배송완료';
+            } else if (status.includes('중') || status.includes('배송중')) {
+                status = '배송중';
+            } else {
+                status = '결제완료';
+            }
+
+            return {
+                date: formatDateString(date),
+                orderId: String(orderId),
+                category: String(category),
+                product: String(product),
+                quantity: quantity,
+                revenue: revRaw,
+                status: status
+            };
+        });
+
+        // Initialize UI content views
+        analyticsEmptyState.style.display = 'none';
+        analyticsContent.style.display = 'block';
+
+        // Set up filters
+        populateCategoryFilter();
+        
+        // Refresh calculations and tables
+        filterAndProcessData();
+    }
+
+    function formatDateString(val) {
+        if (typeof val === 'number') {
+            // Excel Serial date parsing
+            const date = new Date((val - 25569) * 86400 * 1000);
+            return date.toISOString().split('T')[0];
+        }
+        
+        let s = String(val).trim();
+        // Remove time if it exists
+        if (s.includes(' ')) {
+            s = s.split(' ')[0];
+        } else if (s.includes('T')) {
+            s = s.split('T')[0];
+        }
+
+        // Standardize YYYY-MM-DD
+        s = s.replace(/[^0-9]/g, '-');
+        if (s.endsWith('-')) s = s.slice(0, -1);
+        
+        return s;
+    }
+
+    // Pre-populate mock Korean SmartStore transaction logs
+    function loadDemoData() {
+        const categories = ['패션잡화', '주방용품', '디지털/가전', '생활/건강'];
+        const products = {
+            '패션잡화': [
+                { name: '에이치엔코 천연 소가죽 클래식 숄더백', price: 89000 },
+                { name: '내추럴 캔버스 데일리 에코백', price: 18900 },
+                { name: '슬림 미니 가죽 카드지갑', price: 29000 }
+            ],
+            '주방용품': [
+                { name: '내열 이중유리 홈카페 맥주컵 450ml', price: 12500 },
+                { name: '도자기 감성 디저트 접시 2인 세트', price: 34000 },
+                { name: '북유럽 카페 감성 레트로 세라믹 머그', price: 15000 }
+            ],
+            '디지털/가전': [
+                { name: '스마트 저소음 미니 가습기 (대용량)', price: 42000 },
+                { name: '무선 핸디형 차량용 미니 청소기', price: 59000 },
+                { name: '초고속 PD 충전 대용량 보조배터리 20000mAh', price: 28000 }
+            ],
+            '생활/건강': [
+                { name: '친환경 세탁 세제 올가닉 시트러스 2L', price: 16500 },
+                { name: '천연 아로마 유칼립투스 디퓨저 200ml', price: 22000 },
+                { name: '무독성 실리콘 주방 조리도구 5종 세트', price: 27500 }
+            ]
+        };
+
+        const statuses = ['배송완료', '배송완료', '배송완료', '배송완료', '배송완료', '결제완료', '배송중', '취소/반품'];
+
+        const mockData = [];
+        const baseDate = new Date('2026-08-05');
+
+        // Generate ~80 orders distributed over the last 6 months
+        for (let i = 0; i < 95; i++) {
+            const orderDate = new Date(baseDate);
+            // subtract random days
+            orderDate.setDate(baseDate.getDate() - Math.floor(Math.random() * 150));
+            
+            const category = categories[Math.floor(Math.random() * categories.length)];
+            const prodList = products[category];
+            const chosenProd = prodList[Math.floor(Math.random() * prodList.length)];
+            
+            const qty = Math.floor(Math.random() * 3) + 1; // 1 to 3
+            const status = statuses[Math.floor(Math.random() * statuses.length)];
+            
+            const orderId = `2026${String(orderDate.getMonth() + 1).padStart(2, '0')}${String(orderDate.getDate()).padStart(2, '0')}-${String(Math.floor(Math.random() * 1000000)).padStart(6, '0')}`;
+
+            mockData.push({
+                주문일자: orderDate.toISOString().split('T')[0],
+                주문번호: orderId,
+                카테고리: category,
+                상품명: chosenProd.name,
+                수량: qty,
+                결제금액: chosenProd.price * qty,
+                주문상태: status
+            });
+        }
+
+        processRawSalesData(mockData);
+        showToast('데모 판매 정산 데이터가 성공적으로 로드되었습니다.', 'success');
+    }
+
+    function populateCategoryFilter() {
+        const filterSelect = document.getElementById('table-filter-category');
+        if (!filterSelect) return;
+
+        // Clear except first
+        filterSelect.innerHTML = '<option value="all">전체 카테고리</option>';
+
+        // Extract unique categories
+        const categories = [...new Set(salesData.map(d => d.category))].sort();
+        categories.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            filterSelect.appendChild(opt);
+        });
+    }
+
+    /* Filters, Search & Table Operations */
+    const searchInput = document.getElementById('table-search-input');
+    const filterCategory = document.getElementById('table-filter-category');
+    const filterStatus = document.getElementById('table-filter-status');
+    const tablePageSizeSelect = document.getElementById('table-page-size');
+
+    const btnPrevPage = document.getElementById('btn-prev-page');
+    const btnNextPage = document.getElementById('btn-next-page');
+    const pageNumberText = document.getElementById('page-number-text');
+    const tableInfoText = document.getElementById('table-info-text');
+
+    function filterAndProcessData() {
+        const query = searchInput.value.toLowerCase().trim();
+        const cat = filterCategory.value;
+        const stat = filterStatus.value;
+
+        // 1. Apply Filtering
+        filteredSalesData = salesData.filter(row => {
+            const matchesSearch = row.product.toLowerCase().includes(query) || row.orderId.includes(query);
+            const matchesCategory = (cat === 'all' || row.category === cat);
+            const matchesStatus = (stat === 'all' || row.status === stat);
+            return matchesSearch && matchesCategory && matchesStatus;
+        });
+
+        // 2. Perform Calculations (on the full unfiltered dataset for dashboard coherence or filtered? Dashboard generally shows values based on filtered set to drill down! Let's do it on the filtered set for interactive dashboard experience, but fallback to overall statistics in insights)
+        recalculateKPIs(filteredSalesData);
+        
+        // 3. Render charts
+        renderTrendChart(filteredSalesData);
+        renderCategoryShareChart(filteredSalesData);
+
+        // 4. Sort and Page Data Table
+        sortData();
+        renderTablePage();
+
+        // 5. Generate AI Insights
+        generateAIReport();
+    }
+
+    // Bind filters events
+    [searchInput, filterCategory, filterStatus].forEach(el => {
+        el.addEventListener('input', () => {
+            currentTablePage = 1;
+            filterAndProcessData();
+        });
+    });
+
+    tablePageSizeSelect.addEventListener('change', () => {
+        tablePageSize = parseInt(tablePageSizeSelect.value);
+        currentTablePage = 1;
+        renderTablePage();
+    });
+
+    // KPI Recalculations
+    function recalculateKPIs(data) {
+        let totalSales = 0;
+        let totalOrders = 0;
+        let cancelledCount = 0;
+
+        data.forEach(item => {
+            if (item.status === '취소/반품') {
+                cancelledCount++;
+            } else {
+                totalSales += item.revenue;
+            }
+            totalOrders++;
+        });
+
+        const activeOrders = totalOrders - cancelledCount;
+        const aov = activeOrders > 0 ? Math.round(totalSales / activeOrders) : 0;
+        const returnRate = totalOrders > 0 ? (cancelledCount / totalOrders) * 100 : 0.0;
+
+        document.getElementById('kpi-total-sales').textContent = `₩${totalSales.toLocaleString('ko-KR')}`;
+        document.getElementById('kpi-total-orders').textContent = `${totalOrders.toLocaleString('ko-KR')}건`;
+        document.getElementById('kpi-aov').textContent = `₩${aov.toLocaleString('ko-KR')}`;
+        document.getElementById('kpi-return-rate').textContent = `${returnRate.toFixed(1)}%`;
+        
+        // Highlight critical return rate
+        const returnKpiCard = document.querySelector('.kpi-card[data-kpi="returns"]');
+        if (returnRate > 10.0) {
+            returnKpiCard.style.borderColor = 'rgba(244, 63, 94, 0.4)';
+            document.getElementById('kpi-return-rate').style.color = 'var(--color-danger)';
+        } else {
+            returnKpiCard.style.borderColor = 'var(--border-color)';
+            document.getElementById('kpi-return-rate').style.color = 'var(--text-primary)';
+        }
+    }
+
+    // Sort Logic
+    function sortData() {
+        filteredSalesData.sort((a, b) => {
+            let valA = a[currentSortColumn];
+            let valB = b[currentSortColumn];
+
+            // Handle date strings
+            if (currentSortColumn === 'date') {
+                valA = new Date(valA).getTime();
+                valB = new Date(valB).getTime();
+            }
+
+            if (typeof valA === 'string') {
+                return currentSortOrder === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            } else {
+                return currentSortOrder === 'asc' ? valA - valB : valB - valA;
+            }
+        });
+    }
+
+    // Headers clicks for sorting
+    const tableHeaders = document.querySelectorAll('table.data-table th');
+    tableHeaders.forEach(th => {
+        th.addEventListener('click', () => {
+            const col = th.getAttribute('data-column');
+            if (currentSortColumn === col) {
+                currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortColumn = col;
+                currentSortOrder = 'desc'; // Default sorting is descending for new columns
+            }
+
+            // Update header sorting indicators
+            tableHeaders.forEach(header => {
+                const iconSpan = header.querySelector('.sort-icon');
+                if (!iconSpan) return;
+                
+                const headerCol = header.getAttribute('data-column');
+                if (headerCol === currentSortColumn) {
+                    iconSpan.textContent = currentSortOrder === 'asc' ? '▲' : '▼';
+                } else {
+                    iconSpan.textContent = '';
+                }
+            });
+
+            sortData();
+            renderTablePage();
+        });
+    });
+
+    // Pagination render
+    function renderTablePage() {
+        const tbody = document.getElementById('sales-table-body');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        const totalItems = filteredSalesData.length;
+        const totalPages = Math.ceil(totalItems / tablePageSize) || 1;
+
+        if (totalItems === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-secondary);"><i data-lucide="info" style="display:inline-block; vertical-align: middle; margin-right: 0.25rem;"></i> 조건에 부합하는 거래 내역이 존재하지 않습니다.</td></tr>`;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            
+            btnPrevPage.disabled = true;
+            btnNextPage.disabled = true;
+            pageNumberText.textContent = '페이지 1 / 1';
+            tableInfoText.textContent = '검색 결과 총 0건 중 0 - 0 표시';
+            return;
+        }
+
+        // Bound page index
+        if (currentTablePage < 1) currentTablePage = 1;
+        if (currentTablePage > totalPages) currentTablePage = totalPages;
+
+        const startIndex = (currentTablePage - 1) * tablePageSize;
+        const endIndex = Math.min(startIndex + tablePageSize, totalItems);
+
+        const pageData = filteredSalesData.slice(startIndex, endIndex);
+
+        pageData.forEach(row => {
+            const tr = document.createElement('tr');
+            
+            let statusPillClass = 'status-completed';
+            if (row.status === '결제완료') statusPillClass = 'status-pending';
+            if (row.status === '배송중') statusPillClass = 'status-pending'; // let's share pending design
+            if (row.status === '취소/반품') statusPillClass = 'status-cancelled';
+
+            tr.innerHTML = `
+                <td>${row.date}</td>
+                <td style="font-family: monospace; font-size: 0.8rem;">${row.orderId}</td>
+                <td><span class="stat-badge">${row.category}</span></td>
+                <td style="font-weight: 500; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${row.product}">${row.product}</td>
+                <td style="text-align: right;">${row.quantity}개</td>
+                <td style="text-align: right; font-weight: 600;">₩${row.revenue.toLocaleString('ko-KR')}</td>
+                <td style="text-align: center;"><span class="status-pill ${statusPillClass}">${row.status}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Update pagination buttons
+        btnPrevPage.disabled = currentTablePage === 1;
+        btnNextPage.disabled = currentTablePage === totalPages;
+        pageNumberText.textContent = `페이지 ${currentTablePage} / ${totalPages}`;
+        tableInfoText.textContent = `검색 결과 총 ${totalItems}건 중 ${startIndex + 1} - ${endIndex} 표시`;
+    }
+
+    btnPrevPage.addEventListener('click', () => {
+        if (currentTablePage > 1) {
+            currentTablePage--;
+            renderTablePage();
+        }
+    });
+
+    btnNextPage.addEventListener('click', () => {
+        const totalPages = Math.ceil(filteredSalesData.length / tablePageSize) || 1;
+        if (currentTablePage < totalPages) {
+            currentTablePage++;
+            renderTablePage();
+        }
+    });
+
+    // CSV Download
+    document.getElementById('btn-export-excel').addEventListener('click', () => {
+        if (filteredSalesData.length === 0) return;
+
+        let csvContent = "\uFEFF"; // BOM for excel Korean character support
+        csvContent += "주문일자,주문번호,카테고리,상품명,수량,주문금액,주문상태\n";
+        
+        filteredSalesData.forEach(row => {
+            // Clean product name to remove any commas
+            const cleanedProdName = row.product.replace(/"/g, '""');
+            csvContent += `"${row.date}","${row.orderId}","${row.category}","${cleanedProdName}",${row.quantity},${row.revenue},"${row.status}"\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `smartstore-analytics-report-${Date.now()}.csv`;
+        link.click();
+        showToast('거래 분석 내역이 CSV 파일로 다운로드되었습니다.', 'success');
+    });
+
+
+    /* ==========================================================================
+       Chart.js Graphs Renderings
+       ========================================================================== */
+    function renderTrendChart(data) {
+        const ctx = document.getElementById('chart-sales-trend');
+        if (!ctx) return;
+
+        // Group revenue by date
+        const revenueByDate = {};
+        data.forEach(item => {
+            if (item.status !== '취소/반품') {
+                revenueByDate[item.date] = (revenueByDate[item.date] || 0) + item.revenue;
+            }
+        });
+
+        // Sort dates chronologically
+        const sortedDates = Object.keys(revenueByDate).sort();
+        const salesValues = sortedDates.map(date => revenueByDate[date]);
+
+        // Destroy previous chart
+        if (trendChartInstance) {
+            trendChartInstance.destroy();
+        }
+
+        // Format dates short format for display
+        const dateLabels = sortedDates.map(d => {
+            const parts = d.split('-');
+            return parts.length === 3 ? `${parts[1]}/${parts[2]}` : d;
+        });
+
+        trendChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dateLabels,
+                datasets: [{
+                    label: '일별 결제 완료액 (₩)',
+                    data: salesValues,
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.35,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#6366f1',
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#03c75a'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` 매출액: ₩${context.raw.toLocaleString()}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)'
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            callback: function(value) {
+                                if (value >= 1000000) return (value / 1000000) + 'M';
+                                if (value >= 1000) return (value / 1000) + 'K';
+                                return value;
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            maxTicksLimit: 12
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderCategoryShareChart(data) {
+        const ctx = document.getElementById('chart-category-share');
+        if (!ctx) return;
+
+        // Sum category revenues
+        const revs = {};
+        data.forEach(item => {
+            if (item.status !== '취소/반품') {
+                revs[item.category] = (revs[item.category] || 0) + item.revenue;
+            }
+        });
+
+        const categories = Object.keys(revs);
+        const revenues = categories.map(cat => revs[cat]);
+
+        // Destroy previous chart
+        if (shareChartInstance) {
+            shareChartInstance.destroy();
+        }
+
+        // Custom palette matching SaaS accents
+        const palette = ['#6366f1', '#03c75a', '#0ea5e9', '#f59e0b', '#ec4899', '#8b5cf6'];
+
+        shareChartInstance = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: categories,
+                datasets: [{
+                    data: revenues,
+                    backgroundColor: palette.slice(0, categories.length),
+                    borderWidth: 2,
+                    borderColor: '#131b2e'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: '#f8fafc',
+                            font: {
+                                size: 11
+                            },
+                            boxWidth: 12,
+                            padding: 12
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((context.raw / total) * 100).toFixed(1);
+                                return ` ${context.label}: ₩${context.raw.toLocaleString()} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function updateCharts() {
+        if (trendChartInstance) trendChartInstance.resize();
+        if (shareChartInstance) shareChartInstance.resize();
+    }
+
+
+    /* ==========================================================================
+       AI Insight Report Engine
+       ========================================================================== */
+    function generateAIReport() {
+        const summaryPointsContainer = document.getElementById('insight-summary-points');
+        const recsContainer = document.getElementById('insight-recommendations-list');
+        
+        if (salesData.length === 0) return;
+
+        // Perform analysis calculations on full sales dataset
+        let totalSales = 0;
+        let totalOrders = 0;
+        let cancelledCount = 0;
+        const categoryStats = {};
+        const productStats = {};
+        const dateStats = {};
+
+        salesData.forEach(item => {
+            totalOrders++;
+            if (item.status === '취소/반품') {
+                cancelledCount++;
+            } else {
+                totalSales += item.revenue;
+                // Category group
+                categoryStats[item.category] = (categoryStats[item.category] || 0) + item.revenue;
+                // Product group
+                productStats[item.product] = (productStats[item.product] || 0) + item.revenue;
+                // Date group
+                dateStats[item.date] = (dateStats[item.date] || 0) + item.revenue;
+            }
+        });
+
+        // 1. Identify peak day
+        let peakDate = '정보 부족';
+        let peakRevenue = 0;
+        Object.keys(dateStats).forEach(d => {
+            if (dateStats[d] > peakRevenue) {
+                peakRevenue = dateStats[d];
+                peakDate = d;
+            }
+        });
+
+        // 2. Identify top product
+        let topProduct = '정보 부족';
+        let topProdRevenue = 0;
+        Object.keys(productStats).forEach(p => {
+            if (productStats[p] > topProdRevenue) {
+                topProdRevenue = productStats[p];
+                topProduct = p;
+            }
+        });
+
+        // 3. Identify top category
+        let topCategory = '정보 부족';
+        let topCatRevenue = 0;
+        Object.keys(categoryStats).forEach(c => {
+            if (categoryStats[c] > topCatRevenue) {
+                topCatRevenue = categoryStats[c];
+                topCategory = c;
+            }
+        });
+
+        const topCatPercentage = totalSales > 0 ? ((topCatRevenue / totalSales) * 100).toFixed(1) : 0;
+        const cancelRate = (cancelledCount / totalOrders) * 100;
+        const aovVal = (totalOrders - cancelledCount) > 0 ? Math.round(totalSales / (totalOrders - cancelledCount)) : 0;
+
+        // Format dates into readable string
+        const formattedPeakDate = peakDate !== '정보 부족' ? formatDateKorean(peakDate) : '정보 부족';
+
+        // Render Summary Points
+        summaryPointsContainer.innerHTML = `
+            <div class="insight-point-item point-positive">
+                <strong>매출 견인 1등 공신 품목</strong>
+                <span>'${topProduct}' 상품이 누적 ₩${topProdRevenue.toLocaleString()}원의 결제를 기록하며 최다 매출 품목으로 확인되었습니다.</span>
+            </div>
+            <div class="insight-point-item">
+                <strong>카테고리 집중도 분석</strong>
+                <span>전체 매출 중 '${topCategory}' 군이 약 ${topCatPercentage}%의 비중을 차지하여 가장 높은 집중 기여도를 나타내고 있습니다.</span>
+            </div>
+            <div class="insight-point-item point-positive">
+                <strong>최대 거래 발생 시점 (골든 데이)</strong>
+                <span>${formattedPeakDate}에 일일 최고 매출인 ₩${peakRevenue.toLocaleString()}원을 달성한 피크 거래량이 포착되었습니다.</span>
+            </div>
+            <div class="insight-point-item ${cancelRate > 10 ? 'point-negative' : 'point-positive'}">
+                <strong>주문 취소 및 환불률</strong>
+                <span>총 ${totalOrders}건 중 취소율은 ${cancelRate.toFixed(1)}% 입니다. ${cancelRate > 10 ? '업계 평균 대비 다소 높으므로 모니터링이 필요합니다.' : '매우 안정적인 취소 방어율을 기록하고 있습니다.'}</span>
+            </div>
+        `;
+
+        // Generate tailored Action Plan Recommendations list
+        const recList = [];
+        
+        // Recommendation 1: SEO listing recommendation
+        recList.push(`현재 가장 많이 팔린 <strong>'${topProduct.split(' ')[0]}'</strong> 상품군의 유입 키워드를 다변화하기 위해, [키워드 조합기] 탭에서 최적화된 서브 키워드를 적용해 보세요. 현재 브랜드 키워드 외의 유기적 유입을 확대할 여지가 큽니다.`);
+        
+        // Recommendation 2: Marketing recommendation
+        recList.push(`매출 기여도가 ${topCatPercentage}%로 가장 높은 <strong>'${topCategory}'</strong> 카테고리에 대해, 타겟 매칭 광고의 노출 빈도를 최고 매출 요일인 <strong>${formattedPeakDate.split(' ')[1] || '해당 피크 요일'}</strong>에 맞춤 집중하여 광고 마진 효율(ROAS)을 극대화하십시오.`);
+
+        // Recommendation 3: Cancel Rate and FAQ recommendation
+        if (cancelRate > 10) {
+            recList.push(`최근 주문 취소/반품 비율이 ${cancelRate.toFixed(1)}%로 경고 수치에 도달했습니다. 반품 사유를 면밀히 분석한 후, 상세페이지 하단에 [자주 묻는 질문 FAQ] 및 정확한 [사이즈/색상/소재 실측 기준 가이드]를 보강하여 오구매를 사전에 차단하십시오.`);
+        } else {
+            recList.push(`환불 비율이 안정적이므로, 현재의 상품 품질 및 고객 관리가 우수한 수준입니다. 주력 품목 외의 서브 품목 판매를 촉진하기 위해 [AI 썸네일 스튜디오]에서 누끼 이미지를 기반으로 럭셔리 배경 썸네일을 추가 제작하여 세트 구성 등록을 적극 권장합니다.`);
+        }
+
+        // Recommendation 4: AOV & Bundling recommendation
+        const targetAov = Math.round(aovVal * 1.25);
+        recList.push(`현재 평균 객단가(AOV)는 ₩${aovVal.toLocaleString()}원입니다. 단가 확장을 위해 추가 구매율이 높은 소품 또는 추가 옵션 품목을 구성하여 목표 객단가인 <strong>₩${targetAov.toLocaleString()}원</strong>을 달성할 수 있는 복수 구매 묶음 배송 쿠폰 프로모션을 추진하십시오.`);
+
+        recsContainer.innerHTML = '';
+        recList.forEach(rec => {
+            const li = document.createElement('li');
+            li.innerHTML = rec;
+            recsContainer.appendChild(li);
+        });
+    }
+
+    function formatDateKorean(dateStr) {
+        if (!dateStr || dateStr === '정보 부족') return '정보 부족';
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        
+        const year = parts[0];
+        const month = parseInt(parts[1]);
+        const day = parseInt(parts[2]);
+        
+        const d = new Date(year, month - 1, day);
+        const weekdays = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+        const dayOfWeek = weekdays[d.getDay()];
+        
+        return `${month}월 ${day}일 (${dayOfWeek})`;
+    }
+
+    /* ==========================================================================
+       [Tab 4] Blog Copywriting Creator Logic
+       ========================================================================== */
+    const inputBlogProdName = document.getElementById('input-blog-prodname');
+    const inputBlogUsp = document.getElementById('input-blog-usp');
+    const selectBlogTone = document.getElementById('select-blog-tone');
+    const selectBlogTags = document.getElementById('select-blog-tags');
+    const selectBlogLayout = document.getElementById('select-blog-layout');
+    const btnGenerateBlog = document.getElementById('btn-generate-blog');
+    
+    const blogResultPlaceholder = document.getElementById('blog-result-placeholder');
+    const blogResultContent = document.getElementById('blog-result-content');
+    const blogTitlesList = document.getElementById('blog-titles-list');
+    const blogBodyText = document.getElementById('blog-body-text');
+    const blogTagsContainer = document.getElementById('blog-tags-container');
+    
+    const btnCopyBlogBody = document.getElementById('btn-copy-blog-body');
+    const btnDownloadBlogTxt = document.getElementById('btn-download-blog-txt');
+    const btnCopyBlogTags = document.getElementById('btn-copy-blog-tags');
+
+    if (btnGenerateBlog) {
+        btnGenerateBlog.addEventListener('click', () => {
+            const prodName = inputBlogProdName.value.trim();
+            const uspRaw = inputBlogUsp.value.trim();
+
+            if (!prodName) {
+                showToast('상품명 또는 키워드를 입력해 주세요.', 'danger');
+                inputBlogProdName.focus();
+                return;
+            }
+
+            // Parse USPs
+            const usps = uspRaw.split('\n')
+                .map(line => line.replace(/^-\s*/, '').trim())
+                .filter(line => line.length > 0);
+                
+            // If empty, fall back to default USPs
+            if (usps.length === 0) {
+                usps.push('가장 혁신적인 기술력과 실용적인 디자인');
+                usps.push('사용자의 편의성을 극대화한 사용법');
+                usps.push('꼼꼼한 마감 처리와 최상급 소재 채용');
+            }
+
+            const tone = selectBlogTone.value;
+            const tagsCount = parseInt(selectBlogTags.value);
+            const layout = selectBlogLayout.value;
+
+            // Generate Titles (3 variants)
+            const titles = generateBlogTitles(prodName, usps[0] || '');
+            renderBlogTitles(titles);
+
+            // Generate Body Text
+            const bodyText = generateBlogBody(prodName, usps, tone, layout);
+            blogBodyText.innerHTML = bodyText; // Use innerHTML to preserve line breaks and [image] suggestions styling
+
+            // Generate Tags
+            const tags = generateBlogTags(prodName, usps, tagsCount);
+            renderBlogTags(tags);
+
+            // Switch Visibility
+            blogResultPlaceholder.style.display = 'none';
+            blogResultContent.style.display = 'flex';
+
+            // Re-initialize Lucide icons for copy buttons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            showToast('블로그 홍보글 초안이 성공적으로 생성되었습니다!', 'success');
+        });
+    }
+
+    // Copy to clipboard helpers
+    if (btnCopyBlogBody) {
+        btnCopyBlogBody.addEventListener('click', () => {
+            const text = blogBodyText.innerText || blogBodyText.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('본문 초안이 클립보드에 복사되었습니다.', 'success');
+            }).catch(err => {
+                showToast('복사에 실패했습니다.', 'danger');
+            });
+        });
+    }
+
+    if (btnCopyBlogTags) {
+        btnCopyBlogTags.addEventListener('click', () => {
+            const tagsText = Array.from(blogTagsContainer.querySelectorAll('span'))
+                .map(el => el.textContent)
+                .join(' ');
+            navigator.clipboard.writeText(tagsText).then(() => {
+                showToast('추천 해시태그가 복사되었습니다.', 'success');
+            }).catch(err => {
+                showToast('복사에 실패했습니다.', 'danger');
+            });
+        });
+    }
+
+    if (btnDownloadBlogTxt) {
+        btnDownloadBlogTxt.addEventListener('click', () => {
+            const prodName = inputBlogProdName.value.trim();
+            const activeTitleEl = blogTitlesList.querySelector('.result-card .result-title');
+            const mainTitle = activeTitleEl ? activeTitleEl.textContent : `${prodName} 블로그 홍보글`;
+            const bodyText = blogBodyText.innerText || blogBodyText.textContent;
+            const tagsText = Array.from(blogTagsContainer.querySelectorAll('span'))
+                .map(el => el.textContent)
+                .join(' ');
+
+            const fileContent = `★ 블로그 제목 추천 ★\n${Array.from(blogTitlesList.querySelectorAll('.result-title')).map((el, i) => `${i+1}. ${el.textContent}`).join('\n')}\n\n========================================\n\n★ 블로그 본문 초안 ★\n\n${bodyText}\n\n========================================\n\n★ 추천 해시태그 ★\n${tagsText}\n`;
+
+            const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${prodName}-blog-draft-${Date.now()}.txt`;
+            link.click();
+            showToast('텍스트 파일로 저장되었습니다.', 'success');
+        });
+    }
+
+    function generateBlogTitles(prodName, primaryUsp) {
+        return [
+            `내돈내산 솔직후기! ${prodName} 직접 써보고 느낀 진짜 장단점 총정리`,
+            `SNS에서 난리난 ${prodName}, 직접 써보니 소문대로 대박이네요 (${primaryUsp} 대만족)`,
+            `[실제리뷰] 삶의 질 수직상승템! ${prodName} 2주 사용 솔직 후기 (feat. ${primaryUsp})`
+        ];
+    }
+
+    function renderBlogTitles(titles) {
+        blogTitlesList.innerHTML = '';
+        titles.forEach(title => {
+            const card = document.createElement('div');
+            card.className = 'result-card';
+            card.style.display = 'flex';
+            card.style.justify = 'space-between';
+            card.style.alignItems = 'center';
+            card.style.gap = '1rem';
+            card.style.marginBottom = '0.5rem';
+            card.style.padding = '0.75rem 1rem';
+
+            card.innerHTML = `
+                <div class="result-title" style="margin-bottom: 0; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); text-align: left;">${title}</div>
+                <button class="btn btn-secondary btn-sm btn-copy-title" data-title="${title.replace(/"/g, '&quot;')}" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; flex-shrink: 0;">
+                    <i data-lucide="copy" style="width: 12px; height: 12px;"></i> 복사
+                </button>
+            `;
+            
+            card.querySelector('.btn-copy-title').addEventListener('click', (e) => {
+                const titleText = e.currentTarget.getAttribute('data-title');
+                navigator.clipboard.writeText(titleText).then(() => {
+                    showToast('제목이 클립보드에 복사되었습니다.', 'success');
+                });
+            });
+
+            blogTitlesList.appendChild(card);
+        });
+    }
+
+    function generateBlogBody(prodName, usps, tone, layout) {
+        let intro = '';
+        let body = '';
+        let outro = '';
+
+        const usp1 = usps[0] || '우수한 품질';
+        const usp2 = usps[1] || '감각적인 디자인';
+        const usp3 = usps[2] || '실용적인 수납력';
+        const usp4 = usps[3] || '합리적인 가격대';
+
+        if (tone === 'review') {
+            intro = `안녕하세요 여러분! 😊\n\n요즘 매일 들고 다니거나 사용하는 제품 중 정말 제 마음속 '원픽'으로 등극한 꿀템이 있어서 솔직한 내돈내산 후기로 소개해 드리려고 해요!\n\n바로 요즘 인스타와 맘카페 등에서 핫하게 언급되는 **${prodName}** 입니다.\n\n바쁘고 정신없는 일상 중에서 어떤 아이템을 고를지 한참 헤매다가 발견한 제품인데, 직접 며칠간 써보니 주변 지인들에게 꼭 권하고 싶어지더라고요.`;
+            
+            outro = `여기까지 **${prodName}** 리얼 사용 후기였습니다!\n\n결론부터 말씀드리자면, 제 평점은 ★★★★★ 별 다섯 개 만점이에요. 일상에서 매번 쓸 때마다 대접받는 느낌이 들 정도로 삶의 질이 한 층 업그레이드된 기분입니다.\n\n혹시 실용적이면서도 디자인까지 챙길 수 있는 상품을 고민 중이셨다면, 늦지 않게 꼭 만나보시길 강력하게 권해드립니다! 후회 없는 선택이 되실 거예요. 💕\n\n오늘도 끝까지 읽어주셔서 감사합니다. 궁금한 점이 있으시면 댓글로 달아주세요!`;
+        } else if (tone === 'brand') {
+            intro = `안녕하세요, 공식 브랜드 에디터입니다. 🌿\n\n최근 들어 저희 브랜드의 시그니처 모델이자 뛰어난 완성도로 수많은 고객님들의 러브콜을 한 몸에 받고 있는 **${prodName}**에 대해 전해드리고자 합니다.\n\n이 제품은 기본을 지키는 정직함 위에 트렌디한 가치를 더해, 실용성과 품격을 동시에 추구하시는 현명한 소비자를 위해 탄생했습니다.\n\n완벽에 기한 설계와 철저한 마감이 더해진 프리미엄 라이프웨어로서 본 제품이 가진 핵심 가치를 지금 소개합니다.`;
+            
+            outro = `제조와 공정의 시작부터 마지막 포장 상태를 검수하는 최종 단계까지 엄격한 검사를 통과한 **${prodName}**.\n\n고객님들의 신뢰도와 만족도를 최우선으로 두는 저희 브랜드의 진심이 담긴 대표 역작을 자신 있게 선보입니다.\n\n본 공식 브랜드 포스팅을 기점으로, 실생활의 퀄리티를 대폭 확장해 보시길 바랍니다. 추가 정보나 공식 스마트스토어 상세 혜택은 본문 하단 링크를 참조해 주세요. 감사합니다.`;
+        } else { // sales
+            intro = `🚨 [역대급 핫딜 소식!] 쇼핑 만족도 1위 등극! 🎉\n\n품절 대란의 주역이자 실시간 급상승 키워드를 강타한 화제의 아이템, **${prodName}** 특별 할인 이벤트 프로모션을 들고 왔습니다!\n\n그동안 높은 가격이나 재고 부족으로 인해서 망설이셨던 분들이 계셨다면 바로 오늘이 기회입니다.\n\n왜 수많은 사람들이 그토록 **${prodName}**을 극찬하고 소장하고 싶어 하는지, 한 번에 납득할 수 있는 엄청난 스펙을 단도직입적으로 소개해 드릴게요!`;
+            
+            outro = `초특가 한정 수량 할인 이벤트는 재고 소진 시 예고 없이 자동 종료되므로 망설이시면 바로 품절입니다! ⏰\n\n매일 쓰는 필수템인 만큼 한 살이라도 더 젊고, 혜택이 가장 클 때 현명하게 소장하시는 것을 강력 추천해 드립니다.\n\n더 상세한 할인율과 특별 사은품 증정 혜택은 지금 바로 아래 공식 판매 스마트스토어 링크로 접속하여 놓치지 마세요! 👇`;
+        }
+
+        if (layout === 'standard') {
+            body = `[이미지 1 권장: 제품의 전체적인 실물 실루엣 컷]\n\n가장 먼저 눈에 띄는 특징은 단연 **${usp1}** 입니다.\n\n사실 다른 유사 제품들을 볼 때 이 부분이 늘 아쉬웠는데, 본 제품은 설계 단계부터 완성도 있게 보완되어 아주 만족스러운 사용감을 가져다주었습니다.\n\n\n[이미지 2 권장: 제품 표면 질감 또는 작동 상세 클로즈업]\n\n두 번째 장점은 바로 **${usp2}** 에요!\n\n이게 보기에는 단순해 보여도 실제 일상에서 마주하면 엄청난 차이점을 만들어내더라고요. 감성적이면서도 내구성까지 알차게 챙긴 매력 넘치는 부분입니다.\n\n\n[이미지 3 권장: 실생활에서 제품을 실제로 작동/사용하는 라이프 스타일 컷]\n\n여기에 추가적으로 **${usp3}** 과 더불어 **${usp4}** 까지 아우르고 있어서, 가격 대비 만족도(가성비)와 심리적 만족(가심비)을 완벽하게 충족시켜 주고 있습니다.`;
+        } else if (layout === 'experience') {
+            body = `[이미지 1 권장: 택배 박스 및 꼼꼼하게 완충재로 포장된 언박싱 컷]\n\n배송을 접하고 박스를 열자마자 포장 상태부터 정말 감동이었습니다! 🎁\n\n제품 자체의 첫인상은 매우 튼튼하고 고급스러워 보였는데, 특히 제품 디자인의 정교함과 **${usp1}**이 한눈에 느껴지더라고요.\n\n\n[이미지 2 권장: 제품 내부 수납 또는 핵심 스펙을 시각적으로 강조한 상세 컷]\n\n실제로 제 일과 시간 내내 사용해 보니 확실히 체감이 달랐습니다. \n\n제일 유용했던 건 **${usp2}**이었고, **${usp3}** 덕분에 쓸 때마다 불편함 없이 편리하게 활용할 수 있었습니다. 확실히 작은 마감 하나하나 신경 쓴 디테일이 보였습니다.\n\n\n[이미지 3 권장: 제품을 돋보이게 하는 감성적인 야외 또는 자연광 아래 컷]\n\n사용하면서 딱히 아쉬운 단점을 찾기 힘들었을 만큼 전체적인 만듦새가 뛰어납니다.\n\n무엇보다 **${usp4}** 부분은 타사 제품들과 완전히 구별되는 최고의 신의 한 수라고 생각되네요!`;
+        } else { // qa
+            body = `📢 많은 분들이 가장 자주 질문 주시는 대표 핵심 체크리스트!\n\n**Q1. 정말 광고처럼 실용적인가요?**\n\n- 네! 본 제품은 **${usp1}**을 기반으로 만들어져 실제 일상 테스트에서 아주 우수한 평가를 받았습니다.\n\n\n[이미지 1 권장: 질문 사항을 시각적으로 증명할 수 있는 정면 컷]\n\n**Q2. 어떤 사용 상황에서 가장 빛을 발하나요?**\n\n- 바로 **${usp2}** 장점 덕분에 직장이나 야외, 가사 활동 등 다양한 공간에서 전혀 이질감 없이 녹아듭니다.\n\n\n[이미지 2 권장: 다각도 측면 및 두께감을 알 수 있는 360도 뷰 컷]\n\n**Q3. 다른 제품군과 구별되는 독보적인 강점은 무엇인가요?**\n\n- 첫째는 **${usp3}**이며, 둘째는 지속적으로 체감 효율을 올려주는 **${usp4}**을 채용한 점입니다. 구매를 고민하는 분들에게 가장 큰 결정적 단서가 될 장점들입니다.`;
+        }
+
+        return `${intro}\n\n========================================\n\n${body}\n\n========================================\n\n${outro}`;
+    }
+
+    function generateBlogTags(prodName, usps, count) {
+        const prodKeyword = prodName.replace(/\s+/g, '');
+        const coreTags = [
+            `#${prodKeyword}`,
+            `#${prodKeyword}추천`,
+            `#${prodKeyword}후기`,
+            `#스마트스토어`,
+            `#내돈내산리뷰`,
+            `#살림템`,
+            `#일상꿀템`,
+            `#필수템`,
+            `#쇼핑성공`,
+            `#이커머스`,
+            `#선물추천`,
+            `#감성제품`,
+            `#리얼후기`,
+            `#장단점비교`,
+            `#인생템`
+        ];
+
+        usps.forEach(usp => {
+            const words = usp.split(/\s+/).filter(w => w.length > 2);
+            words.forEach(word => {
+                const cleanWord = word.replace(/[^\wㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
+                if (cleanWord.length >= 2 && coreTags.indexOf(`#${cleanWord}`) === -1) {
+                    coreTags.push(`#${cleanWord}`);
+                }
+            });
+        });
+
+        return coreTags.slice(0, count);
+    }
+
+    function renderBlogTags(tags) {
+        blogTagsContainer.innerHTML = '';
+        tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.style.backgroundColor = 'rgba(99, 102, 241, 0.1)';
+            span.style.color = 'var(--color-indigo)';
+            span.style.padding = '0.2rem 0.5rem';
+            span.style.borderRadius = '4px';
+            span.style.cursor = 'pointer';
+            span.style.fontSize = '0.75rem';
+            span.style.fontWeight = '500';
+            span.style.margin = '2px';
+            span.style.display = 'inline-block';
+            span.style.transition = 'background-color 0.2s';
+            span.textContent = tag;
+
+            span.addEventListener('click', () => {
+                navigator.clipboard.writeText(tag).then(() => {
+                    showToast(`태그 ${tag}가 복사되었습니다.`, 'success');
+                });
+            });
+
+            span.addEventListener('mouseenter', () => {
+                span.style.backgroundColor = 'rgba(99, 102, 241, 0.2)';
+            });
+            span.addEventListener('mouseleave', () => {
+                span.style.backgroundColor = 'rgba(99, 102, 241, 0.1)';
+            });
+
+            blogTagsContainer.appendChild(span);
+        });
+    }
+
+    /* ==========================================================================
+       Virtual Desktop Environment Controller
+       ========================================================================== */
+    const desktopEnv = document.querySelector('.desktop-env');
+    const dockBtnApp = document.getElementById('dock-btn-app');
+    const dockBtnModeToggle = document.getElementById('dock-btn-mode-toggle');
+    const controlClose = document.querySelector('.control-dot.close');
+    const controlMinimize = document.querySelector('.control-dot.minimize');
+    const controlMaximize = document.querySelector('.control-dot.maximize');
+
+    if (dockBtnModeToggle && desktopEnv) {
+        dockBtnModeToggle.addEventListener('click', () => {
+            const isWebMode = desktopEnv.classList.toggle('web-mode');
+            
+            if (isWebMode) {
+                dockBtnModeToggle.classList.add('active');
+                dockBtnApp.classList.remove('active');
+                const dot = dockBtnApp.querySelector('.dock-dot');
+                if (dot) dot.style.display = 'none';
+                
+                showToast('웹 전체화면 모드로 전환되었습니다.', 'info');
+            } else {
+                dockBtnModeToggle.classList.remove('active');
+                dockBtnApp.classList.add('active');
+                const dot = dockBtnApp.querySelector('.dock-dot');
+                if (dot) dot.style.display = 'block';
+                
+                showToast('데스크톱 프로그램 창 모드로 전환되었습니다.', 'info');
+            }
+            
+            // Trigger charts redraw for new layout size
+            setTimeout(updateCharts, 250);
+        });
+    }
+
+    if (dockBtnApp && desktopEnv) {
+        dockBtnApp.addEventListener('click', () => {
+            if (desktopEnv.classList.contains('web-mode')) {
+                dockBtnModeToggle.click(); // trigger toggle back to app mode
+            } else {
+                showToast('대시보드 앱이 이미 활성화되어 있습니다.', 'info');
+            }
+        });
+    }
+
+    // Window controls custom interactions
+    if (controlClose) {
+        controlClose.addEventListener('click', () => {
+            if (confirm('대시보드 프로그램 창을 종료하시겠습니까? (확인 클릭 시 웹 전체화면 뷰로 복귀합니다)')) {
+                if (desktopEnv && !desktopEnv.classList.contains('web-mode')) {
+                    dockBtnModeToggle.click();
+                }
+            }
+        });
+    }
+
+    if (controlMinimize) {
+        controlMinimize.addEventListener('click', () => {
+            showToast('창 최소화 기능은 데모 상태입니다. (실제 OS 창이 아니므로 하단 독바를 이용해 주세요)', 'info');
+        });
+    }
+
+    if (controlMaximize) {
+        controlMaximize.addEventListener('click', () => {
+            if (dockBtnModeToggle) {
+                dockBtnModeToggle.click();
+            }
+        });
+    }
+
+    // Initial canvas setup on app load
+    updateStudioCanvas();
+});
+
+</script>
+</body>
+</html>
