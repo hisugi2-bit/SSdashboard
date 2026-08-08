@@ -843,7 +843,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const customTextVal = inputSashText.value.trim();
         if (customTextVal) {
             ctx.save();
-            const sashH = H * 0.12; // Increased to 12% of canvas height (120px) for much larger presence
+            const sashH = H * 0.088; // Reverted back to 8.8% of canvas height (88px)
             
             // Dark gray banner with 85% opacity
             ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
@@ -851,7 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Yellow bold text
             ctx.fillStyle = '#facc15';
-            ctx.font = `bold ${sashH * 0.45}px sans-serif`; // Increased font size relative to larger sash
+            ctx.font = 'bold 54px sans-serif'; // Kept the larger 54px font size for high visibility
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(customTextVal, W / 2, H - (sashH / 2));
