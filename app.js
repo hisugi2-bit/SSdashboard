@@ -604,8 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         showToast('AI 배경 이미지를 생성 중입니다. 약 5~8초 소요됩니다...', 'info');
         
-        // Auto-enhance prompt to strictly exclude humans/faces/hands and force a modern studio background style
-        const enhancedPrompt = `${promptVal}, clean empty studio product display background, product display pedestal or table surface, modern minimalist aesthetic, soft realistic studio lighting, highly detailed, photorealistic, no people, no humans, no faces, no hands, without person, empty backdrop`;
+        // Auto-enhance prompt to generate high-end product backdrops with geometric pedestals, pastel walls, and elegant leaf/window shadows (matching the user's specification image style)
+        const enhancedPrompt = `${promptVal}, high-end minimalist product photography background, a clean geometric white pedestal showcase in the center, set against a clean solid pastel wall background, soft natural window light casting elegant leaf shadows and window frame shadows across the scene, empty space on the pedestal for product placement, premium professional commercial photo backdrop, 8k photorealistic, no clutter, no people, no hands, no faces, without person, clean background`;
         const encodedPrompt = encodeURIComponent(enhancedPrompt);
         const seed = Math.floor(Math.random() * 100000);
         const aiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1000&height=1000&seed=${seed}&nologo=true`;
