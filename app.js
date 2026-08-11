@@ -68,6 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target === 'thumbnail') {
                 setTimeout(updateStudioCanvas, 50);
             }
+
+            // Trigger margin calculation when margin tab is clicked
+            if (target === 'margin') {
+                setTimeout(calculateMargins, 50);
+            }
         });
     });
 
@@ -1974,6 +1979,84 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    /* ==========================================================================
+       [Tab 5] Ecommerce Margin Calculator Logic
+       ========================================================================== */
+    const marginCostInput = document.getElementById('margin-cost');
+    const marginPriceInput = document.getElementById('margin-price');
+    const marginShippingInput = document.getElementById('margin-shipping');
+    const marginTargetInput = document.getElementById('margin-target');
+    const marginBoxInput = document.getElementById('margin-box');
+    const marginTapeInput = document.getElementById('margin-tape');
+    const marginSubInput = document.getElementById('margin-sub');
+
+    function calculateMargins() {
+        if (!marginCostInput) return; // Prevent exceptions if tab is not rendered yet
+        
+        const cost = parseFloat(marginCostInput.value) || 0;
+        const price = parseFloat(marginPriceInput.value) || 0;
+        const shipping = parseFloat(marginShippingInput.value) || 0;
+        const box = parseFloat(marginBoxInput.value) || 0;
+        const tape = parseFloat(marginTapeInput.value) || 0;
+        const sub = parseFloat(marginSubInput.value) || 0;
+        const targetMargin = parseFloat(marginTargetInput.value) || 0;
+
+        const extraCost = box + tape + sub;
+        const totalCost = cost + shipping + extraCost; // 도매가 + 실제배송비 + 부자재
+        const totalPayment = price + shipping; // 소비자 결제 총액 (상품가 + 배송비)
+
+        const channels = [
+            { id: 'naver', feeRate: 0.05 },
+            { id: 'cafe24', feeRate: 0.038 },
+            { id: 'coupang', feeRate: 0.10 },
+            { id: 'eleven', feeRate: 0.13 }
+        ];
+
+        channels.forEach(ch => {
+            const fee = Math.round(totalPayment * ch.feeRate);
+            const settle = totalPayment - fee;
+            const margin = settle - totalCost;
+            const marginRate = price > 0 ? ((margin / price) * 100).toFixed(1) : 0;
+
+            // Calculate recommended price to maintain target margin
+            const recPrice = Math.ceil((targetMargin + cost + extraCost + (shipping * ch.feeRate)) / (1 - ch.feeRate) / 10) * 10;
+
+            // Update UI values
+            document.getElementById(`${ch.id}-total-val`).textContent = totalPayment.toLocaleString() + '원';
+            document.getElementById(`${ch.id}-fee-val`).textContent = '-' + fee.toLocaleString() + '원';
+            document.getElementById(`${ch.id}-settle-val`).textContent = settle.toLocaleString() + '원';
+            document.getElementById(`${ch.id}-cost-val`).textContent = '-' + totalCost.toLocaleString() + '원';
+            
+            const marginValEl = document.getElementById(`${ch.id}-margin-val`);
+            const marginRateEl = document.getElementById(`${ch.id}-rate-val`);
+            const marginBoxEl = document.getElementById(`${ch.id}-margin-box-el`);
+
+            marginValEl.textContent = margin.toLocaleString() + '원';
+            marginRateEl.textContent = `마진율 ${marginRate}%`;
+
+            if (margin < 0) {
+                marginBoxEl.classList.add('negative');
+            } else {
+                marginBoxEl.classList.remove('negative');
+            }
+
+            document.getElementById(`${ch.id}-rec-val`).textContent = recPrice.toLocaleString() + '원';
+        });
+    }
+
+    // Bind event listeners to calculate margins in real-time
+    [
+        marginCostInput, marginPriceInput, marginShippingInput, marginTargetInput,
+        marginBoxInput, marginTapeInput, marginSubInput
+    ].forEach(input => {
+        if (input) {
+            input.addEventListener('input', calculateMargins);
+        }
+    });
+
+    // Run initial margin calculations on load
+    calculateMargins();
 
     // Initial canvas setup on app load
     updateStudioCanvas();

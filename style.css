@@ -15,6 +15,10 @@
     --color-naver-hover: #02b34f;
     --color-naver-glow: rgba(3, 199, 90, 0.15);
     
+    --color-coupang: #e61c24;
+    --color-eleven: #ff0038;
+    --color-cafe24: #1e2837;
+    
     --color-indigo: #6366f1;
     --color-indigo-hover: #4f46e5;
     --color-indigo-glow: rgba(99, 102, 241, 0.15);
@@ -423,8 +427,14 @@ textarea.form-control {
     gap: 1.5rem;
 }
 
+.grid-margin {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 1.5rem;
+}
+
 @media (max-width: 1024px) {
-    .grid-2, .grid-3, .grid-keyword, .grid-thumbnail {
+    .grid-2, .grid-3, .grid-keyword, .grid-thumbnail, .grid-margin {
         grid-template-columns: 1fr;
     }
 }
@@ -1553,4 +1563,141 @@ footer {
     background-color: var(--color-indigo) !important;
     border-color: var(--color-indigo) !important;
     color: #ffffff !important;
+}
+
+/* Ecommerce Margin Calculator styles */
+.channels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+.channel-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.channel-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+}
+
+.channel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.channel-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+}
+
+.badge {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.badge-naver { background-color: var(--color-naver); }
+.badge-coupang { background-color: var(--color-coupang); }
+.badge-eleven { background-color: var(--color-eleven); }
+.badge-cafe24 { background-color: var(--color-cafe24); }
+
+.fee-rate {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.row-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.825rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.row-item.highlight {
+    color: var(--text-primary);
+    font-weight: 600;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+}
+
+.margin-result {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
+}
+
+.margin-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.margin-val {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #16a34a;
+    text-align: right;
+    margin-top: 0.15rem;
+}
+
+.margin-rate {
+    font-size: 0.75rem;
+    text-align: right;
+    color: #15803d;
+    font-weight: 600;
+}
+
+.rec-price-box {
+    margin-top: 0.75rem;
+    background-color: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+}
+
+.rec-price-title {
+    color: var(--color-indigo);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+}
+
+.rec-price-val {
+    color: var(--color-indigo-hover);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+.margin-result.negative {
+    background-color: rgba(239, 68, 68, 0.03);
+    border-color: rgba(239, 68, 68, 0.15);
+}
+
+.margin-result.negative .margin-val, 
+.margin-result.negative .margin-rate {
+    color: var(--color-danger);
 }

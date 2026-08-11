@@ -22,6 +22,10 @@
     --color-naver-hover: #02b34f;
     --color-naver-glow: rgba(3, 199, 90, 0.15);
     
+    --color-coupang: #e61c24;
+    --color-eleven: #ff0038;
+    --color-cafe24: #1e2837;
+    
     --color-indigo: #6366f1;
     --color-indigo-hover: #4f46e5;
     --color-indigo-glow: rgba(99, 102, 241, 0.15);
@@ -430,8 +434,14 @@ textarea.form-control {
     gap: 1.5rem;
 }
 
+.grid-margin {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 1.5rem;
+}
+
 @media (max-width: 1024px) {
-    .grid-2, .grid-3, .grid-keyword, .grid-thumbnail {
+    .grid-2, .grid-3, .grid-keyword, .grid-thumbnail, .grid-margin {
         grid-template-columns: 1fr;
     }
 }
@@ -1562,6 +1572,143 @@ footer {
     color: #ffffff !important;
 }
 
+/* Ecommerce Margin Calculator styles */
+.channels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+.channel-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.channel-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+}
+
+.channel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.channel-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+}
+
+.badge {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.badge-naver { background-color: var(--color-naver); }
+.badge-coupang { background-color: var(--color-coupang); }
+.badge-eleven { background-color: var(--color-eleven); }
+.badge-cafe24 { background-color: var(--color-cafe24); }
+
+.fee-rate {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.row-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.825rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.row-item.highlight {
+    color: var(--text-primary);
+    font-weight: 600;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+}
+
+.margin-result {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
+}
+
+.margin-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.margin-val {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #16a34a;
+    text-align: right;
+    margin-top: 0.15rem;
+}
+
+.margin-rate {
+    font-size: 0.75rem;
+    text-align: right;
+    color: #15803d;
+    font-weight: 600;
+}
+
+.rec-price-box {
+    margin-top: 0.75rem;
+    background-color: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+}
+
+.rec-price-title {
+    color: var(--color-indigo);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+}
+
+.rec-price-val {
+    color: var(--color-indigo-hover);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+.margin-result.negative {
+    background-color: rgba(239, 68, 68, 0.03);
+    border-color: rgba(239, 68, 68, 0.15);
+}
+
+.margin-result.negative .margin-val, 
+.margin-result.negative .margin-rate {
+    color: var(--color-danger);
+}
+
 </style>
 </head>
 <body>
@@ -1600,6 +1747,9 @@ footer {
                     </button>
                     <button class="tab-btn" data-tab="analytics">
                         <i data-lucide="bar-chart-3"></i> 판매 통계 분석
+                    </button>
+                    <button class="tab-btn" data-tab="margin">
+                        <i data-lucide="calculator"></i> 채널별 마진 계산기
                     </button>
                 </nav>
 
@@ -2336,6 +2486,190 @@ footer {
                     </div>
                 </div>
             </section>
+
+            <!-- [Tab 5] Ecommerce Margin Calculator -->
+            <section id="tab-margin" class="tab-content">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <i data-lucide="calculator" style="color: var(--color-indigo);"></i>
+                        이커머스 채널별 마진 계산기 (Margin Analyzer)
+                    </h1>
+                    <p class="section-desc">매입가와 판매가, 배송비 및 부자재 비용을 바탕으로 주요 판매 채널별 수수료를 실시간 연산하여 최종 정산예상액과 마진율을 도출합니다.</p>
+                </div>
+
+                <div class="grid-margin">
+                    <!-- 입력 폼 컨트롤 (좌측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem; height: fit-content;">
+                        <div class="card-title">⚙️ 원가 및 판매가 설정</div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>매입가 (도매가)</span>
+                                <span class="desc">도매로 매입한 제품 단가</span>
+                            </label>
+                            <div class="input-wrapper" style="position: relative; display: flex; align-items: center;">
+                                <input type="number" id="margin-cost" class="form-control" style="text-align: right; font-weight: 600; padding-right: 36px;" value="10000" step="100">
+                                <span class="unit" style="position: absolute; right: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">원</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>스마트스토어 판매가</span>
+                                <span class="desc">소비자 판매 가격</span>
+                            </label>
+                            <div class="input-wrapper" style="position: relative; display: flex; align-items: center;">
+                                <input type="number" id="margin-price" class="form-control" style="text-align: right; font-weight: 600; padding-right: 36px;" value="13000" step="100">
+                                <span class="unit" style="position: absolute; right: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">원</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>소비자 부과 택배비</span>
+                                <span class="desc">소비자가 결제할 배송비</span>
+                            </label>
+                            <div class="input-wrapper" style="position: relative; display: flex; align-items: center;">
+                                <input type="number" id="margin-shipping" class="form-control" style="text-align: right; font-weight: 600; padding-right: 36px;" value="3000" step="100">
+                                <span class="unit" style="position: absolute; right: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">원</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+                            <label class="form-label">
+                                <span>목표 마진 설정</span>
+                                <span class="desc">목표 마진 금액</span>
+                            </label>
+                            <div class="input-wrapper" style="position: relative; display: flex; align-items: center;">
+                                <input type="number" id="margin-target" class="form-control" style="text-align: right; font-weight: 600; padding-right: 36px;" value="2200" step="100">
+                                <span class="unit" style="position: absolute; right: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">원</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="background-color: var(--bg-tertiary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                            <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.25rem;">
+                                <i data-lucide="package" style="width: 14px; height: 14px;"></i> 📦 포장 및 부자재 비용
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0.75rem;">
+                                <label class="form-label"><span>택배 상자</span></label>
+                                <div class="input-wrapper" style="position: relative; display: flex; align-items: center;">
+                                    <input type="number" id="margin-box" class="form-control" style="text-align: right; font-weight: 600; padding-right: 36px;" value="500" step="10">
+                                    <span class="unit" style="position: absolute; right: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">원</span>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0.75rem;">
+                                <label class="form-label"><span>테이프</span></label>
+                                <div class="input-wrapper" style="position: relative; display: flex; align-items: center;">
+                                    <input type="number" id="margin-tape" class="form-control" style="text-align: right; font-weight: 600; padding-right: 36px;" value="30" step="5">
+                                    <span class="unit" style="position: absolute; right: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">원</span>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label"><span>기타 부자재 (비닐, 스티커 등)</span></label>
+                                <div class="input-wrapper" style="position: relative; display: flex; align-items: center;">
+                                    <input type="number" id="margin-sub" class="form-control" style="text-align: right; font-weight: 600; padding-right: 36px;" value="200" step="10">
+                                    <span class="unit" style="position: absolute; right: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 결과 카드 영역 (우측) -->
+                    <div class="channels-grid">
+                        <!-- 스마트스토어 -->
+                        <div class="channel-card" id="naver-margin-card">
+                            <div class="channel-header">
+                                <span class="channel-name"><span class="badge badge-naver">네이버</span> 스마트스토어</span>
+                                <span class="fee-rate">수수료 5.0%</span>
+                            </div>
+                            <div class="row-item"><span>총 결제금액</span><span id="naver-total-val">0원</span></div>
+                            <div class="row-item"><span>채널 수수료</span><span id="naver-fee-val">0원</span></div>
+                            <div class="row-item highlight"><span>정산 예상액</span><span id="naver-settle-val">0원</span></div>
+                            <div class="row-item"><span>총 비용 (원가+배송+부자재)</span><span id="naver-cost-val">0원</span></div>
+                            
+                            <div class="margin-result" id="naver-margin-box-el">
+                                <div class="margin-label">건당 순수 마진</div>
+                                <div class="margin-val" id="naver-margin-val">0원</div>
+                                <div class="margin-rate" id="naver-rate-val">마진율 0%</div>
+                            </div>
+
+                            <div class="rec-price-box">
+                                <div class="rec-price-title">💡 목표 마진 유지 권장 판매가</div>
+                                <div class="rec-price-val" id="naver-rec-val">0원</div>
+                            </div>
+                        </div>
+
+                        <!-- 카페24 -->
+                        <div class="channel-card" id="cafe24-margin-card">
+                            <div class="channel-header">
+                                <span class="channel-name"><span class="badge badge-cafe24">카페24</span> 자사몰</span>
+                                <span class="fee-rate">PG 수수료 3.8%</span>
+                            </div>
+                            <div class="row-item"><span>총 결제금액</span><span id="cafe24-total-val">0원</span></div>
+                            <div class="row-item"><span>채널 수수료</span><span id="cafe24-fee-val">0원</span></div>
+                            <div class="row-item highlight"><span>정산 예상액</span><span id="cafe24-settle-val">0원</span></div>
+                            <div class="row-item"><span>총 비용 (원가+배송+부자재)</span><span id="cafe24-cost-val">0원</span></div>
+
+                            <div class="margin-result" id="cafe24-margin-box-el">
+                                <div class="margin-label">건당 순수 마진</div>
+                                <div class="margin-val" id="cafe24-margin-val">0원</div>
+                                <div class="margin-rate" id="cafe24-rate-val">마진율 0%</div>
+                            </div>
+
+                            <div class="rec-price-box">
+                                <div class="rec-price-title">💡 목표 마진 유지 권장 판매가</div>
+                                <div class="rec-price-val" id="cafe24-rec-val">0원</div>
+                            </div>
+                        </div>
+
+                        <!-- 쿠팡 -->
+                        <div class="channel-card" id="coupang-margin-card">
+                            <div class="channel-header">
+                                <span class="channel-name"><span class="badge badge-coupang">쿠팡</span> 마켓플레이스</span>
+                                <span class="fee-rate">수수료 10.0%</span>
+                            </div>
+                            <div class="row-item"><span>총 결제금액</span><span id="coupang-total-val">0원</span></div>
+                            <div class="row-item"><span>채널 수수료</span><span id="coupang-fee-val">0원</span></div>
+                            <div class="row-item highlight"><span>정산 예상액</span><span id="coupang-settle-val">0원</span></div>
+                            <div class="row-item"><span>총 비용 (원가+배송+부자재)</span><span id="coupang-cost-val">0원</span></div>
+
+                            <div class="margin-result" id="coupang-margin-box-el">
+                                <div class="margin-label">건당 순수 마진</div>
+                                <div class="margin-val" id="coupang-margin-val">0원</div>
+                                <div class="margin-rate" id="coupang-rate-val">마진율 0%</div>
+                            </div>
+
+                            <div class="rec-price-box">
+                                <div class="rec-price-title">💡 목표 마진 유지 권장 판매가</div>
+                                <div class="rec-price-val" id="coupang-rec-val">0원</div>
+                            </div>
+                        </div>
+
+                        <!-- 11번가 -->
+                        <div class="channel-card" id="eleven-margin-card">
+                            <div class="channel-header">
+                                <span class="channel-name"><span class="badge badge-eleven">11번가</span> 오픈마켓</span>
+                                <span class="fee-rate">수수료 13.0%</span>
+                            </div>
+                            <div class="row-item"><span>총 결제금액</span><span id="eleven-total-val">0원</span></div>
+                            <div class="row-item"><span>채널 수수료</span><span id="eleven-fee-val">0원</span></div>
+                            <div class="row-item highlight"><span>정산 예상액</span><span id="eleven-settle-val">0원</span></div>
+                            <div class="row-item"><span>총 비용 (원가+배송+부자재)</span><span id="eleven-cost-val">0원</span></div>
+
+                            <div class="margin-result" id="eleven-margin-box-el">
+                                <div class="margin-label">건당 순수 마진</div>
+                                <div class="margin-val" id="eleven-margin-val">0원</div>
+                                <div class="margin-rate" id="eleven-rate-val">마진율 0%</div>
+                            </div>
+
+                            <div class="rec-price-box">
+                                <div class="rec-price-title">💡 목표 마진 유지 권장 판매가</div>
+                                <div class="rec-price-val" id="eleven-rec-val">0원</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!-- Footer -->
@@ -2443,6 +2777,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Trigger canvas redraw when thumbnail tab is clicked
             if (target === 'thumbnail') {
                 setTimeout(updateStudioCanvas, 50);
+            }
+
+            // Trigger margin calculation when margin tab is clicked
+            if (target === 'margin') {
+                setTimeout(calculateMargins, 50);
             }
         });
     });
@@ -4350,6 +4689,84 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    /* ==========================================================================
+       [Tab 5] Ecommerce Margin Calculator Logic
+       ========================================================================== */
+    const marginCostInput = document.getElementById('margin-cost');
+    const marginPriceInput = document.getElementById('margin-price');
+    const marginShippingInput = document.getElementById('margin-shipping');
+    const marginTargetInput = document.getElementById('margin-target');
+    const marginBoxInput = document.getElementById('margin-box');
+    const marginTapeInput = document.getElementById('margin-tape');
+    const marginSubInput = document.getElementById('margin-sub');
+
+    function calculateMargins() {
+        if (!marginCostInput) return; // Prevent exceptions if tab is not rendered yet
+        
+        const cost = parseFloat(marginCostInput.value) || 0;
+        const price = parseFloat(marginPriceInput.value) || 0;
+        const shipping = parseFloat(marginShippingInput.value) || 0;
+        const box = parseFloat(marginBoxInput.value) || 0;
+        const tape = parseFloat(marginTapeInput.value) || 0;
+        const sub = parseFloat(marginSubInput.value) || 0;
+        const targetMargin = parseFloat(marginTargetInput.value) || 0;
+
+        const extraCost = box + tape + sub;
+        const totalCost = cost + shipping + extraCost; // 도매가 + 실제배송비 + 부자재
+        const totalPayment = price + shipping; // 소비자 결제 총액 (상품가 + 배송비)
+
+        const channels = [
+            { id: 'naver', feeRate: 0.05 },
+            { id: 'cafe24', feeRate: 0.038 },
+            { id: 'coupang', feeRate: 0.10 },
+            { id: 'eleven', feeRate: 0.13 }
+        ];
+
+        channels.forEach(ch => {
+            const fee = Math.round(totalPayment * ch.feeRate);
+            const settle = totalPayment - fee;
+            const margin = settle - totalCost;
+            const marginRate = price > 0 ? ((margin / price) * 100).toFixed(1) : 0;
+
+            // Calculate recommended price to maintain target margin
+            const recPrice = Math.ceil((targetMargin + cost + extraCost + (shipping * ch.feeRate)) / (1 - ch.feeRate) / 10) * 10;
+
+            // Update UI values
+            document.getElementById(`${ch.id}-total-val`).textContent = totalPayment.toLocaleString() + '원';
+            document.getElementById(`${ch.id}-fee-val`).textContent = '-' + fee.toLocaleString() + '원';
+            document.getElementById(`${ch.id}-settle-val`).textContent = settle.toLocaleString() + '원';
+            document.getElementById(`${ch.id}-cost-val`).textContent = '-' + totalCost.toLocaleString() + '원';
+            
+            const marginValEl = document.getElementById(`${ch.id}-margin-val`);
+            const marginRateEl = document.getElementById(`${ch.id}-rate-val`);
+            const marginBoxEl = document.getElementById(`${ch.id}-margin-box-el`);
+
+            marginValEl.textContent = margin.toLocaleString() + '원';
+            marginRateEl.textContent = `마진율 ${marginRate}%`;
+
+            if (margin < 0) {
+                marginBoxEl.classList.add('negative');
+            } else {
+                marginBoxEl.classList.remove('negative');
+            }
+
+            document.getElementById(`${ch.id}-rec-val`).textContent = recPrice.toLocaleString() + '원';
+        });
+    }
+
+    // Bind event listeners to calculate margins in real-time
+    [
+        marginCostInput, marginPriceInput, marginShippingInput, marginTargetInput,
+        marginBoxInput, marginTapeInput, marginSubInput
+    ].forEach(input => {
+        if (input) {
+            input.addEventListener('input', calculateMargins);
+        }
+    });
+
+    // Run initial margin calculations on load
+    calculateMargins();
 
     // Initial canvas setup on app load
     updateStudioCanvas();
