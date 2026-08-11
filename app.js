@@ -73,6 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target === 'margin') {
                 setTimeout(calculateMargins, 50);
             }
+
+            // Trigger icons update for diff tab
+            if (target === 'diff') {
+                setTimeout(() => {
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                }, 50);
+            }
         });
     });
 
@@ -2057,6 +2064,137 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run initial margin calculations on load
     calculateMargins();
+
+    /* ==========================================================================
+       [Tab 6] AI Product Differentiator Logic
+       ========================================================================== */
+    const diffProdName = document.getElementById('diff-prod-name');
+    const diffProdSpecs = document.getElementById('diff-prod-specs');
+    const diffCompWeak = document.getElementById('diff-comp-weak');
+    const diffTargetAudience = document.getElementById('diff-target-audience');
+    const diffTone = document.getElementById('diff-tone');
+    const btnGenerateDiff = document.getElementById('btn-generate-diff');
+    const btnCopyDiff = document.getElementById('btn-copy-diff');
+    
+    const diffLoading = document.getElementById('diff-loading');
+    const diffEmptyState = document.getElementById('diff-empty-state');
+    const diffResultBox = document.getElementById('diff-result-box');
+    const diffMarkdownOutput = document.getElementById('diff-markdown-output');
+
+    if (btnGenerateDiff) {
+        btnGenerateDiff.addEventListener('click', () => {
+            const prodName = diffProdName.value.trim();
+            const prodSpecs = diffProdSpecs.value.trim();
+            const compWeak = diffCompWeak.value.trim();
+            const targetAudience = diffTargetAudience.value.trim();
+            const toneValue = diffTone.value;
+
+            if (!prodName) {
+                showToast('상품명을 입력해 주세요.', 'warning');
+                diffProdName.focus();
+                return;
+            }
+            if (!prodSpecs) {
+                showToast('제품의 핵심 스펙/특징을 입력해 주세요.', 'warning');
+                diffProdSpecs.focus();
+                return;
+            }
+            if (!targetAudience) {
+                showToast('핵심 타겟 고객층을 입력해 주세요.', 'warning');
+                diffTargetAudience.focus();
+                return;
+            }
+
+            // Map tone values to descriptive names
+            let toneName = '논리적 스펙 비교형 (수치와 성능 증명)';
+            if (toneValue === 'provocative') toneName = '⚡ 문제의식 자극형 (강한 결핍과 아쉬운 통증 자극)';
+            else if (toneValue === 'emotional') toneName = '🌸 감성 힐링형 (일상 속 작은 위로와 가심비 가치 제안)';
+            else if (toneValue === 'story') toneName = '📖 스토리텔링 공감형 (거부감 없는 실제 사용 경험담 및 대화체)';
+
+            // Show loading state
+            diffEmptyState.style.display = 'none';
+            diffResultBox.style.display = 'none';
+            diffLoading.style.display = 'flex';
+            btnGenerateDiff.disabled = true;
+            btnCopyDiff.disabled = true;
+
+            showToast('AI 상품 차별화 기획 리포트를 생성하기 위해 외부 제미나이 엔진과 연동 중입니다...', 'info');
+
+            // Build prompts
+            const systemPrompt = "당신은 연매출 100억 이상의 성과를 내는 스마트스토어 전문 마케팅 컨설턴트이자 이커머스 설득 카피라이팅 전문가입니다. 사용자가 제공한 상품 조건과 경쟁사 약점을 철저히 비교 분석하여, 마우스 휠을 멈추게 만드는 압도적인 차별화 상세페이지 기획안과 소구 원고를 한글로만 작성해 줍니다.";
+            
+            const queryPrompt = `스마트스토어 등록용 차별화 상세 기획 리포트 생성을 시작합니다.
+            
+[분석 상품명]: ${prodName}
+[제품의 핵심 스펙/주요 특징]: ${prodSpecs}
+[경쟁사 제품의 단점/아쉬운 점]: ${compWeak || '특별히 언급 안 됨 (일반적인 경쟁사 단점 및 리뷰 아쉬운 점 분석 적용)'}
+[핵심 타겟 고객층]: ${targetAudience}
+[적용할 마케팅 톤앤매너]: ${toneName}
+
+위 정보를 바탕으로, 다른 흔한 판매자들의 상세페이지와 180도 다른 독창적인 스마트스토어 상세페이지 기획안을 도출해 주세요. 반드시 다음의 5가지 섹션을 포함하여 아주 상세하게 기입해 주세요.
+
+1. 💡 우리 상품만의 차별화 소구점 (USP) 3가지
+- 타사 제품의 아쉬운 점과 극명히 대비되는 우리 제품의 압도적인 장점을 세련된 마케팅 어조로 명시해 주세요.
+
+2. 🎯 타겟 맞춤형 기획 헤드라인 카피라이팅 (5가지)
+- 30자 이내로 소비자의 시선을 즉시 사로잡는 강력한 카피라이팅 (호기심 자극, 결핍 자극, 혜택 명시 등).
+
+3. ✍️ 상세페이지 도입부 설득 스토리텔링 원고
+- 타겟 고객의 일상적 고민을 공감하며 우리 제품의 필요성을 자연스레 소개하는 몰입도 높은 300자 내외의 도입 문구.
+
+4. 🛠️ 경쟁사 대비 우위성 비교표 (텍스트형 마크다운 표)
+- 타사 제품과 우리 제품의 특징(재질, 강도, 사용성 등)을 정교하게 비교하는 마크다운 테이블 표 구성안을 작성해 주세요.
+
+5. 🏷️ 최적화 해시태그 및 스마트스토어 마케팅 추천 태그 (10개)
+- 스마트스토어 태그 및 인스타그램 홍보용으로 활용할 수 있는 차별화 키워드가 융합된 태그 목록.`;
+
+            const url = `https://text.pollinations.ai/${encodeURIComponent(queryPrompt)}?system=${encodeURIComponent(systemPrompt)}&model=openai`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('네트워크 응답 상태가 올바르지 않습니다.');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    // Update result box
+                    diffMarkdownOutput.textContent = data;
+                    
+                    // Toggle views
+                    diffLoading.style.display = 'none';
+                    diffResultBox.style.display = 'flex';
+                    btnGenerateDiff.disabled = false;
+                    btnCopyDiff.disabled = false;
+
+                    showToast('AI 상품 차별화 기획 리포트가 성공적으로 완성되었습니다!', 'success');
+                })
+                .catch(error => {
+                    console.error('Error generating differentiated plan:', error);
+                    diffLoading.style.display = 'none';
+                    diffEmptyState.style.display = 'block';
+                    btnGenerateDiff.disabled = false;
+                    btnCopyDiff.disabled = true;
+                    showToast('기획안 생성에 실패했습니다. 인터넷 연결 또는 AI 상태를 확인하고 다시 시도해 주세요.', 'danger');
+                });
+        });
+    }
+
+    if (btnCopyDiff) {
+        btnCopyDiff.addEventListener('click', () => {
+            const textToCopy = diffMarkdownOutput.textContent;
+            if (!textToCopy) return;
+
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    showToast('기획안 전체 내용이 클립보드에 복사되었습니다!', 'success');
+                })
+                .catch(err => {
+                    console.error('Copy failed: ', err);
+                    showToast('클립보드 복사에 실패했습니다. 마우스 드래그를 이용해 직접 복사해 주세요.', 'danger');
+                });
+        });
+    }
 
     // Initial canvas setup on app load
     updateStudioCanvas();

@@ -46,6 +46,9 @@
                     <button class="tab-btn" data-tab="margin">
                         <i data-lucide="calculator"></i> 채널별 마진 계산기
                     </button>
+                    <button class="tab-btn" data-tab="diff">
+                        <i data-lucide="brain-circuit"></i> AI 상품 차별화 기획기
+                    </button>
                 </nav>
 
                 <div class="quick-meta">
@@ -961,6 +964,108 @@
                                 <div class="rec-price-title">💡 목표 마진 유지 권장 판매가</div>
                                 <div class="rec-price-val" id="eleven-rec-val">0원</div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- [Tab 6] AI Product Differentiator -->
+            <section id="tab-diff" class="tab-content">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <i data-lucide="brain-circuit" style="color: var(--color-indigo);"></i>
+                        AI 상품 차별화 기획기 (Product Differentiator)
+                    </h1>
+                    <p class="section-desc">상품의 기본 정보와 스펙, 그리고 경쟁사의 한계점을 입력해 보세요. AI가 실시간으로 분석하여 남들과는 완전히 차별화되는 고효율 카피라이팅과 설득 문구를 제안합니다.</p>
+                </div>
+
+                <div class="grid-keyword">
+                    <!-- 입력 컨트롤 (좌측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem; height: fit-content;">
+                        <div class="card-title">✍️ 차별화 분석 조건 입력</div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>상품명 / 카테고리 <span class="req">*</span></span>
+                                <span class="desc">예: 무선 마사지기, 극세사 이불</span>
+                            </label>
+                            <input type="text" id="diff-prod-name" class="form-control" placeholder="분석할 제품의 명칭을 입력하세요" value="무선 목 어깨 마사지기">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>제품의 핵심 스펙 / 주요 특징 <span class="req">*</span></span>
+                                <span class="desc">성능, 재질, 작동 시간 등</span>
+                            </label>
+                            <textarea id="diff-prod-specs" class="form-control" style="height: 100px; resize: vertical;" placeholder="제품이 가지고 있는 물리적 특징이나 성능을 나열하세요 (예: 4D 마사지 볼, C타입 충전, 2000mAh 배터리, 3단계 속도 조절)"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>경쟁 제품들의 약점 / 아쉬운 점</span>
+                                <span class="desc">리뷰 불만 사항 및 기존 시장 한계</span>
+                            </label>
+                            <textarea id="diff-comp-weak" class="form-control" style="height: 80px; resize: vertical;" placeholder="경쟁사 제품 리뷰에서 자주 언급되는 불만 사항을 적으세요 (예: 너무 무겁다, 마사지 강도가 약하다, 충전 케이블 단종이 잦다)"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>주요 타겟 고객층 <span class="req">*</span></span>
+                                <span class="desc">디테일할수록 날카로운 카피 도출</span>
+                            </label>
+                            <input type="text" id="diff-target-audience" class="form-control" placeholder="예: 30대 거북목 직장인, 육아로 손목이 아픈 엄마" value="30대 하루 종일 모니터를 보는 거북목 직장인">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>기획 카피라이팅 톤앤매너</span>
+                            </label>
+                            <select id="diff-tone" class="form-select">
+                                <option value="provocative">⚡ 문제의식 자극형 (강한 결핍 자극)</option>
+                                <option value="emotional">🌸 감성 힐링형 (일상 속 작은 위로와 가치)</option>
+                                <option value="logical" selected>📊 논리적 스펙 비교형 (수치와 성능 증명)</option>
+                                <option value="story">📖 스토리텔링 공감형 (거부감 없는 일상 대화체)</option>
+                            </select>
+                        </div>
+
+                        <button id="btn-generate-diff" class="btn btn-indigo" style="width: 100%; padding: 0.85rem; font-size: 0.95rem; font-weight: 600;">
+                            <i data-lucide="sparkles"></i> AI 차별화 기획안 생성하기
+                        </button>
+                    </div>
+
+                    <!-- 생성 결과 패널 (우측) -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                        <div class="card-title">
+                            <span>✨ AI 차별화 상세 기획 리포트</span>
+                            <button id="btn-copy-diff" class="btn btn-secondary btn-sm" disabled>
+                                <i data-lucide="copy"></i> 전체 클립보드 복사
+                            </button>
+                        </div>
+
+                        <!-- 로딩 인디케이터 (초기 숨김) -->
+                        <div id="diff-loading" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 2rem; gap: 1rem;">
+                            <div class="spinner" style="width: 40px; height: 40px; border: 4px solid var(--border-color); border-top-color: var(--color-indigo); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                            <div style="font-weight: 600; color: var(--text-primary); text-align: center;">제미나이 AI 엔진이 경쟁사 상품 분석 및 차별화 요소를 추출하고 있습니다...</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">이 작업은 약 5~10초 소요됩니다. 잠시만 기다려주세요.</div>
+                        </div>
+
+                        <!-- 비어 있는 상태 표시 -->
+                        <div id="diff-empty-state" style="padding: 6rem 2rem; text-align: center;">
+                            <div style="background-color: rgba(99, 102, 241, 0.1); color: var(--color-indigo); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
+                                <i data-lucide="brain-circuit" style="width: 30px; height: 30px;"></i>
+                            </div>
+                            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">차별화 기획을 시작해 보세요</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 400px; margin: 0 auto;">좌측의 상품 세부 정보와 경쟁사 분석 포인트를 상세하게 적어 주실수록, AI가 훨씬 더 정교하고 날카로운 스마트스토어 상세페이지용 셀링 포인트를 도출해 냅니다.</p>
+                        </div>
+
+                        <!-- 실제 출력 결과 (초기 숨김) -->
+                        <div id="diff-result-box" style="display: none; flex-direction: column; gap: 1.25rem;">
+                            <div class="alert alert-info" style="font-size: 0.85rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); background-color: rgba(14, 165, 233, 0.05); border: 1px solid rgba(14, 165, 233, 0.15); color: var(--color-info); display: flex; align-items: center; gap: 0.5rem;">
+                                <i data-lucide="info" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
+                                <span>생성된 기획안은 하단 에디터에서 바로 복사하여 스마트스토어 에디터나 상세페이지 콘텐츠로 사용하세요.</span>
+                            </div>
+
+                            <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; font-family: var(--font-sans); line-height: 1.7; overflow-y: auto; max-height: 580px; white-space: pre-wrap; font-size: 0.9rem; color: var(--text-primary);" id="diff-markdown-output"></div>
                         </div>
                     </div>
                 </div>
