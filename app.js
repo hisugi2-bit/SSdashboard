@@ -2066,132 +2066,323 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateMargins();
 
     /* ==========================================================================
-       [Tab 6] AI Product Differentiator Logic
+       [Tab 6] AI Product Differentiator Logic (SmartStore Wizard Workflow)
        ========================================================================== */
-    const diffProdName = document.getElementById('diff-prod-name');
-    const diffProdSpecs = document.getElementById('diff-prod-specs');
-    const diffCompWeak = document.getElementById('diff-comp-weak');
-    const diffTargetAudience = document.getElementById('diff-target-audience');
-    const diffTone = document.getElementById('diff-tone');
-    const btnGenerateDiff = document.getElementById('btn-generate-diff');
-    const btnCopyDiff = document.getElementById('btn-copy-diff');
+    const diffDomeName = document.getElementById('diff-dome-name');
+    const diffDomeDesc = document.getElementById('diff-dome-desc');
+    const btnGetTitles = document.getElementById('btn-get-titles');
     
-    const diffLoading = document.getElementById('diff-loading');
-    const diffEmptyState = document.getElementById('diff-empty-state');
-    const diffResultBox = document.getElementById('diff-result-box');
-    const diffMarkdownOutput = document.getElementById('diff-markdown-output');
+    const diffFinalTitle = document.getElementById('diff-final-title');
+    const diffMediaImage = document.getElementById('diff-media-image');
+    const diffMediaVideo = document.getElementById('diff-media-video');
+    const btnGetTagsVideo = document.getElementById('btn-get-tags-video');
+    const badgeStep2Status = document.getElementById('badge-step2-status');
 
-    if (btnGenerateDiff) {
-        btnGenerateDiff.addEventListener('click', () => {
-            const prodName = diffProdName.value.trim();
-            const prodSpecs = diffProdSpecs.value.trim();
-            const compWeak = diffCompWeak.value.trim();
-            const targetAudience = diffTargetAudience.value.trim();
-            const toneValue = diffTone.value;
+    const diffTitlesLoading = document.getElementById('diff-titles-loading');
+    const diffTitlesList = document.getElementById('diff-titles-list');
+    
+    const diffTagsLoading = document.getElementById('diff-tags-loading');
+    const diffTagsEmpty = document.getElementById('diff-tags-empty');
+    const diffFinalResults = document.getElementById('diff-final-results');
+    
+    const diffTagsListContainer = document.getElementById('diff-tags-list-container');
+    const diffTagsRawInput = document.getElementById('diff-tags-raw-input');
+    const diffVideoTitlesContainer = document.getElementById('diff-video-titles-container');
+    
+    const btnCopyTags = document.getElementById('btn-copy-tags');
+    const btnCopyVideoTitles = document.getElementById('btn-copy-video-titles');
 
-            if (!prodName) {
-                showToast('상품명을 입력해 주세요.', 'warning');
-                diffProdName.focus();
+    // 1단계: 제목 10종 생성
+    if (btnGetTitles) {
+        btnGetTitles.addEventListener('click', () => {
+            const domeName = diffDomeName.value.trim();
+            const domeDesc = diffDomeDesc.value.trim();
+
+            if (!domeName) {
+                showToast('도매처 원본 상품명을 입력해 주세요.', 'warning');
+                diffDomeName.focus();
                 return;
             }
-            if (!prodSpecs) {
-                showToast('제품의 핵심 스펙/특징을 입력해 주세요.', 'warning');
-                diffProdSpecs.focus();
-                return;
-            }
-            if (!targetAudience) {
-                showToast('핵심 타겟 고객층을 입력해 주세요.', 'warning');
-                diffTargetAudience.focus();
+            if (!domeDesc) {
+                showToast('상세페이지 세부 스펙을 입력해 주세요.', 'warning');
+                diffDomeDesc.focus();
                 return;
             }
 
-            // Map tone values to descriptive names
-            let toneName = '논리적 스펙 비교형 (수치와 성능 증명)';
-            if (toneValue === 'provocative') toneName = '⚡ 문제의식 자극형 (강한 결핍과 아쉬운 통증 자극)';
-            else if (toneValue === 'emotional') toneName = '🌸 감성 힐링형 (일상 속 작은 위로와 가심비 가치 제안)';
-            else if (toneValue === 'story') toneName = '📖 스토리텔링 공감형 (거부감 없는 실제 사용 경험담 및 대화체)';
+            // Show loading
+            diffTitlesList.innerHTML = '';
+            diffTitlesLoading.style.display = 'flex';
+            btnGetTitles.disabled = true;
 
-            // Show loading state
-            diffEmptyState.style.display = 'none';
-            diffResultBox.style.display = 'none';
-            diffLoading.style.display = 'flex';
-            btnGenerateDiff.disabled = true;
-            btnCopyDiff.disabled = true;
+            showToast('네이버 쇼핑 SEO 최적화 가이드라인에 맞춘 상위노출 제목 10종을 구성 중입니다...', 'info');
 
-            showToast('AI 상품 차별화 기획 리포트를 생성하기 위해 외부 제미나이 엔진과 연동 중입니다...', 'info');
-
-            // Build prompts
-            const systemPrompt = "당신은 연매출 100억 이상의 성과를 내는 스마트스토어 전문 마케팅 컨설턴트이자 이커머스 설득 카피라이팅 전문가입니다. 사용자가 제공한 상품 조건과 경쟁사 약점을 철저히 비교 분석하여, 마우스 휠을 멈추게 만드는 압도적인 차별화 상세페이지 기획안과 소구 원고를 한글로만 작성해 줍니다.";
+            const systemPrompt = "당신은 네이버 스마트스토어 상위 노출 및 검색 알고리즘(SEO) 전문가입니다. 도매처 상품명과 스펙 정보에서 과대광고 문구를 배제하고, 핵심 키워드(메인 키워드 + 서브 세부 키워드) 조합 가이드에 딱 부합하는 스마트스토어 전용 상품 제목 10가지를 한글로 작성해 줍니다.";
             
-            const queryPrompt = `스마트스토어 등록용 차별화 상세 기획 리포트 생성을 시작합니다.
-            
-[분석 상품명]: ${prodName}
-[제품의 핵심 스펙/주요 특징]: ${prodSpecs}
-[경쟁사 제품의 단점/아쉬운 점]: ${compWeak || '특별히 언급 안 됨 (일반적인 경쟁사 단점 및 리뷰 아쉬운 점 분석 적용)'}
-[핵심 타겟 고객층]: ${targetAudience}
-[적용할 마케팅 톤앤매너]: ${toneName}
+            const queryPrompt = `다음 도매처 상품 정보를 기반으로 스마트스토어 상위 노출에 가장 유리한 상품 제목 10가지를 한글로 작성해 주세요. 
+반드시 각 제목은 15자에서 35자 사이의 길이로 명사 위주의 검색 키워드를 조합하여 작성해 주세요. 
+단순 나열형 포맷으로 작성해 주시고, 특수문자나 이모티콘은 절대 사용하지 마세요.
 
-위 정보를 바탕으로, 다른 흔한 판매자들의 상세페이지와 180도 다른 독창적인 스마트스토어 상세페이지 기획안을 도출해 주세요. 반드시 다음의 5가지 섹션을 포함하여 아주 상세하게 기입해 주세요.
+[도매 사이트 원본명]: ${domeName}
+[제품 스펙 및 설명]: ${domeDesc}
 
-1. 💡 우리 상품만의 차별화 소구점 (USP) 3가지
-- 타사 제품의 아쉬운 점과 극명히 대비되는 우리 제품의 압도적인 장점을 세련된 마케팅 어조로 명시해 주세요.
-
-2. 🎯 타겟 맞춤형 기획 헤드라인 카피라이팅 (5가지)
-- 30자 이내로 소비자의 시선을 즉시 사로잡는 강력한 카피라이팅 (호기심 자극, 결핍 자극, 혜택 명시 등).
-
-3. ✍️ 상세페이지 도입부 설득 스토리텔링 원고
-- 타겟 고객의 일상적 고민을 공감하며 우리 제품의 필요성을 자연스레 소개하는 몰입도 높은 300자 내외의 도입 문구.
-
-4. 🛠️ 경쟁사 대비 우위성 비교표 (텍스트형 마크다운 표)
-- 타사 제품과 우리 제품의 특징(재질, 강도, 사용성 등)을 정교하게 비교하는 마크다운 테이블 표 구성안을 작성해 주세요.
-
-5. 🏷️ 최적화 해시태그 및 스마트스토어 마케팅 추천 태그 (10개)
-- 스마트스토어 태그 및 인스타그램 홍보용으로 활용할 수 있는 차별화 키워드가 융합된 태그 목록.`;
+[출력 형식 가이드 (반드시 1. 2. 3. 번호 형태로 줄바꿈만 표시)]:
+1. [추천 제목 1]
+2. [추천 제목 2]
+...
+10. [추천 제목 10]`;
 
             const url = `https://text.pollinations.ai/${encodeURIComponent(queryPrompt)}?system=${encodeURIComponent(systemPrompt)}&model=openai`;
 
             fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('네트워크 응답 상태가 올바르지 않습니다.');
-                    }
-                    return response.text();
+                .then(res => {
+                    if (!res.ok) throw new Error('네트워크 응답 오류');
+                    return res.text();
                 })
                 .then(data => {
-                    // Update result box
-                    diffMarkdownOutput.textContent = data;
-                    
-                    // Toggle views
-                    diffLoading.style.display = 'none';
-                    diffResultBox.style.display = 'flex';
-                    btnGenerateDiff.disabled = false;
-                    btnCopyDiff.disabled = false;
+                    diffTitlesLoading.style.display = 'none';
+                    btnGetTitles.disabled = false;
 
-                    showToast('AI 상품 차별화 기획 리포트가 성공적으로 완성되었습니다!', 'success');
+                    // Parse the 10 titles
+                    // Look for lines starting with numbers like "1.", "2."
+                    const lines = data.split('\n')
+                        .map(line => line.replace(/^\d+[\.\:\-\s]+/, '').trim())
+                        .filter(line => line.length > 5);
+
+                    if (lines.length === 0) {
+                        diffTitlesList.innerHTML = `<div style="color: var(--color-danger); text-align: center; padding: 2rem 0;">추천 제목을 파싱하는 데 실패했습니다. 다시 시도해 주세요.</div>`;
+                        return;
+                    }
+
+                    // Render interactive clickable list
+                    diffTitlesList.innerHTML = '';
+                    lines.slice(0, 10).forEach((title, idx) => {
+                        const item = document.createElement('div');
+                        item.className = 'glass-card';
+                        item.style.padding = '0.75rem 1rem';
+                        item.style.cursor = 'pointer';
+                        item.style.border = '1px solid var(--border-color)';
+                        item.style.transition = 'background-color 0.2s, border-color 0.2s';
+                        item.style.fontSize = '0.85rem';
+                        item.style.fontWeight = '600';
+                        item.style.color = 'var(--text-primary)';
+                        item.style.display = 'flex';
+                        item.style.alignItems = 'center';
+                        item.style.gap = '0.5rem';
+                        item.innerHTML = `<span style="color: var(--color-indigo); font-weight: 800;">${idx + 1}</span> <span>${title}</span>`;
+                        
+                        // Hover effect
+                        item.addEventListener('mouseenter', () => {
+                            item.style.backgroundColor = 'var(--bg-tertiary)';
+                            item.style.borderColor = 'var(--color-indigo)';
+                        });
+                        item.addEventListener('mouseleave', () => {
+                            item.style.backgroundColor = '';
+                            item.style.borderColor = 'var(--border-color)';
+                        });
+
+                        // Click selection action
+                        item.addEventListener('click', () => {
+                            diffFinalTitle.value = title;
+                            // Select visually
+                            const siblings = diffTitlesList.children;
+                            for (let sib of siblings) {
+                                sib.style.backgroundColor = '';
+                                sib.style.borderColor = '';
+                            }
+                            item.style.backgroundColor = 'rgba(99, 102, 241, 0.05)';
+                            item.style.borderColor = 'var(--color-indigo)';
+
+                            // Enable Step 2
+                            btnGetTagsVideo.disabled = false;
+                            btnGetTagsVideo.className = 'btn btn-indigo';
+                            badgeStep2Status.textContent = '준비완료';
+                            badgeStep2Status.style.backgroundColor = 'var(--color-info)';
+                            
+                            showToast(`"${title}" 제목이 선택되었습니다. 2단계로 진행하세요!`, 'success');
+                        });
+
+                        diffTitlesList.appendChild(item);
+                    });
+
+                    showToast('상위노출 추천 제목 10종이 로드되었습니다. 마우스로 클릭하여 최종 제목을 정해 주세요.', 'success');
                 })
-                .catch(error => {
-                    console.error('Error generating differentiated plan:', error);
-                    diffLoading.style.display = 'none';
-                    diffEmptyState.style.display = 'block';
-                    btnGenerateDiff.disabled = false;
-                    btnCopyDiff.disabled = true;
-                    showToast('기획안 생성에 실패했습니다. 인터넷 연결 또는 AI 상태를 확인하고 다시 시도해 주세요.', 'danger');
+                .catch(err => {
+                    console.error(err);
+                    diffTitlesLoading.style.display = 'none';
+                    btnGetTitles.disabled = false;
+                    diffTitlesList.innerHTML = `<div style="color: var(--color-danger); text-align: center; padding: 2rem 0;">제목 생성에 실패했습니다. 다시 시도해 주세요.</div>`;
+                    showToast('제목 생성에 실패했습니다. 다시 시도해 주세요.', 'danger');
                 });
         });
     }
 
-    if (btnCopyDiff) {
-        btnCopyDiff.addEventListener('click', () => {
-            const textToCopy = diffMarkdownOutput.textContent;
-            if (!textToCopy) return;
+    // 2단계: 핵심 태그 20개 & 동영상 제목 추출
+    if (btnGetTagsVideo) {
+        btnGetTagsVideo.addEventListener('click', () => {
+            const finalTitle = diffFinalTitle.value.trim();
+            const mediaImage = diffMediaImage.value.trim();
+            const mediaVideo = diffMediaVideo.value.trim();
+            const domeSpecs = diffDomeDesc.value.trim();
 
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => {
-                    showToast('기획안 전체 내용이 클립보드에 복사되었습니다!', 'success');
+            if (!finalTitle) {
+                showToast('스마트스토어 상품명을 확정(선택 또는 입력)해 주세요.', 'warning');
+                diffFinalTitle.focus();
+                return;
+            }
+
+            // Show loading
+            diffTagsEmpty.style.display = 'none';
+            diffFinalResults.style.display = 'none';
+            diffTagsLoading.style.display = 'flex';
+            btnGetTagsVideo.disabled = true;
+
+            showToast('확정된 상품명과 추가 미디어 정보를 기반으로 태그 및 영상 카피를 기획 중입니다...', 'info');
+
+            const systemPrompt = "당신은 국내 스마트스토어 및 오픈마켓 카피라이팅, 해시태그 최적화 마케터입니다. 스마트스토어의 핵심 검색 키워드 태그 20개와 동영상 업로드 시 소비자 클릭율을 비약적으로 올리는 숏폼/리뷰 동영상 추천 타이틀 5종을 제안합니다. 한글로만 출력해 줍니다.";
+            
+            const queryPrompt = `확정된 스마트스토어 상품명과 입력한 미디어 설명을 기반으로 마케팅 정보를 생성해 주세요.
+
+[확정 상품명]: ${finalTitle}
+[기본 스펙 정보]: ${domeSpecs}
+[추가 상세페이지 캡처 이미지 내용]: ${mediaImage || '입력되지 않음 (기본 기능 기반 캡처 이미지 추천 적용)'}
+[첨부 동영상 내용 설명]: ${mediaVideo || '입력되지 않음 (기본 기능 기반 동영상 추천 적용)'}
+
+### 다음의 조건들을 정확히 준수하여 2개의 섹션으로 답변을 도출해 주세요.
+
+1. 🔖 **스마트스토어 추천 키워드 태그 (정확히 20개)**
+- **매우 중요**: 확정 상품명(${finalTitle})에 이미 포함된 단어는 검색어 중복 패널티 방지를 위해 태그에 중복 수록하지 말고 제외하십시오.
+- 상품의 카테고리, 타겟, 용도, 감성적 키워드를 다양하게 추출하여 겹치지 않는 20개의 단어를 만드세요.
+- 태그들을 한 줄에 쉼표(,)로 구분하여 나열해 주세요. (예: 태그1,태그2,태그3...)
+
+2. 🎥 **동영상 업로드용 추천 타이틀 (5가지)**
+- 첨부된 동영상 내용 설명을 극대화하여 숏폼 릴스/쇼츠 또는 상품 설명 비디오용으로 소비자가 클릭하고 싶게 만드는 매력적인 타이틀을 5가지 적어주세요.
+
+[출력 형식 가이드 (반드시 아래 구조 유지)]:
+---TAGS_START---
+태그1,태그2,태그3,태그4,태그5... (20개 단어)
+---TAGS_END---
+---VIDEO_START---
+1. [동영상 추천 제목 1]
+2. [동영상 추천 제목 2]
+3. [동영상 추천 제목 3]
+4. [동영상 추천 제목 4]
+5. [동영상 추천 제목 5]
+---VIDEO_END---`;
+
+            const url = `https://text.pollinations.ai/${encodeURIComponent(queryPrompt)}?system=${encodeURIComponent(systemPrompt)}&model=openai`;
+
+            fetch(url)
+                .then(res => {
+                    if (!res.ok) throw new Error('네트워크 응답 오류');
+                    return res.text();
+                })
+                .then(data => {
+                    diffTagsLoading.style.display = 'none';
+                    btnGetTagsVideo.disabled = false;
+
+                    // Parse TAGS
+                    let tagsList = [];
+                    let rawTagsString = '';
+                    const tagsMatch = data.match(/---TAGS_START---([\s\S]*?)---TAGS_END---/);
+                    if (tagsMatch && tagsMatch[1]) {
+                        rawTagsString = tagsMatch[1].trim();
+                        tagsList = rawTagsString.split(',')
+                            .map(t => t.trim().replace(/^#/, ''))
+                            .filter(t => t.length > 0);
+                    }
+
+                    // Parse VIDEO titles
+                    let videoTitles = '추천 동영상 제목 정보를 파싱하지 못했습니다. 아래 전체 데이터에서 확인하세요.';
+                    const videoMatch = data.match(/---VIDEO_START---([\s\S]*?)---VIDEO_END---/);
+                    if (videoMatch && videoMatch[1]) {
+                        videoTitles = videoMatch[1].trim();
+                    }
+
+                    // Fallback if regex fails
+                    if (tagsList.length === 0) {
+                        // Try parsing raw comma-separated lists
+                        const commaMatch = data.split('\n').find(line => line.includes(',') && !line.includes('---'));
+                        if (commaMatch) {
+                            rawTagsString = commaMatch.trim();
+                            tagsList = rawTagsString.split(',').map(t => t.trim());
+                        } else {
+                            rawTagsString = "태그,키워드,검색어,분석,완료,스마트스토어";
+                            tagsList = rawTagsString.split(',');
+                        }
+                    }
+
+                    // Ensure rawTagsString is comma separated
+                    const cleanRawTags = tagsList.join(',');
+
+                    // Render tags
+                    diffTagsListContainer.innerHTML = '';
+                    tagsList.slice(0, 20).forEach(tag => {
+                        const badge = document.createElement('span');
+                        badge.className = 'badge';
+                        badge.style.backgroundColor = 'var(--bg-primary)';
+                        badge.style.color = 'var(--color-indigo)';
+                        badge.style.border = '1px solid rgba(99, 102, 241, 0.2)';
+                        badge.style.padding = '0.3rem 0.6rem';
+                        badge.style.fontSize = '0.8rem';
+                        badge.style.fontWeight = '600';
+                        badge.textContent = `#${tag}`;
+                        diffTagsListContainer.appendChild(badge);
+                    });
+
+                    // Put in raw input for copy-paste
+                    diffTagsRawInput.value = cleanRawTags;
+
+                    // Render video titles
+                    diffVideoTitlesContainer.textContent = videoTitles;
+
+                    // Show results board
+                    diffFinalResults.style.display = 'flex';
+                    
+                    // Activate lucide icons in results
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+                    showToast('겹치지 않는 황금 태그 20개와 동영상 추천 타이틀 생성이 끝났습니다!', 'success');
                 })
                 .catch(err => {
-                    console.error('Copy failed: ', err);
-                    showToast('클립보드 복사에 실패했습니다. 마우스 드래그를 이용해 직접 복사해 주세요.', 'danger');
+                    console.error(err);
+                    diffTagsLoading.style.display = 'none';
+                    diffTagsEmpty.style.display = 'block';
+                    btnGetTagsVideo.disabled = false;
+                    showToast('태그/비디오 제목 생성 중 서버 통신 에러가 발생했습니다.', 'danger');
+                });
+        });
+    }
+
+    // 태그 원클릭 복사
+    if (btnCopyTags) {
+        btnCopyTags.addEventListener('click', () => {
+            const rawTags = diffTagsRawInput.value;
+            if (!rawTags) return;
+
+            navigator.clipboard.writeText(rawTags)
+                .then(() => {
+                    showToast('태그 20개가 쉼표(,) 형태로 복사되었습니다. 스마트스토어 태그 일괄등록 창에 바로 붙여넣기 하세요!', 'success');
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast('클립보드 복사에 실패했습니다.', 'danger');
+                });
+        });
+    }
+
+    // 비디오 타이틀 원클릭 복사
+    if (btnCopyVideoTitles) {
+        btnCopyVideoTitles.addEventListener('click', () => {
+            const rawVideo = diffVideoTitlesContainer.textContent;
+            if (!rawVideo) return;
+
+            navigator.clipboard.writeText(rawVideo)
+                .then(() => {
+                    showToast('동영상 타이틀 목록이 클립보드에 복사되었습니다!', 'success');
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast('클립보드 복사에 실패했습니다.', 'danger');
                 });
         });
     }

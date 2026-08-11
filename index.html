@@ -969,104 +969,164 @@
                 </div>
             </section>
 
-            <!-- [Tab 6] AI Product Differentiator -->
+            <!-- [Tab 6] AI Product Differentiator (SmartStore Wizard Workflow) -->
             <section id="tab-diff" class="tab-content">
                 <div class="section-header">
                     <h1 class="section-title">
                         <i data-lucide="brain-circuit" style="color: var(--color-indigo);"></i>
-                        AI 상품 차별화 기획기 (Product Differentiator)
+                        스마트스토어 입점 AI 마법사 (SEO Title & Tag Wizard)
                     </h1>
-                    <p class="section-desc">상품의 기본 정보와 스펙, 그리고 경쟁사의 한계점을 입력해 보세요. AI가 실시간으로 분석하여 남들과는 완전히 차별화되는 고효율 카피라이팅과 설득 문구를 제안합니다.</p>
+                    <p class="section-desc">도매처 상품 정보를 입력하면, 스마트스토어 상위 노출 제목 10종 추천부터 겹치지 않는 황금 태그(20개) 및 미디어/동영상 타이틀까지 단계별로 편리하게 기획해 드립니다.</p>
                 </div>
 
                 <div class="grid-keyword">
                     <!-- 입력 컨트롤 (좌측) -->
-                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem; height: fit-content;">
-                        <div class="card-title">✍️ 차별화 분석 조건 입력</div>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        
+                        <!-- 1단계 카드 -->
+                        <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                            <div class="card-title">
+                                <span>1️⃣ [1단계] 도매 상품 정보 입력</span>
+                                <span class="badge" style="background-color: var(--color-indigo);">필수</span>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span>상품명 / 카테고리 <span class="req">*</span></span>
-                                <span class="desc">예: 무선 마사지기, 극세사 이불</span>
-                            </label>
-                            <input type="text" id="diff-prod-name" class="form-control" placeholder="분석할 제품의 명칭을 입력하세요" value="무선 목 어깨 마사지기">
-                        </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>도매처 사이트 등록 상품명</span>
+                                    <span class="desc">도매매, 도매꾹 등 원본 제목</span>
+                                </label>
+                                <input type="text" id="diff-dome-name" class="form-control" placeholder="도매 사이트 원본 상품명을 입력하세요" value="초경량 휴대용 접이식 미니 목 마사지기">
+                            </div>
 
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span>제품의 핵심 스펙 / 주요 특징 <span class="req">*</span></span>
-                                <span class="desc">성능, 재질, 작동 시간 등</span>
-                            </label>
-                            <textarea id="diff-prod-specs" class="form-control" style="height: 100px; resize: vertical;" placeholder="제품이 가지고 있는 물리적 특징이나 성능을 나열하세요 (예: 4D 마사지 볼, C타입 충전, 2000mAh 배터리, 3단계 속도 조절)"></textarea>
-                        </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>상세페이지 세부 스펙 / 내역</span>
+                                    <span class="desc">제품 설명, 재질, 규격 및 특징</span>
+                                </label>
+                                <textarea id="diff-dome-desc" class="form-control" style="height: 120px; resize: vertical;" placeholder="상세페이지의 주요 성능이나 텍스트 정보를 그대로 붙여넣으세요 (예: 280g 초경량, 온열 3단계, 15단계 강도조절, 무선 충전, 실리콘 패드...)"></textarea>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span>경쟁 제품들의 약점 / 아쉬운 점</span>
-                                <span class="desc">리뷰 불만 사항 및 기존 시장 한계</span>
-                            </label>
-                            <textarea id="diff-comp-weak" class="form-control" style="height: 80px; resize: vertical;" placeholder="경쟁사 제품 리뷰에서 자주 언급되는 불만 사항을 적으세요 (예: 너무 무겁다, 마사지 강도가 약하다, 충전 케이블 단종이 잦다)"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span>주요 타겟 고객층 <span class="req">*</span></span>
-                                <span class="desc">디테일할수록 날카로운 카피 도출</span>
-                            </label>
-                            <input type="text" id="diff-target-audience" class="form-control" placeholder="예: 30대 거북목 직장인, 육아로 손목이 아픈 엄마" value="30대 하루 종일 모니터를 보는 거북목 직장인">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span>기획 카피라이팅 톤앤매너</span>
-                            </label>
-                            <select id="diff-tone" class="form-select">
-                                <option value="provocative">⚡ 문제의식 자극형 (강한 결핍 자극)</option>
-                                <option value="emotional">🌸 감성 힐링형 (일상 속 작은 위로와 가치)</option>
-                                <option value="logical" selected>📊 논리적 스펙 비교형 (수치와 성능 증명)</option>
-                                <option value="story">📖 스토리텔링 공감형 (거부감 없는 일상 대화체)</option>
-                            </select>
-                        </div>
-
-                        <button id="btn-generate-diff" class="btn btn-indigo" style="width: 100%; padding: 0.85rem; font-size: 0.95rem; font-weight: 600;">
-                            <i data-lucide="sparkles"></i> AI 차별화 기획안 생성하기
-                        </button>
-                    </div>
-
-                    <!-- 생성 결과 패널 (우측) -->
-                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
-                        <div class="card-title">
-                            <span>✨ AI 차별화 상세 기획 리포트</span>
-                            <button id="btn-copy-diff" class="btn btn-secondary btn-sm" disabled>
-                                <i data-lucide="copy"></i> 전체 클립보드 복사
+                            <button id="btn-get-titles" class="btn btn-indigo" style="width: 100%; padding: 0.85rem; font-weight: 600;">
+                                <i data-lucide="sparkles"></i> 상위 노출 제목 10개 추천받기
                             </button>
                         </div>
 
-                        <!-- 로딩 인디케이터 (초기 숨김) -->
-                        <div id="diff-loading" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 2rem; gap: 1rem;">
-                            <div class="spinner" style="width: 40px; height: 40px; border: 4px solid var(--border-color); border-top-color: var(--color-indigo); border-radius: 50%; animation: spin 1s linear infinite;"></div>
-                            <div style="font-weight: 600; color: var(--text-primary); text-align: center;">제미나이 AI 엔진이 경쟁사 상품 분석 및 차별화 요소를 추출하고 있습니다...</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">이 작업은 약 5~10초 소요됩니다. 잠시만 기다려주세요.</div>
-                        </div>
-
-                        <!-- 비어 있는 상태 표시 -->
-                        <div id="diff-empty-state" style="padding: 6rem 2rem; text-align: center;">
-                            <div style="background-color: rgba(99, 102, 241, 0.1); color: var(--color-indigo); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
-                                <i data-lucide="brain-circuit" style="width: 30px; height: 30px;"></i>
-                            </div>
-                            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">차별화 기획을 시작해 보세요</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 400px; margin: 0 auto;">좌측의 상품 세부 정보와 경쟁사 분석 포인트를 상세하게 적어 주실수록, AI가 훨씬 더 정교하고 날카로운 스마트스토어 상세페이지용 셀링 포인트를 도출해 냅니다.</p>
-                        </div>
-
-                        <!-- 실제 출력 결과 (초기 숨김) -->
-                        <div id="diff-result-box" style="display: none; flex-direction: column; gap: 1.25rem;">
-                            <div class="alert alert-info" style="font-size: 0.85rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); background-color: rgba(14, 165, 233, 0.05); border: 1px solid rgba(14, 165, 233, 0.15); color: var(--color-info); display: flex; align-items: center; gap: 0.5rem;">
-                                <i data-lucide="info" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
-                                <span>생성된 기획안은 하단 에디터에서 바로 복사하여 스마트스토어 에디터나 상세페이지 콘텐츠로 사용하세요.</span>
+                        <!-- 2단계 카드 -->
+                        <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                            <div class="card-title">
+                                <span>2️⃣ [2단계] 제목 확정 및 미디어 추가</span>
+                                <span class="badge" id="badge-step2-status" style="background-color: var(--text-secondary);">대기중</span>
                             </div>
 
-                            <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; font-family: var(--font-sans); line-height: 1.7; overflow-y: auto; max-height: 580px; white-space: pre-wrap; font-size: 0.9rem; color: var(--text-primary);" id="diff-markdown-output"></div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>확정된 스마트스토어 상품명 <span class="req">*</span></span>
+                                    <span class="desc">우측 추천 리스트를 클릭하면 자동 입력</span>
+                                </label>
+                                <input type="text" id="diff-final-title" class="form-control" placeholder="1단계에서 제목을 선택하거나 직접 입력하세요">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>추가 미디어 1: 캡처 이미지 내용 설명 <span class="desc">(선택)</span></span>
+                                    <span class="desc">상세페이지에 올릴 주요 캡처 이미지 설명</span>
+                                </label>
+                                <textarea id="diff-media-image" class="form-control" style="height: 60px; resize: vertical;" placeholder="예: 한 손에 쏙 들어오는 사이즈 비교 사진, 실제 목에 착용해 작동 중인 온열 적외선 LED 점등 컷"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>추가 미디어 2: 첨부 동영상 내용 설명 <span class="desc">(선택)</span></span>
+                                    <span class="desc">리뷰나 숏폼용 동영상 내용 설명</span>
+                                </label>
+                                <textarea id="diff-media-video" class="form-control" style="height: 60px; resize: vertical;" placeholder="예: 마사지기를 가볍게 가방에서 꺼내고 원터치 버튼을 누르자 진동 마사지 볼이 작동하는 15초 짧은 실연 쇼츠 영상"></textarea>
+                            </div>
+
+                            <button id="btn-get-tags-video" class="btn btn-secondary" style="width: 100%; padding: 0.85rem; font-weight: 600;" disabled>
+                                <i data-lucide="tags"></i> 핵심 태그 20개 & 동영상 제목 추출
+                            </button>
                         </div>
+                    </div>
+
+                    <!-- 결과 보드 (우측) -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        
+                        <!-- 제목 추천 보드 -->
+                        <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem; min-height: 250px;">
+                            <div class="card-title">
+                                <span>📋 1단계: 추천 상품명 10종 리스트</span>
+                                <span class="desc" style="font-size: 0.75rem;">원하는 제목을 클릭해 선택하세요</span>
+                            </div>
+
+                            <!-- 로딩창 -->
+                            <div id="diff-titles-loading" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 1rem; gap: 0.75rem;">
+                                <div class="spinner" style="width: 30px; height: 30px; border: 3px solid var(--border-color); border-top-color: var(--color-indigo); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                                <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); text-align: center;">스마트스토어 SEO 맞춤형 최적화 제목을 생성하고 있습니다...</div>
+                            </div>
+
+                            <!-- 결과 출력 목록 -->
+                            <div id="diff-titles-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 3rem 0;">
+                                    도매 정보를 입력하고 왼쪽의 <b>[상위 노출 제목 10개 추천받기]</b> 버튼을 누르면 이 자리에 상위노출 키워드 조합 제목이 생성됩니다.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 최종 결과물 보드 -->
+                        <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem; min-height: 280px;">
+                            <div class="card-title">
+                                <span>🚀 2단계: 최종 태그(20개) & 동영상 타이틀</span>
+                            </div>
+
+                            <!-- 로딩창 -->
+                            <div id="diff-tags-loading" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 1rem; gap: 0.75rem;">
+                                <div class="spinner" style="width: 30px; height: 30px; border: 3px solid var(--border-color); border-top-color: var(--color-indigo); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                                <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); text-align: center;">상품명 키워드와 중복되지 않는 황금 태그 및 영상 카피를 연산 중입니다...</div>
+                            </div>
+
+                            <!-- 비어있는 상태 -->
+                            <div id="diff-tags-empty" style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 4rem 0;">
+                                제목을 선택 또는 직접 입력한 뒤, 캡처이미지 및 동영상 설명을 추가하고 왼쪽의 <b>[핵심 태그 20개 & 동영상 제목 추출]</b> 버튼을 누르시면 황금 마케팅 자료가 생성됩니다.
+                            </div>
+
+                            <!-- 최종 데이터 결과창 -->
+                            <div id="diff-final-results" style="display: none; flex-direction: column; gap: 1.25rem;">
+                                
+                                <!-- 태그 영역 -->
+                                <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.25rem;">
+                                            <i data-lucide="tag" style="width: 15px; height: 15px; color: var(--color-indigo);"></i> 🔖 스마트스토어 추천 키워드 태그 (20개)
+                                        </div>
+                                        <button id="btn-copy-tags" class="btn btn-secondary btn-xs" style="padding: 3px 8px; font-size: 11px;">
+                                            <i data-lucide="copy" style="width: 11px; height: 11px;"></i> 태그 복사
+                                        </button>
+                                    </div>
+                                    <div id="diff-tags-list-container" style="display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 0;">
+                                        <!-- Dynamic tags -->
+                                    </div>
+                                    <!-- 텍스트 복사용 필드 -->
+                                    <input type="text" id="diff-tags-raw-input" class="form-control" readonly style="font-size: 0.8rem; background: var(--bg-primary); padding: 0.5rem; text-align: left;" title="쉼표(,) 구분자로 한 번에 복사해 스마트스토어 태그 등록에 붙여넣기 하세요">
+                                </div>
+
+                                <!-- 동영상 제목 영역 -->
+                                <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.25rem;">
+                                            <i data-lucide="video" style="width: 15px; height: 15px; color: var(--color-danger);"></i> 🎥 숏폼 & 리뷰 동영상 추천 타이틀
+                                        </div>
+                                        <button id="btn-copy-video-titles" class="btn btn-secondary btn-xs" style="padding: 3px 8px; font-size: 11px;">
+                                            <i data-lucide="copy" style="width: 11px; height: 11px;"></i> 타이틀 복사
+                                        </button>
+                                    </div>
+                                    <div id="diff-video-titles-container" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; white-space: pre-wrap; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.75rem;">
+                                        <!-- Dynamic video titles -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </section>
